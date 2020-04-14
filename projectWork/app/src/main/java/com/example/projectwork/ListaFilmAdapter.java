@@ -6,10 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.projectwork.R;
+import com.example.projectwork.localDatabase.FilmTableHelper;
 
 public class ListaFilmAdapter extends CursorAdapter {
 
@@ -26,10 +25,9 @@ public class ListaFilmAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView titoloAttivita = view.findViewById(R.id.textView5),
-                nomeUtente = view.findViewById(R.id.textView6);
-        titoloAttivita.setText("ciao");
-        nomeUtente.setText("ciao");
+        TextView titoloAttivita = view.findViewById(R.id.textView5);
 
+
+        titoloAttivita.setText(cursor.getString(cursor.getColumnIndex(FilmTableHelper.TITOLO)));
     }
 }
