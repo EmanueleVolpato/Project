@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class FilmDB extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "attivita.db";
+    public static final String DB_NAME = "film.db";
     public static final int VERSION = 1;
 
     public FilmDB(Context context) {
