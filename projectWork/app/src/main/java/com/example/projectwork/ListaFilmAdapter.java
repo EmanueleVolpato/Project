@@ -25,9 +25,6 @@ public class ListaFilmAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView titoloAttivita = view.findViewById(R.id.textView5);
 
-
-        titoloAttivita.setText(cursor.getString(cursor.getColumnIndex(FilmTableHelper.TITOLO)));
     }
 }
