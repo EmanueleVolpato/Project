@@ -1,14 +1,16 @@
 package com.example.projectwork;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
+import android.widget.ResourceCursorAdapter;
+import android.widget.Toast;
 
-import com.example.projectwork.localDatabase.FilmTableHelper;
 
 public class ListaFilmAdapter extends CursorAdapter {
 
@@ -17,14 +19,42 @@ public class ListaFilmAdapter extends CursorAdapter {
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    public View newView(final Context context, Cursor cursor, ViewGroup parent) {
         LayoutInflater vInflater = LayoutInflater.from(context);
-        View vView = vInflater.inflate(R.layout.cell_lista_film, null);
+        final View vView = vInflater.inflate(R.layout.cell_lista_film, null);
+        RelativeLayout image1,image2,button1,button2;
+
+        image1 =vView.findViewById(R.id.relativeLayoutImage1);
+        image2 =vView.findViewById(R.id.relativeLayoutImage2);
+        button1 =vView.findViewById(R.id.btn1);
+        button2 =vView.findViewById(R.id.btn2);
+
+
+
+        image1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(context,ListaFilmPreferiti.class);
+                context.startActivity(i);
+            }
+        });
+
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(context,ListaFilmPreferiti.class);
+                context.startActivity(i);
+            }
+        });
+
         return vView;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
+
 
     }
 }

@@ -14,8 +14,5 @@ public class ListaFilmPreferiti extends AppCompatActivity {
         setContentView(R.layout.activity_lista_film_preferiti);
         getSupportActionBar().setTitle("LISTA FILM PREFERITI");
 
-
-
-
     }
 }
