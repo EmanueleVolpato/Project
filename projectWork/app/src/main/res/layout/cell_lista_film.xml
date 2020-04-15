@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/relativeLayoutImage1"
-        android:layout_width="192dp"
-        android:layout_height="241dp"
+        android:layout_width="194dp"
+        android:layout_height="239dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="291dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,13 +59,14 @@
         android:id="@+id/btn1"
         android:layout_width="106dp"
         android:layout_height="76dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="412dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutImage1">
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutImage1"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -81,8 +83,8 @@
 
     <RelativeLayout
         android:id="@+id/btn2"
-        android:layout_width="103dp"
-        android:layout_height="64dp"
+        android:layout_width="107dp"
+        android:layout_height="75dp"
         android:layout_marginStart="115dp"
         android:layout_marginLeft="115dp"
         android:layout_marginTop="1dp"
@@ -91,8 +93,10 @@
         android:layout_marginBottom="424dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toEndOf="@+id/btn1"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutImage2">
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutImage2"
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/imageView4"

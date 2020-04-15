@@ -40,11 +40,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter = new ListaFilmAdapter(this, null);
         listView.setAdapter(mAdapter);
         getSupportLoaderManager().initLoader(MY_LOADER_ID, null, this);
-
-
-        ContentValues vValue = new ContentValues();
-        vValue.put(FilmTableHelper.TITOLO, "titolo");
-        getContentResolver().insert(FilmProvider.FILMS_URI,vValue);
     }
 
 

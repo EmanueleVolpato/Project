@@ -25,7 +25,6 @@ public class ListaFilmAdapter extends CursorAdapter{
         LayoutInflater vInflater = LayoutInflater.from(context);
         final View vView = vInflater.inflate(R.layout.cell_lista_film, null);
         RelativeLayout image1,image2,button1,button2;
-
         image1 =vView.findViewById(R.id.relativeLayoutImage1);
         image2 =vView.findViewById(R.id.relativeLayoutImage2);
         button1 =vView.findViewById(R.id.btn1);
