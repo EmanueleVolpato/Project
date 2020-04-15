@@ -1,6 +1,8 @@
 package com.example.projectwork;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -12,7 +14,7 @@ import android.widget.ResourceCursorAdapter;
 import android.widget.Toast;
 
 
-public class ListaFilmAdapter extends CursorAdapter {
+public class ListaFilmAdapter extends CursorAdapter{
 
     public ListaFilmAdapter(Context context, Cursor c) {
         super(context, c);
@@ -48,19 +50,52 @@ public class ListaFilmAdapter extends CursorAdapter {
             }
         });
 
+
+
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(context,ListaFilmPreferiti.class);
-                context.startActivity(i);
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("ATTENZIONE");
+                alert.setMessage("Aggiungere il film selezionato ai preferiti?");
+                alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                    }
+                });
+                AlertDialog alert1 = alert.create();
+                alert1.show();
             }
         });
+
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(context,ListaFilmPreferiti.class);
-                context.startActivity(i);
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("ATTENZIONE");
+                alert.setMessage("Aggiungere il film selezionato ai preferiti?");
+                alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                    }
+                });
+                AlertDialog alert1 = alert.create();
+                alert1.show();
             }
         });
 

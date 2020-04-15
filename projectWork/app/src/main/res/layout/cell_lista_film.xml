@@ -8,14 +8,14 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayoutImage1"
-        android:layout_width="200dp"
-        android:layout_height="425dp"
+        android:layout_width="192dp"
+        android:layout_height="241dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="291dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" >
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/imageView"
@@ -23,18 +23,16 @@
             android:layout_height="241dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
-            android:layout_marginBottom="140dp"
             app:srcCompat="@mipmap/ic_launcher" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayoutImage2"
-        android:layout_width="205dp"
-        android:layout_height="423dp"
+        android:layout_width="197dp"
+        android:layout_height="241dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
@@ -42,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" >
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -50,36 +48,34 @@
             android:layout_height="241dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="135dp"
             app:srcCompat="@mipmap/ic_launcher" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/btn1"
-        android:layout_width="103dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
-        android:layout_marginBottom="244dp"
+        android:layout_width="106dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="412dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutImage1">
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginStart="17dp"
-            android:layout_marginLeft="17dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginBottom="4dp"
             app:srcCompat="@mipmap/ic_stars" />
     </RelativeLayout>
 
@@ -87,11 +83,16 @@
         android:id="@+id/btn2"
         android:layout_width="103dp"
         android:layout_height="64dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginRight="52dp"
-        android:layout_marginBottom="240dp"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="115dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="424dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn1"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutImage2">
 
         <ImageView
             android:id="@+id/imageView4"
