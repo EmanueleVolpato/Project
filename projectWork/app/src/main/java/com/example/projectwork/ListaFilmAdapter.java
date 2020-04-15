@@ -34,11 +34,27 @@ public class ListaFilmAdapter extends CursorAdapter {
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(context,ListaFilmPreferiti.class);
+                Intent i=new Intent(context,DettaglioFilm.class);
                 context.startActivity(i);
             }
         });
 
+
+        image2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(context,DettaglioFilm.class);
+                context.startActivity(i);
+            }
+        });
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(context,ListaFilmPreferiti.class);
+                context.startActivity(i);
+            }
+        });
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
