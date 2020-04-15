@@ -12,11 +12,8 @@
         android:layout_width="194dp"
         android:layout_height="239dp"
         android:layout_marginTop="1dp"
-        android:layout_marginBottom="291dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView"
@@ -32,16 +29,13 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayoutImage2"
-        android:layout_width="197dp"
-        android:layout_height="241dp"
+        android:layout_width="196dp"
+        android:layout_height="237dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginBottom="291dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -58,30 +52,29 @@
     <RelativeLayout
         android:id="@+id/btn1"
         android:layout_width="106dp"
-        android:layout_height="76dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="1dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayoutImage1">
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="78dp"
+            android:layout_height="34dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="13dp"
-            android:layout_marginRight="13dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="37dp"
             app:srcCompat="@drawable/star" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/btn2"
-        android:layout_width="107dp"
-        android:layout_height="75dp"
+        android:layout_width="110dp"
+        android:layout_height="72dp"
         android:layout_marginStart="115dp"
         android:layout_marginLeft="115dp"
         android:layout_marginTop="1dp"
@@ -94,16 +87,14 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            android:layout_width="76dp"
+            android:layout_height="34dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginStart="17dp"
-            android:layout_marginLeft="17dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="31dp"
+            android:layout_marginRight="31dp"
+            android:layout_marginBottom="29dp"
             app:srcCompat="@drawable/star" />
     </RelativeLayout>
 
