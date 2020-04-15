@@ -9,9 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ResourceCursorAdapter;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 
 public class ListaFilmAdapter extends CursorAdapter{
@@ -25,14 +28,24 @@ public class ListaFilmAdapter extends CursorAdapter{
         LayoutInflater vInflater = LayoutInflater.from(context);
         final View vView = vInflater.inflate(R.layout.cell_lista_film, null);
         RelativeLayout image1,image2,button1,button2;
+        final ImageView image,image22;
         image1 =vView.findViewById(R.id.relativeLayoutImage1);
         image2 =vView.findViewById(R.id.relativeLayoutImage2);
         button1 =vView.findViewById(R.id.btn1);
         button2 =vView.findViewById(R.id.btn2);
+        image = vView.findViewById(R.id.imageView3);
+        image22 = vView.findViewById(R.id.imageView4);
+
+     /*   image1 =vView.findViewById(R.id.imageLayout1);
+        image2 =vView.findViewById(R.id.imageLayout2);
+        button1 =vView.findViewById(R.id.buttonLayout1);
+        button2 =vView.findViewById(R.id.buttonLayout2);
+
+*/
 
 
 
-        image1.setOnClickListener(new View.OnClickListener() {
+         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(context,DettaglioFilm.class);
@@ -61,6 +74,7 @@ public class ListaFilmAdapter extends CursorAdapter{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                        image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -85,6 +99,7 @@ public class ListaFilmAdapter extends CursorAdapter{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                        image22.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
                     }
                 });
                 alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
