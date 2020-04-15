@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ResourceCursorAdapter;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 
 public class ListaFilmAdapter extends CursorAdapter{
+
+    int stato =0;
 
     public ListaFilmAdapter(Context context, Cursor c) {
         super(context, c);
@@ -27,25 +28,22 @@ public class ListaFilmAdapter extends CursorAdapter{
     public View newView(final Context context, Cursor cursor, ViewGroup parent) {
         LayoutInflater vInflater = LayoutInflater.from(context);
         final View vView = vInflater.inflate(R.layout.cell_lista_film, null);
-        RelativeLayout image1,image2,button1,button2;
-        final ImageView image,image22;
-        image1 =vView.findViewById(R.id.relativeLayoutImage1);
-        image2 =vView.findViewById(R.id.relativeLayoutImage2);
+        RelativeLayout RelativeImage1,RelativeImage2,button1,button2;
+        final ImageView image,image2;
+
+
+        RelativeImage1 =vView.findViewById(R.id.relativeLayoutImage1);
+        RelativeImage2 =vView.findViewById(R.id.relativeLayoutImage2);
         button1 =vView.findViewById(R.id.btn1);
         button2 =vView.findViewById(R.id.btn2);
         image = vView.findViewById(R.id.imageView3);
-        image22 = vView.findViewById(R.id.imageView4);
-
-     /*   image1 =vView.findViewById(R.id.imageLayout1);
-        image2 =vView.findViewById(R.id.imageLayout2);
-        button1 =vView.findViewById(R.id.buttonLayout1);
-        button2 =vView.findViewById(R.id.buttonLayout2);
-
-*/
+        image2 = vView.findViewById(R.id.imageView4);
 
 
 
-         image1.setOnClickListener(new View.OnClickListener() {
+
+
+        RelativeImage1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(context,DettaglioFilm.class);
@@ -54,7 +52,7 @@ public class ListaFilmAdapter extends CursorAdapter{
         });
 
 
-        image2.setOnClickListener(new View.OnClickListener() {
+        RelativeImage2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(context,DettaglioFilm.class);
@@ -67,50 +65,102 @@ public class ListaFilmAdapter extends CursorAdapter{
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setTitle("ATTENZIONE");
-                alert.setMessage("Aggiungere il film selezionato ai preferiti?");
-                alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
-                        image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
-                    }
-                });
-                AlertDialog alert1 = alert.create();
-                alert1.show();
+                if (stato == 0) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("ATTENZIONE");
+                    alert.setMessage("Aggiungere il film selezionato ai preferiti?");
+                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                            image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
+                            stato = 1;
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    AlertDialog alert1 = alert.create();
+                    alert1.show();
+                }
+                else
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("FILM GIA' AGGIUNTO AI PREFERITI!");
+                    alert.setMessage("Togliere il film selezionato dai preferiti?");
+                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
+                            image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star));
+                            stato=0;
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM NON TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    AlertDialog alert1 = alert.create();
+                    alert1.show();
+                }
             }
+
         });
 
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setTitle("ATTENZIONE");
-                alert.setMessage("Aggiungere il film selezionato ai preferiti?");
-                alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
-                        image22.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
-                    }
-                });
-                AlertDialog alert1 = alert.create();
-                alert1.show();
+                if (stato == 0) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("ATTENZIONE");
+                    alert.setMessage("Aggiungere il film selezionato ai preferiti?");
+                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                            image2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
+                            stato = 1;
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    AlertDialog alert1 = alert.create();
+                    alert1.show();
+                }
+                else
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("FILM GIA' AGGIUNTO AI PREFERITI!");
+                    alert.setMessage("Togliere il film selezionato dai preferiti?");
+                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
+                            image2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star));
+                            stato=0;
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM NON TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    AlertDialog alert1 = alert.create();
+                    alert1.show();
+                }
             }
+
         });
 
         return vView;

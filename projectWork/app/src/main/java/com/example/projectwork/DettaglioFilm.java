@@ -23,6 +23,8 @@ public class DettaglioFilm extends AppCompatActivity implements LoaderManager.Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
+        getSupportActionBar().setTitle("DETTAGLIO FILM");
+
         listView = findViewById(R.id.listFilm);
         mAdapter = new DettaglioFilmAdapter(this, null);
         listView.setAdapter(mAdapter);
