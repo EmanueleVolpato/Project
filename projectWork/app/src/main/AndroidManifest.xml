@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/logo"
+        android:label="FILM+"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".DettaglioFilm"></activity>
@@ -22,6 +22,7 @@
         <provider
             android:name=".localDatabase.FilmProvider"
             android:authorities="com.example.projectwork.localDatabase.localDatabase.FilmProvider" />
+
     </application>
 
 </manifest>
