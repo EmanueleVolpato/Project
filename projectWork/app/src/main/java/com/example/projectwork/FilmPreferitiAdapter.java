@@ -34,7 +34,7 @@ public class FilmPreferitiAdapter extends CursorAdapter {
             @Override
             public boolean onLongClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setTitle("FILM GIA' AGGIUNTO AI PREFERITI!");
+                alert.setTitle("ATTENZIONE!");
                 alert.setMessage("Togliere il film selezionato dai preferiti?");
                 alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     @Override
