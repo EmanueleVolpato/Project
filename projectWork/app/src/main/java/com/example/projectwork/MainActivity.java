@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
        /* ContentValues vValue = new ContentValues();
         vValue.put(FilmTableHelper.TITOLO, "titolo");
+        vValue.put(FilmTableHelper.DESCRIZIONE, "CIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOO");
         getContentResolver().insert(FilmProvider.FILMS_URI,vValue);
         */
 

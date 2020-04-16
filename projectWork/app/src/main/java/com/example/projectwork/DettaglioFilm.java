@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.example.projectwork.localDatabase.FilmProvider;
+import com.example.projectwork.localDatabase.FilmTableHelper;
 
 public class DettaglioFilm extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -34,7 +35,7 @@ public class DettaglioFilm extends AppCompatActivity implements LoaderManager.Lo
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new CursorLoader(this, FilmProvider.FILMS_URI, null, null, null, null);
+        return new CursorLoader(this, FilmProvider.FILMS_URI, null,null, null, null);
     }
 
     @Override

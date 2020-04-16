@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.example.projectwork.localDatabase.FilmTableHelper;
 
 public class DettaglioFilmAdapter extends CursorAdapter {
 
@@ -29,8 +32,10 @@ public class DettaglioFilmAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        EditText descrizione;
+        descrizione = view.findViewById(R.id.editText);
 
-
+        descrizione.setText(cursor.getString(cursor.getColumnIndex(FilmTableHelper.DESCRIZIONE)));
 
     }
 }
