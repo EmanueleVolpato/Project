@@ -8,43 +8,36 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.projectwork.localDatabase.FilmDB;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 
-public class DettaglioFilm extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class DettaglioFilm extends AppCompatActivity {
 
 
-    ListView listView;
-    DettaglioFilmAdapter mAdapter;
-    public static final int MY_LOADER_ID = 0;
+    ImageView imgCopertinaFilm;
+    TextView titoloFilm;
+    EditText descrizioneFilm;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
         getSupportActionBar().setTitle("DETTAGLIO FILM");
+        imgCopertinaFilm = findViewById(R.id.imageViewCopertina);
+        titoloFilm = findViewById(R.id.textViewTitoloFilm);
+        descrizioneFilm = findViewById(R.id.editTextDescrizioneFilm);
 
-        listView = findViewById(R.id.listFilm);
-        mAdapter = new DettaglioFilmAdapter(this, null);
-        listView.setAdapter(mAdapter);
-        getSupportLoaderManager().initLoader(MY_LOADER_ID, null, this);
-    }
+        descrizioneFilm.setText("Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum.");
 
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new CursorLoader(this, FilmProvider.FILMS_URI, null,null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        mAdapter.changeCursor(data);
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        mAdapter.changeCursor(null);
     }
 }
