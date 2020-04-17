@@ -1,4 +1,4 @@
-package com.example.projectwork;
+package com.example.projectwork.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,6 +12,9 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.example.projectwork.R;
+import com.example.projectwork.activity.DettaglioFilm;
 
 import androidx.core.content.ContextCompat;
 
@@ -47,7 +50,7 @@ public class ListaFilmAdapter extends CursorAdapter{
         RelativeImage1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(context,DettaglioFilm.class);
+                Intent i=new Intent(context, DettaglioFilm.class);
                 context.startActivity(i);
             }
         });

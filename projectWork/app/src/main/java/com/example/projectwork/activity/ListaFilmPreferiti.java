@@ -1,4 +1,4 @@
-package com.example.projectwork;
+package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +11,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.projectwork.adapter.FilmPreferitiAdapter;
+import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmProvider;
 
 public class ListaFilmPreferiti extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {

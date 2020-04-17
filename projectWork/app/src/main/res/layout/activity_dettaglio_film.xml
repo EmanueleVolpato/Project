@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".DettaglioFilm">
+    tools:context=".activity.DettaglioFilm">
 
     <ImageView
         android:id="@+id/imageViewCopertina"

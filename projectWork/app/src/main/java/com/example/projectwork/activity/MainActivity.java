@@ -1,4 +1,4 @@
-package com.example.projectwork;
+package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,26 +10,33 @@ import androidx.loader.content.Loader;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.projectwork.ListaFilmAdapter;
-import com.example.projectwork.ListaFilmPreferiti;
+import com.example.projectwork.adapter.ListaFilmAdapter;
 import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
+import com.example.projectwork.services.IWebService;
+import com.example.projectwork.services.MovieResults;
+import com.example.projectwork.services.WebService;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, IWebService {
 
     ListView listView;
     ListaFilmAdapter mAdapter;
     public static final int MY_LOADER_ID = 0;
 
+    public static String CATEGORY = "popular";
+    public static String LANGUAGE = "it";
+    public static int PAGE = 1;
+
+    private WebService webService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,29 +44,51 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("MOVIES");
         listView = findViewById(R.id.list);
+
+        webService = WebService.getInstance(CATEGORY, LANGUAGE, PAGE);
+
         mAdapter = new ListaFilmAdapter(this, null);
         listView.setAdapter(mAdapter);
         getSupportLoaderManager().initLoader(MY_LOADER_ID, null, this);
 
-       /* ContentValues vValue = new ContentValues();
+        /*ContentValues vValue = new ContentValues();
         vValue.put(FilmTableHelper.TITOLO, "titolo");
         vValue.put(FilmTableHelper.DESCRIZIONE, "CIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOO");
-        getContentResolver().insert(FilmProvider.FILMS_URI,vValue);
-        */
+        getContentResolver().insert(FilmProvider.FILMS_URI,vValue);*/
 
+        loadMovies();
     }
 
+    private void loadMovies() {
+        webService.getFilms(new IWebService() {
+            @Override
+            public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
+                if (success) {
+                    //fims = lista film
+                    MovieResults.ResultsBean firstMovie = movies.get(0);
+                    Toast.makeText(MainActivity.this, firstMovie.getTitle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, firstMovie.getBackdropPath(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Qualcosa è andato storto " + errorMessage, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadMovies();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menucommons,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         int id = item.getItemId();
         if(id == R.id.listaPreferiti)
         {
@@ -67,10 +96,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             startActivity(new Intent(this, ListaFilmPreferiti.class));
 
         }
-
         return super.onOptionsItemSelected(item);
     }
-
 
     @NonNull
     @Override
@@ -86,5 +113,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mAdapter.changeCursor(null);
+    }
+
+    @Override
+    public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
+        //films
     }
 }

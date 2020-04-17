@@ -1,4 +1,4 @@
-package com.example.projectwork;
+package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmDB;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
