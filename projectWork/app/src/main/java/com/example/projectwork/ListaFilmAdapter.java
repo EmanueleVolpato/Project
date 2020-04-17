@@ -18,7 +18,8 @@ import androidx.core.content.ContextCompat;
 
 public class ListaFilmAdapter extends CursorAdapter{
 
-    int stato =0;
+    int stato1 =0;
+    int stato2 =0;
 
     public ListaFilmAdapter(Context context, Cursor c) {
         super(context, c);
@@ -65,7 +66,7 @@ public class ListaFilmAdapter extends CursorAdapter{
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (stato == 0) {
+                if (stato1 == 0) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
                     alert.setTitle("ATTENZIONE");
                     alert.setMessage("Aggiungere il film selezionato ai preferiti?");
@@ -74,13 +75,14 @@ public class ListaFilmAdapter extends CursorAdapter{
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
                             image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
-                            stato = 1;
+                            stato1= 1;
                         }
                     });
                     alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                            stato1 =0;
                         }
                     });
                     AlertDialog alert1 = alert.create();
@@ -96,13 +98,14 @@ public class ListaFilmAdapter extends CursorAdapter{
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
                             image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star));
-                            stato=0;
+                            stato1=0;
                         }
                     });
                     alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM NON TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
+                            stato1=1;
                         }
                     });
                     AlertDialog alert1 = alert.create();
@@ -116,7 +119,7 @@ public class ListaFilmAdapter extends CursorAdapter{
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (stato == 0) {
+                if (stato2 == 0) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
                     alert.setTitle("ATTENZIONE");
                     alert.setMessage("Aggiungere il film selezionato ai preferiti?");
@@ -125,13 +128,14 @@ public class ListaFilmAdapter extends CursorAdapter{
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
                             image2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
-                            stato = 1;
+                            stato2 = 1;
                         }
                     });
                     alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                            stato2=0;
                         }
                     });
                     AlertDialog alert1 = alert.create();
@@ -147,13 +151,14 @@ public class ListaFilmAdapter extends CursorAdapter{
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
                             image2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star));
-                            stato=0;
+                            stato2=0;
                         }
                     });
                     alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM NON TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
+                            stato2=1;
                         }
                     });
                     AlertDialog alert1 = alert.create();
