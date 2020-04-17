@@ -30,6 +30,15 @@ public class FilmPreferitiAdapter extends CursorAdapter {
 
         imageFilmPreferiti =vView.findViewById(R.id.imageViewFilmPreferiti);
 
+
+        imageFilmPreferiti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(context,DettaglioFilm.class);
+                context.startActivity(i);
+            }
+        });
+
         imageFilmPreferiti.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
