@@ -4,6 +4,18 @@
     <item
         android:id="@+id/listaPreferiti"
         android:icon="@drawable/ic_stars_foreground"
-        android:title="preferiti" />
+        android:title="PREFERITI" />
+    <item
+        android:id="@+id/listaUltimiFilmUscitiAlCinema"
+        android:title="NOVITA'" />
+    <item
+        android:id="@+id/listaPopolari"
+        android:title="POPOLARI" />
+    <item
+        android:id="@+id/listaFilmPiuVotati"
+        android:title="FILM PIU' VOTATI" />
+    <item
+        android:id="@+id/filmInUscita"
+        android:title="PROSSIME USCITE" />
 
 </menu>

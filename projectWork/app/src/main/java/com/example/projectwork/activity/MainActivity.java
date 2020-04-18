@@ -90,7 +90,26 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         int id = item.getItemId();
         if(id == R.id.listaPreferiti)
         {
-            Toast.makeText(this,"listaPreferiti",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, ListaFilmPreferiti.class));
+
+        }else
+        if(id == R.id.listaUltimiFilmUscitiAlCinema)
+        {
+            startActivity(new Intent(this, ListaFilmPreferiti.class));
+
+        }else
+        if(id == R.id.listaPopolari)
+        {
+            startActivity(new Intent(this, ListaFilmPreferiti.class));
+
+        }else
+        if(id == R.id.listaFilmPiuVotati)
+        {
+            startActivity(new Intent(this, ListaFilmPreferiti.class));
+
+        }else
+        if(id == R.id.filmInUscita)
+        {
             startActivity(new Intent(this, ListaFilmPreferiti.class));
 
         }
