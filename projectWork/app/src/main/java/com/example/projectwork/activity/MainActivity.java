@@ -51,10 +51,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         listView.setAdapter(mAdapter);
         getSupportLoaderManager().initLoader(MY_LOADER_ID, null, this);
 
-        /*ContentValues vValue = new ContentValues();
-        vValue.put(FilmTableHelper.TITOLO, "titolo");
-        vValue.put(FilmTableHelper.DESCRIZIONE, "CIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOOCIAOOOOOOOOOOOOOOOO");
-        getContentResolver().insert(FilmProvider.FILMS_URI,vValue);*/
+
 
         loadMovies();
     }
@@ -65,9 +62,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
                 if (success) {
                     //fims = lista film
-                    MovieResults.ResultsBean firstMovie = movies.get(0);
-                    Toast.makeText(MainActivity.this, firstMovie.getTitle(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(MainActivity.this, firstMovie.getBackdropPath(), Toast.LENGTH_SHORT).show();
+                    MovieResults.ResultsBean firstMovie = movies.get(1);
+                    ContentValues vValue = new ContentValues();
+                    vValue.put(FilmTableHelper.TITOLO, firstMovie.getTitle());
+                    getContentResolver().insert(FilmProvider.FILMS_URI,vValue);
                 } else {
                     Toast.makeText(MainActivity.this, "Qualcosa è andato storto " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
