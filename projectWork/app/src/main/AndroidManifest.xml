@@ -11,6 +11,10 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.ProssimeUscite"></activity>
+        <activity android:name=".activity.FilmPiuVotati" />
+        <activity android:name=".activity.FilmPopolari" />
+        <activity android:name=".activity.UltimiFilmUscitiAlCinema" />
         <activity android:name=".activity.DettaglioFilm" />
         <activity android:name=".activity.ListaFilmPreferiti" />
         <activity android:name=".activity.MainActivity">

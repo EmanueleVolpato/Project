@@ -95,22 +95,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }else
         if(id == R.id.listaUltimiFilmUscitiAlCinema)
         {
-            startActivity(new Intent(this, ListaFilmPreferiti.class));
+            startActivity(new Intent(this, UltimiFilmUscitiAlCinema.class));
 
         }else
         if(id == R.id.listaPopolari)
         {
-            startActivity(new Intent(this, ListaFilmPreferiti.class));
+            startActivity(new Intent(this, FilmPopolari.class));
 
         }else
         if(id == R.id.listaFilmPiuVotati)
         {
-            startActivity(new Intent(this, ListaFilmPreferiti.class));
+            startActivity(new Intent(this, FilmPiuVotati.class));
 
         }else
         if(id == R.id.filmInUscita)
         {
-            startActivity(new Intent(this, ListaFilmPreferiti.class));
+            startActivity(new Intent(this, ProssimeUscite.class));
 
         }
         return super.onOptionsItemSelected(item);
