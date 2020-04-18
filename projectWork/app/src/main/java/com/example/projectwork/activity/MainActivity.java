@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
                 if (success) {
                     //fims = lista film
-                    MovieResults.ResultsBean firstMovie = movies.get(1);
+                    MovieResults.ResultsBean firstMovie = movies.get(0);
                     ContentValues vValue = new ContentValues();
                     vValue.put(FilmTableHelper.TITOLO, firstMovie.getTitle());
                     getContentResolver().insert(FilmProvider.FILMS_URI,vValue);
