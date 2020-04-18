@@ -80,8 +80,8 @@
         app:srcCompat="@drawable/star" />
 
     <LinearLayout
-        android:layout_width="381dp"
-        android:layout_height="37dp"
+        android:layout_width="396dp"
+        android:layout_height="38dp"
         android:layout_marginStart="3dp"
         android:layout_marginLeft="3dp"
         android:layout_marginEnd="2dp"

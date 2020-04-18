@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
         android:id="@+id/listaPreferiti"
-        android:icon="@drawable/ic_stars_foreground"
         android:title="PREFERITI" />
     <item
         android:id="@+id/listaUltimiFilmUscitiAlCinema"
