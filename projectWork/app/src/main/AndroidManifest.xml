@@ -9,12 +9,9 @@
         android:icon="@drawable/logo"
         android:label="FILM+"
         android:roundIcon="@drawable/logo"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-        android:supportsRtl="true">
-        <activity android:name=".activity.ProssimeUscite"></activity>
-        <activity android:name=".activity.FilmPiuVotati" />
-        <activity android:name=".activity.FilmPopolari" />
-        <activity android:name=".activity.UltimiFilmUscitiAlCinema" />
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        <activity android:name=".activity.ActivityCategoria"></activity>
         <activity android:name=".activity.DettaglioFilm" />
         <activity android:name=".activity.ListaFilmPreferiti" />
         <activity android:name=".activity.MainActivity">
@@ -35,8 +32,6 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
-
 
         <provider
             android:name=".localDatabase.FilmProvider"

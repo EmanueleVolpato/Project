@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ListView listView;
     ListaFilmAdapter mAdapter;
     public static final int MY_LOADER_ID = 0;
+    public static final String categoriaSelezionata = "ID";
+
 
     public static String CATEGORY = "popular";
     public static String LANGUAGE = "it";
@@ -95,23 +97,36 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }else
         if(id == R.id.listaUltimiFilmUscitiAlCinema)
         {
-            startActivity(new Intent(this, UltimiFilmUscitiAlCinema.class));
+            Bundle vBundle = new Bundle();
+            Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);
+            vBundle.putString(categoriaSelezionata, "ultimifilmuscitialcinema");
+            vIntent.putExtras(vBundle);
+            startActivity(vIntent);
 
         }else
         if(id == R.id.listaPopolari)
         {
-            startActivity(new Intent(this, FilmPopolari.class));
-
+            Bundle vBundle = new Bundle();
+            Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);
+            vBundle.putString(categoriaSelezionata, "filmpopolari");
+            vIntent.putExtras(vBundle);
+            startActivity(vIntent);
         }else
         if(id == R.id.listaFilmPiuVotati)
         {
-            startActivity(new Intent(this, FilmPiuVotati.class));
-
+            Bundle vBundle = new Bundle();
+            Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);
+            vBundle.putString(categoriaSelezionata, "filmvotati");
+            vIntent.putExtras(vBundle);
+            startActivity(vIntent);
         }else
         if(id == R.id.filmInUscita)
         {
-            startActivity(new Intent(this, ProssimeUscite.class));
-
+            Bundle vBundle = new Bundle();
+            Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);
+            vBundle.putString(categoriaSelezionata, "prossimifilm");
+            vIntent.putExtras(vBundle);
+            startActivity(vIntent);
         }
         return super.onOptionsItemSelected(item);
     }
