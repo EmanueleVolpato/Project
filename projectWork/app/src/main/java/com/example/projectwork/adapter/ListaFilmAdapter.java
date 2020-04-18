@@ -11,12 +11,10 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilm;
-import com.example.projectwork.localDatabase.FilmTableHelper;
 
 import androidx.core.content.ContextCompat;
 
