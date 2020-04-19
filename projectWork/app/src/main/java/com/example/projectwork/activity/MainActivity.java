@@ -88,9 +88,13 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 if (success) {
                     //fims = lista film
                     MovieResults.ResultsBean firstMovie = movies.get(0);
-                    ContentValues vValue = new ContentValues();
+                   /* ContentValues vValue = new ContentValues();
+                    vValue.put(FilmTableHelper._ID, firstMovie.getId());
                     vValue.put(FilmTableHelper.TITOLO, firstMovie.getTitle());
+                    vValue.put(FilmTableHelper.DESCRIZIONE, firstMovie.getOverview());
                     getContentResolver().insert(FilmProvider.FILMS_URI,vValue);
+                   
+                    */
                 } else {
                     Toast.makeText(MainActivity.this, "Qualcosa è andato storto " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
