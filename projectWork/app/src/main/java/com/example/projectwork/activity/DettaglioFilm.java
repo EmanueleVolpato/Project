@@ -41,11 +41,13 @@ public class DettaglioFilm extends AppCompatActivity {
         Intent intent = getIntent();
         String Titolo = intent.getExtras().getString("titoloFilm");
         String Descrizione = intent.getExtras().getString("descrizione");
+        String Categoria = intent.getExtras().getString("categoria");
         int image = intent.getExtras().getInt("thumbnail");
 
 
         titolo.setText(Titolo);
         descrizione.setText(Descrizione);
+        categoria.setText(Categoria);
         imageView.setImageResource(image);
     }
 }

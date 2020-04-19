@@ -53,6 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Intent intent = new Intent(context, DettaglioFilm.class);
                 intent.putExtra("titoloFilm",mData.get(position).getTitolo());
                 intent.putExtra("descrizione",mData.get(position).getDescrizione());
+                intent.putExtra("categoria",mData.get(position).getCategoria());
                 intent.putExtra("thumbnail",mData.get(position).getThumbnail());
                 context.startActivity(intent);
             }

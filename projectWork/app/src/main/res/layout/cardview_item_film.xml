@@ -25,10 +25,11 @@
         <TextView
             android:id="@+id/titoloFilm"
             android:layout_width="match_parent"
+            android:background="@color/cardview_dark_background"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="titolo film"
-            android:textColor="#2d2d2d"
+            android:textColor="#ffff"
             android:textSize="13sp"></TextView>
 
     </LinearLayout>
