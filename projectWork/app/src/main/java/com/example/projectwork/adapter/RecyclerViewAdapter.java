@@ -20,6 +20,8 @@ import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilm;
 import com.example.projectwork.activity.Film;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>{
@@ -41,20 +43,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         View view;
         LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.prova,parent,false);
+        view = inflater.inflate(R.layout.cardview_item_film,parent,false);
 
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        holder.titoloFilm.setText(mData.get(position).getTitolo());
-        holder.film_thumbnail.setImageResource(mData.get(position).getThumbnail());
-        holder.titoloFilm2.setText(mData.get(position+1).getTitolo());
-        holder.film_thumbnail2.setImageResource(mData.get(position+1).getThumbnail());
+        holder.textViewTitolo.setText(mData.get(position).getTitolo());
+        holder.imageView.setImageResource(mData.get(position).getThumbnail());
 
 
-        holder.film_thumbnail.setOnClickListener(new View.OnClickListener() {
+
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -67,117 +68,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-        holder.film_thumbnail.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (stato == 0) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setTitle("ATTENZIONE");
-                    alert.setMessage("Aggiungere il film selezionato ai preferiti?");
-                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
-                            holder.stella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
-                            stato= 1;
-                        }
-                    });
-                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
-                            stato =0;
-                        }
-                    });
-                    AlertDialog alert1 = alert.create();
-                    alert1.show();
-                }
-                else
-                {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setTitle("FILM GIA' AGGIUNTO AI PREFERITI!");
-                    alert.setMessage("Togliere il film selezionato dai preferiti?");
-                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context, "FILM TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
-                            holder.stella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star));
-                            stato=0;
-                        }
-                    });
-                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context, "FILM NON TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
-                            stato=1;
-                        }
-                    });
-                    AlertDialog alert1 = alert.create();
-                    alert1.show();
-                }
-
-
-                return true; }
-        });
-
-
-
-
-        holder.film_thumbnail2.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (stato2 == 0) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setTitle("ATTENZIONE");
-                    alert.setMessage("Aggiungere il film selezionato ai preferiti?");
-                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
-                            holder.stella2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
-                            stato2= 1;
-                        }
-                    });
-                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
-                            stato2 =0;
-                        }
-                    });
-                    AlertDialog alert1 = alert.create();
-                    alert1.show();
-                }
-                else
-                {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setTitle("FILM GIA' AGGIUNTO AI PREFERITI!");
-                    alert.setMessage("Togliere il film selezionato dai preferiti?");
-                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context, "FILM TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
-                            holder.stella2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star));
-                            stato2=0;
-                        }
-                    });
-                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context, "FILM NON TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
-                            stato2=1;
-                        }
-                    });
-                    AlertDialog alert1 = alert.create();
-                    alert1.show();
-                }
-
-
-                return true; }
-        });
-
-
-
     }
 
     @Override
@@ -187,19 +77,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView titoloFilm,titoloFilm2;
-        ImageView film_thumbnail,film_thumbnail2;
-        ImageView stella,stella2;
+
+        ImageView imageView;
+        TextView textViewTitolo;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            titoloFilm = itemView.findViewById(R.id.titoloFilm);
+          /*  titoloFilm = itemView.findViewById(R.id.titoloFilm);
             titoloFilm2 = itemView.findViewById(R.id.titoloFilm2);
             film_thumbnail = itemView.findViewById(R.id.imageFilm);
             film_thumbnail2 = itemView.findViewById(R.id.imageFilm2);
             stella = itemView.findViewById(R.id.stella);
             stella2 = itemView.findViewById(R.id.stella2);
+*/
+
+            imageView = itemView.findViewById(R.id.imageFilm);
+            textViewTitolo = itemView.findViewById(R.id.titoloFilm);
 
         }
     }
