@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -16,24 +18,21 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.projectwork.adapter.ListaFilmAdapter;
 import com.example.projectwork.R;
+import com.example.projectwork.adapter.RecyclerViewAdapter;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.MovieResults;
 import com.example.projectwork.services.WebService;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, IWebService {
+public class MainActivity extends AppCompatActivity implements IWebService {
 
-    ListView listView;
-    ListaFilmAdapter mAdapter;
-    public static final int MY_LOADER_ID = 0;
+    List<Film> filmList;
     public static final String categoriaSelezionata = "ID";
-
-
     public static String CATEGORY = "popular";
     public static String LANGUAGE = "it";
     public static int PAGE = 1;
@@ -45,18 +44,39 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("MOVIES");
-        listView = findViewById(R.id.list);
+
+
+        filmList = new ArrayList<>();
+        filmList.add(new Film("Dolittle","Categoria","Descrizione",R.drawable.dolittle));
+        filmList.add(new Film("TheMartian","Categoria","Descrizione",R.drawable.martian));
+        filmList.add(new Film("Dolittle","Categoria","Descrizione",R.drawable.dolittle));
+        filmList.add(new Film("TheMartian","Categoria","Descrizione",R.drawable.martian));
+        filmList.add(new Film("Dolittle","Categoria","Descrizione",R.drawable.dolittle));
+        filmList.add(new Film("TheMartian","Categoria","Descrizione",R.drawable.martian));
+        filmList.add(new Film("Dolittle","Categoria","Descrizione",R.drawable.dolittle));
+        filmList.add(new Film("TheMartian","Categoria","Descrizione",R.drawable.martian));
+        filmList.add(new Film("Dolittle","Categoria","Descrizione",R.drawable.dolittle));
+        filmList.add(new Film("TheMartian","Categoria","Descrizione",R.drawable.martian));
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerviewFilm);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,filmList);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setAdapter(adapter);
 
         webService = WebService.getInstance(CATEGORY, LANGUAGE, PAGE);
-
-        mAdapter = new ListaFilmAdapter(this, null);
-        listView.setAdapter(mAdapter);
-        getSupportLoaderManager().initLoader(MY_LOADER_ID, null, this);
-
-
-
         loadMovies();
     }
+
+
+
+
+
+
+
+
+
+
+
 
     private void loadMovies() {
         webService.getFilms(new IWebService() {
@@ -131,24 +151,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new CursorLoader(this, FilmProvider.FILMS_URI, null, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        mAdapter.changeCursor(data);
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        mAdapter.changeCursor(null);
-    }
-
     @Override
     public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
-        //films
+
     }
 }
