@@ -70,14 +70,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public boolean onLongClick(View v) {
 
-                Intent intent = new Intent(context, FilmPreferiti.class);
-                intent.putExtra("titoloFilm",mData.get(position).getTitolo());
-                intent.putExtra("descrizione",mData.get(position).getDescrizione());
-                intent.putExtra("categoria",mData.get(position).getCategoria());
-                intent.putExtra("thumbnail",mData.get(position).getThumbnail());
-                intent.putExtra("filmID", Integer.parseInt(String.valueOf(mData.get(position).getId())));
+                int id = mData.get(position).getId();
 
-                context.startActivity(intent);
+
+
                 return false;
             }
         });
