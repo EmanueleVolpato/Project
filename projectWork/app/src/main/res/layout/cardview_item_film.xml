@@ -4,7 +4,7 @@
     android:clickable="true"
     android:id="@+id/cardViewId"
     android:foreground="?android:attr/selectableItemBackground"
-    android:layout_height="190dp"
+    android:layout_height="180dp"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
     cardview:cardCornerRadius="4dp">
@@ -25,10 +25,20 @@
         <TextView
             android:id="@+id/titoloFilm"
             android:layout_width="match_parent"
+            android:layout_height="20dp"
             android:background="@color/cardview_dark_background"
-            android:layout_height="match_parent"
             android:gravity="center"
             android:text="titolo film"
+            android:textColor="#ffff"
+            android:textSize="13sp"></TextView>
+        <TextView
+            android:id="@+id/idFilm"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/cardview_dark_background"
+            android:gravity="center"
+            android:text="id film"
+            android:visibility="gone"
             android:textColor="#ffff"
             android:textSize="13sp"></TextView>
 

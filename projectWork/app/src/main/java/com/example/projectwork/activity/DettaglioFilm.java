@@ -24,7 +24,7 @@ import com.example.projectwork.localDatabase.FilmTableHelper;
 
 public class DettaglioFilm extends AppCompatActivity {
 
-     TextView titolo,descrizione,categoria;
+     TextView titolo,descrizione,categoria,filmID;
      ImageView imageView;
 
     @Override
@@ -34,6 +34,7 @@ public class DettaglioFilm extends AppCompatActivity {
         getSupportActionBar().setTitle("MOVIE DETAILS");
 
         titolo = findViewById(R.id.titoloFilmDettaglio);
+        filmID = findViewById(R.id.IDFILM);
         descrizione = findViewById(R.id.descrizioneFilmDettaglio);
         categoria = findViewById(R.id.categoriaFilmDettaglio);
         imageView = findViewById(R.id.imageViewDettaglio);
@@ -42,11 +43,13 @@ public class DettaglioFilm extends AppCompatActivity {
         String Titolo = intent.getExtras().getString("titoloFilm");
         String Descrizione = intent.getExtras().getString("descrizione");
         String Categoria = intent.getExtras().getString("categoria");
+        int ID = intent.getExtras().getInt("filmID");
         int image = intent.getExtras().getInt("thumbnail");
 
 
         titolo.setText(Titolo);
         descrizione.setText(Descrizione);
+        filmID.setText(ID+"");
         categoria.setText(Categoria);
         imageView.setImageResource(image);
     }

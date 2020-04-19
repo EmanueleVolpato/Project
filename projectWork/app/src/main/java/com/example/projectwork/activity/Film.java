@@ -4,25 +4,32 @@ public class Film {
 
 
     private String Titolo;
+    private int ID;
     private String Categoria;
     private String Descrizione;
     private int Thumbnail;
+
 
     public Film(){
 
     }
 
-    public Film(String titolo,String categoria,String descrizione,int thumbnail){
+    public Film(String titolo,String categoria,String descrizione,int thumbnail,int id){
 
         Titolo = titolo;
         Categoria = categoria;
         Descrizione = descrizione;
+        ID = id;
         Thumbnail = thumbnail;
     }
 
 
     public String getTitolo() {
         return Titolo;
+    }
+
+    public int getId() {
+        return ID;
     }
 
     public String getCategoria() {
@@ -39,6 +46,10 @@ public class Film {
 
     public void setTitolo(String titolo) {
         Titolo = titolo;
+    }
+
+    public void setID(int id) {
+        ID = id;
     }
 
     public void setCategoria(String categoria) {
