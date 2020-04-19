@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/imageFilm"
         android:layout_width="164dp"
-        android:layout_height="160dp"
+        android:layout_height="217dp"
         android:layout_marginStart="19dp"
         android:layout_marginLeft="19dp"
         android:background="#2d2d2d"
@@ -22,7 +22,7 @@
     <ImageView
         android:id="@+id/imageFilm2"
         android:layout_width="164dp"
-        android:layout_height="160dp"
+        android:layout_height="217dp"
         android:layout_marginEnd="19dp"
         android:layout_marginRight="19dp"
         android:background="#2d2d2d"
@@ -34,7 +34,7 @@
         android:id="@+id/titoloFilm2"
         android:layout_width="164dp"
         android:layout_height="20dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="216dp"
         android:layout_marginEnd="19dp"
         android:layout_marginRight="19dp"
         android:background="@color/cardview_dark_background"
@@ -49,10 +49,11 @@
         android:id="@+id/stella2"
         android:layout_width="164dp"
         android:layout_height="20dp"
+        android:layout_marginTop="236dp"
         android:layout_marginEnd="19dp"
         android:layout_marginRight="19dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titoloFilm2"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/star" />
 
     <TextView
@@ -61,7 +62,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="19dp"
         android:layout_marginLeft="19dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="216dp"
         android:background="@color/cardview_dark_background"
         android:gravity="center"
         android:text="titolo film"
@@ -76,17 +77,10 @@
         android:layout_height="20dp"
         android:layout_marginStart="19dp"
         android:layout_marginLeft="19dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="240dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/star" />
-
-    <LinearLayout
-        android:layout_width="413dp"
-        android:layout_height="210dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

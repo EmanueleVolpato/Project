@@ -28,6 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context context;
     private List<Film> mData;
     int stato =0;
+    int stato2 =0;
 
     public RecyclerViewAdapter(Context context, List<Film> mData) {
         this.context = context;
@@ -46,11 +47,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.titoloFilm.setText(mData.get(position).getTitolo());
         holder.film_thumbnail.setImageResource(mData.get(position).getThumbnail());
-        holder.titoloFilm2.setText(mData.get(position).getTitolo());
-        holder.film_thumbnail2.setImageResource(mData.get(position).getThumbnail());
+        holder.titoloFilm2.setText(mData.get(position+1).getTitolo());
+        holder.film_thumbnail2.setImageResource(mData.get(position+1).getThumbnail());
 
 
         holder.film_thumbnail.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
-                            //image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
+                            holder.stella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
                             stato= 1;
                         }
                     });
@@ -100,7 +101,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "FILM TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
-                            //image.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star));
+                            holder.stella.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star));
                             stato=0;
                         }
                     });
@@ -116,9 +117,67 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
 
 
-                return true;
-            }
+                return true; }
         });
+
+
+
+
+        holder.film_thumbnail2.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (stato2 == 0) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("ATTENZIONE");
+                    alert.setMessage("Aggiungere il film selezionato ai preferiti?");
+                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                            holder.stella2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star_piena));
+                            stato2= 1;
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM NON AGGIUNTO AI PREFERITI!", Toast.LENGTH_LONG).show();
+                            stato2 =0;
+                        }
+                    });
+                    AlertDialog alert1 = alert.create();
+                    alert1.show();
+                }
+                else
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setTitle("FILM GIA' AGGIUNTO AI PREFERITI!");
+                    alert.setMessage("Togliere il film selezionato dai preferiti?");
+                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
+                            holder.stella2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.star));
+                            stato2=0;
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context, "FILM NON TOLTO DAI PREFERITI!", Toast.LENGTH_LONG).show();
+                            stato2=1;
+                        }
+                    });
+                    AlertDialog alert1 = alert.create();
+                    alert1.show();
+                }
+
+
+                return true; }
+        });
+
+
+
     }
 
     @Override
