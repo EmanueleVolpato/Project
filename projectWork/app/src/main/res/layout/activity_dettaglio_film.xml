@@ -8,29 +8,57 @@
     android:background="@drawable/gradient"
     tools:context=".activity.DettaglioFilm">
 
-    <ImageView
-        android:id="@+id/imageViewCopertina"
-        android:layout_width="423dp"
-        android:layout_height="232dp"
-        app:srcCompat="@mipmap/ic_launcher" />
-
-    <TextView
-        android:id="@+id/textViewTitoloFilm"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:textColor="#fff"
-        android:text="TITOLO FILM"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:padding="10dp">
 
-    <EditText
-        android:id="@+id/editTextDescrizioneFilm"
-        android:layout_width="match_parent"
-        android:layout_height="419dp"
-        android:ems="10"
-        android:textColor="#fff"
-        android:enabled="false"
-        android:gravity="start|top"
-        android:inputType="textMultiLine" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="125dp"
+                android:layout_height="170dp"
+                android:background="#2d2d2d"
+                android:id="@+id/imageViewDettaglio"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/titoloFilmDettaglio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titolo Film"
+                android:layout_marginTop="10dp"
+                android:textColor="#ffff"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/categoriaFilmDettaglio"
+                android:layout_height="wrap_content"
+                android:text="categoria"
+                android:textColor="#ffff"
+                android:padding="8dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/descrizioneFilmDettaglio"
+                android:layout_marginTop="10dp"
+                android:textSize="18dp"
+                android:layout_height="wrap_content"
+                android:text="descrizione"/>
+
+
+
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

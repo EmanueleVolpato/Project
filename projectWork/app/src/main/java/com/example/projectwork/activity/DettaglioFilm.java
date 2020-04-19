@@ -7,6 +7,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -23,22 +24,28 @@ import com.example.projectwork.localDatabase.FilmTableHelper;
 
 public class DettaglioFilm extends AppCompatActivity {
 
-
-    ImageView imgCopertinaFilm;
-    TextView titoloFilm;
-    EditText descrizioneFilm;
-
+     TextView titolo,descrizione,categoria;
+     ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
         getSupportActionBar().setTitle("MOVIE DETAILS");
-        imgCopertinaFilm = findViewById(R.id.imageViewCopertina);
-        titoloFilm = findViewById(R.id.textViewTitoloFilm);
-        descrizioneFilm = findViewById(R.id.editTextDescrizioneFilm);
 
-        descrizioneFilm.setText("Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum.");
+        titolo = findViewById(R.id.titoloFilmDettaglio);
+        descrizione = findViewById(R.id.descrizioneFilmDettaglio);
+        categoria = findViewById(R.id.categoriaFilmDettaglio);
+        imageView = findViewById(R.id.imageViewDettaglio);
 
+        Intent intent = getIntent();
+        String Titolo = intent.getExtras().getString("titoloFilm");
+        String Descrizione = intent.getExtras().getString("descrizione");
+        int image = intent.getExtras().getInt("thumbnail");
+
+
+        titolo.setText(Titolo);
+        descrizione.setText(Descrizione);
+        imageView.setImageResource(image);
     }
 }

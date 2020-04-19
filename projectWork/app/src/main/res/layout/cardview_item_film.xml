@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="120dp"
     android:clickable="true"
+    android:id="@+id/cardViewId"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="190dp"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
@@ -10,24 +11,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
         <ImageView
-            android:layout_width="match_parent"
             android:id="@+id/imageFilm"
+            android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:scaleType="centerCrop"
-            android:background="#2d2d2d"/>
+            android:background="#2d2d2d"
+            android:scaleType="centerCrop" />
 
         <TextView
-            android:layout_width="match_parent"
             android:id="@+id/titoloFilm"
-            android:textSize="13sp"
-            android:gravity="center"
-            android:textColor="#2d2d2d"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="titolo film"></TextView>
+            android:gravity="center"
+            android:text="titolo film"
+            android:textColor="#2d2d2d"
+            android:textSize="13sp"></TextView>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
