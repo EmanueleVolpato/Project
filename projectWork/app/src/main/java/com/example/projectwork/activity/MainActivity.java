@@ -60,12 +60,10 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         filmList.add(new Film("TheMartian","Azione","Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum.",R.drawable.martian,9));
         filmList.add(new Film("Blood","Avventura","Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum.",R.drawable.blood,10));
         filmList.add(new Film("BadBoy","Azione","Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum.",R.drawable.badboy,11));
-
         RecyclerView recyclerView = findViewById(R.id.recyclerviewFilm);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,filmList);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(adapter);
-
         webService = WebService.getInstance(CATEGORY, LANGUAGE, PAGE);
         loadMovies();
     }
@@ -93,8 +91,10 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                     vValue.put(FilmTableHelper.TITOLO, firstMovie.getTitle());
                     vValue.put(FilmTableHelper.DESCRIZIONE, firstMovie.getOverview());
                     getContentResolver().insert(FilmProvider.FILMS_URI,vValue);
+
                    
                     */
+
                 } else {
                     Toast.makeText(MainActivity.this, "Qualcosa è andato storto " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         int id = item.getItemId();
         if(id == R.id.listaPreferiti)
         {
-            //startActivity(new Intent(this, ListaFilmPreferiti.class));
+            startActivity(new Intent(this, FilmPreferiti.class));
 
         }else
         if(id == R.id.listaUltimiFilmUscitiAlCinema)

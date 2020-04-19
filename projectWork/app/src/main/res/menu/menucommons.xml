@@ -3,7 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
         android:id="@+id/listaPreferiti"
-        android:title="PREFERITI" />
+        android:icon="@drawable/star_piena"
+        android:title="PREFERITI"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/listaUltimiFilmUscitiAlCinema"
         android:title="NOVITA'" />

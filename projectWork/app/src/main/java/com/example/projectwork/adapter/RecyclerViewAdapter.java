@@ -3,9 +3,12 @@ package com.example.projectwork.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -13,10 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilm;
 import com.example.projectwork.activity.Film;
+import com.example.projectwork.activity.FilmPreferiti;
+import com.example.projectwork.localDatabase.FilmDB;
+import com.example.projectwork.localDatabase.FilmProvider;
+import com.example.projectwork.localDatabase.FilmTableHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>{
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
 
     private Context context;
@@ -54,6 +62,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 intent.putExtra("filmID", Integer.parseInt(String.valueOf(mData.get(position).getId())));
 
                 context.startActivity(intent);
+            }
+        });
+
+
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                Intent intent = new Intent(context, FilmPreferiti.class);
+                intent.putExtra("titoloFilm",mData.get(position).getTitolo());
+                intent.putExtra("descrizione",mData.get(position).getDescrizione());
+                intent.putExtra("categoria",mData.get(position).getCategoria());
+                intent.putExtra("thumbnail",mData.get(position).getThumbnail());
+                intent.putExtra("filmID", Integer.parseInt(String.valueOf(mData.get(position).getId())));
+
+                context.startActivity(intent);
+                return false;
             }
         });
 
