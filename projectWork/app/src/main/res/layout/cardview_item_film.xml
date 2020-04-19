@@ -6,7 +6,7 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="180dp"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="5dp"
+    android:layout_margin="40dp"
     cardview:cardCornerRadius="4dp">
 
     <LinearLayout
