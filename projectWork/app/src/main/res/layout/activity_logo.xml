@@ -9,7 +9,6 @@
     tools:context=".activity.LogoActivity">
 
     <ImageView
-        android:id="@+id/stella"
         android:layout_width="321dp"
         android:layout_height="583dp"
         app:layout_constraintBottom_toBottomOf="parent"
