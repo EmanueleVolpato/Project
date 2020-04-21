@@ -29,6 +29,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements IWebService {
 
     List<Film> filmList;
+
     public static final String categoriaSelezionata = "ID";
     public static String CATEGORY = "popular";
     public static String LANGUAGE = "it";
@@ -53,17 +54,16 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
         if (controlloConnessione()) {
             webService = WebService.getInstance(CATEGORY, LANGUAGE, PAGE);
-
-            loadMoviesToDatabase();
-
             filmList = new ArrayList<>();
 
-          //  filmList.add(new Film("Dolittle","avfvxvxc","/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg",0));
+            loadMoviesToList(filmList);
+            loadMoviesToDatabase();
 
-            movieArrayListAPI();
+            //filmList.add(new Film("Dolittle","avfvxvxc","/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg",0));
+            //filmList = new ArrayList<>();
 
             RecyclerView recyclerView = findViewById(R.id.recyclerviewFilm);
-            RecycleViewAdapterInternet adapter = new RecycleViewAdapterInternet(this, filmList);
+            RecycleViewAdapterInternet adapter = new RecycleViewAdapterInternet(this, getListMovie());
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
             recyclerView.setAdapter(adapter);
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         return activeNetworkInfo != null;
     }
 
-    private void movieArrayListAPI() {
+    private  List<Film> getListMovie() {
         webService.getFilms(new IWebService() {
             @Override
             public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
@@ -89,6 +89,29 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         MovieResults.ResultsBean movie = movies.get(i);
                         filmList.add(new Film(movie.getTitle(), movie.getOverview(), movie.getPosterPath(), movie.getId()));
                         //Toast.makeText(MainActivity.this, movie.getTitle(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "Qualcosa è andato storto " + errorMessage, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return filmList;
+    }
+
+    private void loadMoviesToList() {
+        webService.getFilms(new IWebService() {
+            @Override
+            public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
+                if (success) {
+
+                    for (int i = 0; i < movies.size(); i++) {
+
+                        MovieResults.ResultsBean movie = movies.get(i);
+                        for (int i = 0; i < movies.size(); i++) {
+                            MovieResults.ResultsBean movie = movies.get(i);
+                            filmList.add(new Film(movie.getTitle(), movie.getOverview(), movie.getPosterPath(), movie.getId()));
+                            //Toast.makeText(MainActivity.this, movie.getTitle(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
                     Toast.makeText(MainActivity.this, "Qualcosa è andato storto " + errorMessage, Toast.LENGTH_SHORT).show();

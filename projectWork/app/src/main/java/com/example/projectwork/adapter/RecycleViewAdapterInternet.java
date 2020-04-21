@@ -1,28 +1,29 @@
 package com.example.projectwork.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
-import com.example.projectwork.activity.DettaglioFilm;
 import com.example.projectwork.activity.Film;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>{
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class RecycleViewAdapterInternet extends RecyclerView.Adapter<RecycleViewAdapterInternet.MyViewHolder>{
 
 
     private Context context;
     private List<Film> mData;
 
-    public RecyclerViewAdapter(Context context, List<Film> mData) {
+
+    public RecycleViewAdapterInternet(Context context, List<Film> mData) {
         this.context = context;
         this.mData = mData;
     }
@@ -41,22 +42,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.textViewTitolo.setText(mData.get(position).getTitolo());
-        holder.imageView.setImageResource(mData.get(position).getThumbnail());
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, DettaglioFilm.class);
-                intent.putExtra("titoloFilm",mData.get(position).getTitolo());
-                intent.putExtra("descrizione",mData.get(position).getDescrizione());
-                intent.putExtra("categoria",mData.get(position).getCategoria());
-                intent.putExtra("thumbnail",mData.get(position).getThumbnail());
-                intent.putExtra("filmID", Integer.parseInt(String.valueOf(mData.get(position).getId())));
+        final ImageView vImmagine1 =  holder.imageView;
 
-                context.startActivity(intent);
-            }
-        });
+        Glide.with(context)
+                .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getThumbnail())
+                .into(vImmagine1);
 
+        //holder.imageView.setImageResource(mData.get(position).getThumbnail());
     }
 
     @Override

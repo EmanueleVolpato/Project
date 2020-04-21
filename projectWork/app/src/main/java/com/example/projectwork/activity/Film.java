@@ -4,15 +4,13 @@ public class Film {
 
     private int ID;
     private String Titolo;
-    private String Categoria;
     private String Descrizione;
     private String Thumbnail;
 
     public Film(String titolo, String descrizione, String thumbnail, int id) {
-
+        ID = id;
         Titolo = titolo;
         Descrizione = descrizione;
-        ID = id;
         Thumbnail = thumbnail;
     }
 
