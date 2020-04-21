@@ -30,7 +30,6 @@ public class FilmProvider extends ContentProvider {
         mUriMatcher.addURI(AUTORITY, BASE_PATH_FILMS + "/#", SINGLE_FILM);
     }
 
-
     @Override
     public boolean onCreate() {
         mDb = new FilmDB(getContext());
@@ -67,16 +66,13 @@ public class FilmProvider extends ContentProvider {
 
             case ALL_FILM:
                 return MIME_TYPE_FILMS;
-
         }
-
         return null;
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-
         if (mUriMatcher.match(uri) == ALL_FILM) {
             SQLiteDatabase vDb = mDb.getWritableDatabase();
             long vResult = vDb.insert(FilmTableHelper.TABLE_NAME, null, values);
@@ -106,7 +102,6 @@ public class FilmProvider extends ContentProvider {
         }
         int vDeletedRows = vDb.delete(vTable, vQuery, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
-
         return vDeletedRows;
     }
 

@@ -2,13 +2,11 @@ package com.example.projectwork.activity;
 
 public class Film {
 
-
     private String Titolo;
     private int ID;
     private String Categoria;
     private String Descrizione;
     private int Thumbnail;
-
 
     public Film(){
 
@@ -22,7 +20,6 @@ public class Film {
         ID = id;
         Thumbnail = thumbnail;
     }
-
 
     public String getTitolo() {
         return Titolo;

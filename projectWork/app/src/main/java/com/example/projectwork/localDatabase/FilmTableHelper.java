@@ -5,6 +5,7 @@ import android.provider.BaseColumns;
 public class FilmTableHelper implements BaseColumns {
 
     public static final String TABLE_NAME = "film";
+    public static final String ID_MOVIE = "id_movie";
     public static final String TITOLO = "titolo";
     public static final String FILM_ID = "filmId";
     public static final String DESCRIZIONE = "descrizione";
@@ -15,6 +16,7 @@ public class FilmTableHelper implements BaseColumns {
 
     public static final String CREATE = "CREATE TABLE " + TABLE_NAME + " ( " +
             _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            ID_MOVIE + " TEXT, " +
             DESCRIZIONE + " TEXT, " +
             FILM_ID + " INTEGER, " +
             IMG_PRINCIPALE + " TEXT, " +

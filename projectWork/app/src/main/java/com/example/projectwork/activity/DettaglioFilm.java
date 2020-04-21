@@ -12,12 +12,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmDB;
@@ -27,7 +25,7 @@ import com.example.projectwork.localDatabase.FilmTableHelper;
 public class DettaglioFilm extends AppCompatActivity {
 
      TextView titolo,descrizione,categoria,filmID;
-     ImageView imageView,stella;
+     ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +38,6 @@ public class DettaglioFilm extends AppCompatActivity {
         descrizione = findViewById(R.id.descrizioneFilmDettaglio);
         categoria = findViewById(R.id.categoriaFilmDettaglio);
         imageView = findViewById(R.id.imageViewDettaglio);
-        stella = findViewById(R.id.stella);
 
         Intent intent = getIntent();
         String Titolo = intent.getExtras().getString("titoloFilm");
@@ -49,13 +46,6 @@ public class DettaglioFilm extends AppCompatActivity {
         int ID = intent.getExtras().getInt("filmID");
         int image = intent.getExtras().getInt("thumbnail");
 
-        stella.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stella.setImageResource(R.drawable.star_piena);
-                Toast.makeText(DettaglioFilm.this, "piena", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         titolo.setText(Titolo);
         descrizione.setText(Descrizione);

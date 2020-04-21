@@ -1,7 +1,7 @@
 package com.example.projectwork.adapter;
 
-import android.content.ContentProvider;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,7 @@ import com.example.projectwork.activity.Film;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>{
 
 
     private Context context;
@@ -53,17 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 intent.putExtra("thumbnail",mData.get(position).getThumbnail());
                 intent.putExtra("filmID", Integer.parseInt(String.valueOf(mData.get(position).getId())));
 
-
                 context.startActivity(intent);
-            }
-        });
-
-
-        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                return false;
             }
         });
 

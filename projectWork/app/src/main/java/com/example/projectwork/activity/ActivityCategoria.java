@@ -22,13 +22,10 @@ public class ActivityCategoria extends AppCompatActivity {
         setContentView(R.layout.activity_categoria);
         textViewCategoria = findViewById(R.id.textViewCategoria);
 
-
         if (getIntent().getExtras() != null) {
             categoria = getIntent().getExtras().getString(MainActivity.categoriaSelezionata);
         }
 
         textViewCategoria.setText(categoria);
     }
-
-
 }
