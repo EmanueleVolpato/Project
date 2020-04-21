@@ -1,6 +1,8 @@
 package com.example.projectwork.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.example.projectwork.activity.Film;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecycleViewAdapterInternet extends RecyclerView.Adapter<RecycleViewAdapterInternet.MyViewHolder>{
@@ -43,11 +46,9 @@ public class RecycleViewAdapterInternet extends RecyclerView.Adapter<RecycleView
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.textViewTitolo.setText(mData.get(position).getTitolo());
 
-        final ImageView vImmagine1 =  holder.imageView;
-
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getThumbnail())
-                .into(vImmagine1);
+                .into(holder.imageView);
 
         //holder.imageView.setImageResource(mData.get(position).getThumbnail());
     }
@@ -56,8 +57,6 @@ public class RecycleViewAdapterInternet extends RecyclerView.Adapter<RecycleView
     public int getItemCount() {
         return mData.size();
     }
-
-
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 

@@ -7,11 +7,7 @@ public class Film {
     private String Descrizione;
     private String Thumbnail;
 
-    public Film(String titolo, String descrizione, String thumbnail, int id) {
-        ID = id;
-        Titolo = titolo;
-        Descrizione = descrizione;
-        Thumbnail = thumbnail;
+    public Film() {
     }
 
     public String getTitolo() {
@@ -42,7 +38,7 @@ public class Film {
         Descrizione = descrizione;
     }
 
-    public void setThumbnail(String thumbnail) {
+    public void setImg(String thumbnail) {
         Thumbnail = thumbnail;
     }
 }
