@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmDB;
@@ -52,6 +53,7 @@ public class DettaglioFilm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 stella.setImageResource(R.drawable.star_piena);
+                Toast.makeText(DettaglioFilm.this, "piena", Toast.LENGTH_SHORT).show();
             }
         });
 

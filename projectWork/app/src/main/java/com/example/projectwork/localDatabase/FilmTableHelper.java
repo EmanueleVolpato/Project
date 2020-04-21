@@ -6,6 +6,7 @@ public class FilmTableHelper implements BaseColumns {
 
     public static final String TABLE_NAME = "film";
     public static final String TITOLO = "titolo";
+    public static final String FILM_ID = "filmId";
     public static final String DESCRIZIONE = "descrizione";
     public static final String IMG_PRINCIPALE = "img_principale";
     public static final String IMG_DETTAGLIO = "img_decrizione";
@@ -15,6 +16,7 @@ public class FilmTableHelper implements BaseColumns {
     public static final String CREATE = "CREATE TABLE " + TABLE_NAME + " ( " +
             _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             DESCRIZIONE + " TEXT, " +
+            FILM_ID + " INTEGER, " +
             IMG_PRINCIPALE + " TEXT, " +
             IMG_DETTAGLIO + " TEXT, " +
             FLAG_PREFERITO + " INT, " +
