@@ -78,7 +78,6 @@ public class DettaglioFilm extends AppCompatActivity {
 
 
 
-
             imgStella.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     String[] selectionArgs = {idMovie};

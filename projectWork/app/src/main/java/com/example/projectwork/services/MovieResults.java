@@ -81,6 +81,9 @@ public class MovieResults {
 
     public static class ResultsBean {
 
+        private String filmPreferiti;
+
+
         @SerializedName("popularity")
         private double popularity;
 
@@ -125,6 +128,11 @@ public class MovieResults {
 
         public double getPopularity() {
             return popularity;
+        }
+
+        public String getFilmPreferiti(){return this.filmPreferiti;}
+        public void setFilmPreferiti(String filmPreferiti){
+            this.filmPreferiti = filmPreferiti;
         }
 
         public void setPopularity(double popularity) {
