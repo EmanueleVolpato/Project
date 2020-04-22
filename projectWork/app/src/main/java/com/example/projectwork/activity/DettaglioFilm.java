@@ -27,7 +27,7 @@ public class DettaglioFilm extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione;
     ImageView imageViewDettaglio, imgStella;
-
+    Cursor mCursor;
     String idMovie;
 
     @Override
@@ -64,9 +64,23 @@ public class DettaglioFilm extends AppCompatActivity {
             txtTitolo.setText(titolo);
             txtDecrizione.setText(descrizione);
 
+            String[] selectionArgs = {idMovie};
+            mCursor = DettaglioFilm.this.getContentResolver().query(
+                    FilmPreferitiProvider.FILMS_URI,
+                    null,
+                    FilmPreferitiTableHelper.ID_MOVIE + " = ?",
+                    selectionArgs,
+                    null);
+
+            while (mCursor.moveToNext()) {
+                imgStella.setImageResource(R.drawable.star_piena);
+            }
+
+
+
+
             imgStella.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Cursor mCursor;
                     String[] selectionArgs = {idMovie};
 
                     mCursor = DettaglioFilm.this.getContentResolver().query(
