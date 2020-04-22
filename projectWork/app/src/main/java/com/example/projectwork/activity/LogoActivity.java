@@ -15,7 +15,7 @@ import com.example.projectwork.R;
 public class LogoActivity extends AppCompatActivity {
 
     ProgressBar splashProgress;
-    int SPLASH_TIME = 2000; //This is 3 seconds
+    int SPLASH_TIME = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

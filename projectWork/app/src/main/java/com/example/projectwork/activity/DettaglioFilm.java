@@ -3,6 +3,7 @@ package com.example.projectwork.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.UserDictionary;
 import android.text.TextUtils;
@@ -18,6 +19,9 @@ import com.example.projectwork.localDatabase.FilmPreferitiProvider;
 import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DettaglioFilm extends AppCompatActivity {
 
@@ -64,9 +68,19 @@ public class DettaglioFilm extends AppCompatActivity {
 
 
             imgStella.setOnClickListener(new View.OnClickListener() {
-                //@Override
                 public void onClick(View v) {
-                  //  Toast.makeText(DettaglioFilm.this, ""+ idMovie + titolo+descrizione+immaginePrincipale+immagineDettaglio, Toast.LENGTH_LONG).show();
+
+                    Cursor cursor;
+                    cursor = getContentResolver().query(
+                            FilmPreferitiProvider.FILMS_URI,  // The content URI of the words table
+                            null,                       // The columns to return for each row
+                            FilmPreferitiTableHelper.ID_MOVIE+ " = " +idMovie,                  // Either null, or the word the user entered
+                            null,                    // Either empty, or the string the user entered
+                            null);
+
+
+
+
                     imgStella.setImageResource(R.drawable.star_piena);
 
                     ContentValues contentValues = new ContentValues();

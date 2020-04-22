@@ -37,7 +37,6 @@ public class FilmPreferiti extends AppCompatActivity {
     private void caricaPreferiti() {
         preferredMovie = new ArrayList<>();
         Cursor movies = FilmPreferiti.this.getContentResolver().query(FilmPreferitiProvider.FILMS_URI, null, null, null, null);
-
         if (movies != null) {
             while (movies.moveToNext()) {
                 MovieResults.ResultsBean movie = new MovieResults.ResultsBean();
