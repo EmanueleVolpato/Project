@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.listaPreferiti) {
-            //startActivity(new Intent(this, ListaFilmPreferiti.class));
+            startActivity(new Intent(this, FilmPreferiti.class));
 
         } else if (id == R.id.listaUltimiFilmUscitiAlCinema) {
             Bundle vBundle = new Bundle();

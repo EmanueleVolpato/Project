@@ -3,22 +3,19 @@ package com.example.projectwork.localDatabase;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class FilmProvider extends ContentProvider {
+public class FilmPreferitiProvider extends ContentProvider {
 
 
-    public static final String AUTORITY = "com.example.projectwork.localDatabase.FilmProvider";
+    public static final String AUTORITY = "com.example.projectwork.localDatabase.FilmPreferitiProvider";
     public static final String BASE_PATH_FILMS = "films";
     public static final int ALL_FILM = 1;
     public static final int SINGLE_FILM = 0;
@@ -50,11 +47,11 @@ public class FilmProvider extends ContentProvider {
         SQLiteQueryBuilder vBuilder = new SQLiteQueryBuilder();
         switch (mUriMatcher.match(uri)) {
             case SINGLE_FILM:
-                vBuilder.setTables(FilmTableHelper.TABLE_NAME);
-                vBuilder.appendWhere(FilmTableHelper._ID + " = " + uri.getLastPathSegment());
+                vBuilder.setTables(FilmPreferitiTableHelper.TABLE_NAME);
+                vBuilder.appendWhere(FilmPreferitiTableHelper._ID + " = " + uri.getLastPathSegment());
                 break;
             case ALL_FILM:
-                vBuilder.setTables(FilmTableHelper.TABLE_NAME);
+                vBuilder.setTables(FilmPreferitiTableHelper.TABLE_NAME);
                 break;
         }
 
@@ -81,7 +78,7 @@ public class FilmProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         if (mUriMatcher.match(uri) == ALL_FILM) {
             SQLiteDatabase vDb = mDb.getWritableDatabase();
-            long vResult = vDb.insert(FilmTableHelper.TABLE_NAME, null, values);
+            long vResult = vDb.insert(FilmPreferitiTableHelper.TABLE_NAME, null, values);
             String vResultString = ContentResolver.SCHEME_CONTENT + "://" + BASE_PATH_FILMS + "/" + vResult;
             getContext().getContentResolver().notifyChange(uri, null);
             return Uri.parse(vResultString);
@@ -95,12 +92,12 @@ public class FilmProvider extends ContentProvider {
         SQLiteDatabase vDb = mDb.getWritableDatabase();
         switch (mUriMatcher.match(uri)) {
             case ALL_FILM:
-                vTable = FilmTableHelper.TABLE_NAME;
+                vTable = FilmPreferitiTableHelper.TABLE_NAME;
                 vQuery = selection;
                 break;
             case SINGLE_FILM:
-                vTable = FilmTableHelper.TABLE_NAME;
-                vQuery = FilmTableHelper._ID + " = " + uri.getLastPathSegment();
+                vTable = FilmPreferitiTableHelper.TABLE_NAME;
+                vQuery = FilmPreferitiTableHelper._ID + " = " + uri.getLastPathSegment();
                 if (selection != null) {
                     vQuery += " AND " + selection;
                 }
@@ -117,12 +114,12 @@ public class FilmProvider extends ContentProvider {
         SQLiteDatabase vDb = mDb.getWritableDatabase();
         switch (mUriMatcher.match(uri)) {
             case ALL_FILM:
-                vTable = FilmTableHelper.TABLE_NAME;
+                vTable = FilmPreferitiTableHelper.TABLE_NAME;
                 vQuery = selection;
                 break;
             case SINGLE_FILM:
-                vTable = FilmTableHelper.TABLE_NAME;
-                vQuery = FilmTableHelper._ID + " = " + uri.getLastPathSegment();
+                vTable = FilmPreferitiTableHelper.TABLE_NAME;
+                vQuery = FilmPreferitiTableHelper._ID + " = " + uri.getLastPathSegment();
                 if (selection != null) {
                     vQuery += " AND " + selection;
                 }
