@@ -50,48 +50,49 @@ public class DettaglioFilm extends AppCompatActivity {
             idMovie = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
 
             if (immagineDettaglio.equals(null) || immagineDettaglio.equals("") || (TextUtils.isEmpty(immagineDettaglio)))
-                //immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
+            //immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
             {
                 Glide.with(DettaglioFilm.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                         .into(imageViewDettaglio);
-            }else{
+            } else {
                 Glide.with(DettaglioFilm.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
                         .into(imageViewDettaglio);
             }
 
-
             txtTitolo.setText(titolo);
             txtDecrizione.setText(descrizione);
 
-
-
             imgStella.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    Cursor mCursor;
+                    String[] selectionArgs = {idMovie};
 
-                    Cursor cursor;
-                    cursor = getContentResolver().query(
-                            FilmPreferitiProvider.FILMS_URI,  // The content URI of the words table
-                            null,                       // The columns to return for each row
-                            FilmPreferitiTableHelper.ID_MOVIE+ " = " +idMovie,                  // Either null, or the word the user entered
-                            null,                    // Either empty, or the string the user entered
+                    mCursor = DettaglioFilm.this.getContentResolver().query(
+                            FilmPreferitiProvider.FILMS_URI,
+                            null,
+                            FilmPreferitiTableHelper.ID_MOVIE + " = ?",
+                            selectionArgs,
                             null);
 
+                    int index = mCursor.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE);
 
-
+                    while (mCursor.moveToNext()) {
+                        Log.d("AAA", mCursor.getString(index));
+                    }
 
                     imgStella.setImageResource(R.drawable.star_piena);
 
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(FilmPreferitiTableHelper.ID_MOVIE,idMovie );
+                    contentValues.put(FilmPreferitiTableHelper.ID_MOVIE, idMovie);
                     contentValues.put(FilmPreferitiTableHelper.TITOLO, titolo);
                     contentValues.put(FilmPreferitiTableHelper.DESCRIZIONE, descrizione);
                     contentValues.put(FilmPreferitiTableHelper.IMG_PRINCIPALE, immaginePrincipale);
                     contentValues.put(FilmPreferitiTableHelper.IMG_DETTAGLIO, immagineDettaglio);
                     DettaglioFilm.this.getContentResolver().insert(FilmPreferitiProvider.FILMS_URI, contentValues);
 
-                    Log.d("AAAA", "Salvato film "+idMovie+titolo+descrizione+immagineDettaglio+immaginePrincipale);
+                    Log.d("AAAA", "Salvato film " + idMovie + titolo + descrizione + immagineDettaglio + immaginePrincipale);
                 }
             });
         }
