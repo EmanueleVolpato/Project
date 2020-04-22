@@ -50,6 +50,8 @@ public class RecycleViewAdapterInternet extends RecyclerView.Adapter<RecycleView
                 .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getThumbnail())
                 .into(holder.imageView);
 
+
+        
         //holder.imageView.setImageResource(mData.get(position).getThumbnail());
     }
 

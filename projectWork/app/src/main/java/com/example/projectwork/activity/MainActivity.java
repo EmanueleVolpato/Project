@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             webService = WebService.getInstance();
             internet();
         } else {
-
+            //se non c'è internet
         }
     }
 
