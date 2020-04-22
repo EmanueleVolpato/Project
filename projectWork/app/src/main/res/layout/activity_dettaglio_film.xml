@@ -22,7 +22,7 @@
 
             <ImageView
                 android:id="@+id/imageViewDettaglio"
-                android:layout_width="125dp"
+                android:layout_width="392dp"
                 android:layout_height="170dp"
                 android:background="#2d2d2d"
                 android:scaleType="centerCrop" />
@@ -38,13 +38,14 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/categoriaFilmDettaglio"
+                android:id="@+id/txtPreferito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:text="categoria"
-                android:textColor="#ffff" />
+                android:text="Titolo Film"
+                android:textColor="#ffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/IDFILM"
@@ -61,6 +62,7 @@
                 android:layout_width="80dp"
                 android:layout_height="34dp"
                 android:clickable="true"
+                android:focusable="true"
                 app:srcCompat="@drawable/star" />
 
             <TextView

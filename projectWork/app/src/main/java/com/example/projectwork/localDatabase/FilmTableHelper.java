@@ -12,7 +12,6 @@ public class FilmTableHelper implements BaseColumns {
     public static final String IMG_DETTAGLIO = "img_decrizione";
     public static final String FLAG_PREFERITO = "flag_preferito";
 
-
     public static final String CREATE = "CREATE TABLE " + TABLE_NAME + " ( " +
             ID_MOVIE + " TEXT, " +
             DESCRIZIONE + " TEXT, " +

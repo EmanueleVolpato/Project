@@ -3,10 +3,13 @@ package com.example.projectwork.localDatabase;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -30,16 +33,19 @@ public class FilmProvider extends ContentProvider {
         mUriMatcher.addURI(AUTORITY, BASE_PATH_FILMS + "/#", SINGLE_FILM);
     }
 
+
     @Override
     public boolean onCreate() {
         mDb = new FilmDB(getContext());
+        SQLiteDatabase db = mDb.getWritableDatabase();
+
+        //db.delete(FilmTableHelper.TABLE_NAME, null, null);
         return true;
     }
 
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-
         SQLiteDatabase vDb = mDb.getReadableDatabase();
         SQLiteQueryBuilder vBuilder = new SQLiteQueryBuilder();
         switch (mUriMatcher.match(uri)) {

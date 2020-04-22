@@ -5,19 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.projectwork.R;
-import com.example.projectwork.adapter.RecycleViewAdapterInternet;
+import com.example.projectwork.adapter.RecycleViewAdapter;
+import com.example.projectwork.localDatabase.FilmDB;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.IWebService;
@@ -37,7 +38,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     private int PAGE = 1;
 
     private WebService webService;
-    List<Film> listaMovie;
+
+    List<MovieResults.ResultsBean> cachedMovies;
+
+    RecyclerView recyclerView;
+    RecycleViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +50,13 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("MOVIES");
 
-        //filmList.add(new Film("Dolittle","Avventura","Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum.",R.drawable.dolittle,0));
+        recyclerView = findViewById(R.id.recyclerviewFilm);
 
         if (controlloConnessione()) {
             webService = WebService.getInstance();
             internet();
         } else {
-            //se non c'è internet
+            noInternet();
         }
     }
 
@@ -63,27 +68,14 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         return activeNetworkInfo != null;
     }
 
-    private void internet(){
-        webService.getMovies(CATEGORY, API_KEY, LANGUAGE, PAGE, new IWebService() {
+    private void internet() {
+        webService.getMovies(CATEGORY, API_KEY, LANGUAGE, PAGE, MainActivity.this, new IWebService() {
             @Override
             public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
                 if (success) {
-                    listaMovie = new ArrayList<>();
-                    for (int i = 0; i < movies.size(); i++) {
-                        MovieResults.ResultsBean movie = movies.get(i);
-                        Film f = new Film();
-                        f.setID(movie.getId());
-                        f.setTitolo(movie.getTitle());
-                        f.setImg(movie.getPosterPath());
-                        f.setDescrizione(movie.getOverview());
-                        listaMovie.add(f);
-                    }
-
-                    RecyclerView recyclerView = findViewById(R.id.recyclerviewFilm);
-                    RecycleViewAdapterInternet adapter = new RecycleViewAdapterInternet(MainActivity.this, listaMovie);
+                    adapter = new RecycleViewAdapter(MainActivity.this, movies);
                     recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
                     recyclerView.setAdapter(adapter);
-
                 } else {
                     Toast.makeText(MainActivity.this, "Qualcosa è andato storto " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
@@ -91,10 +83,39 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         });
     }
 
+    private void noInternet() {
+        cachedMovies = new ArrayList<>();
+        Cursor movies = MainActivity.this.getContentResolver().query(FilmProvider.FILMS_URI, null, null, null, null);
+
+        if (movies != null) {
+            while (movies.moveToNext()) {
+                MovieResults.ResultsBean movie = new MovieResults.ResultsBean();
+
+                movie.setId(movies.getColumnIndex(FilmTableHelper.ID_MOVIE));
+                movie.setTitle(movies.getString(movies.getColumnIndex(FilmTableHelper.TITOLO)));
+                movie.setOverview(movies.getString(movies.getColumnIndex(FilmTableHelper.DESCRIZIONE)));
+                movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmTableHelper.IMG_PRINCIPALE)));
+                movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmTableHelper.IMG_DETTAGLIO)));
+
+                cachedMovies.add(movie);
+            }
+
+            adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
+            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        internet();
+        if (controlloConnessione()) {
+            webService = WebService.getInstance();
+            internet();
+        } else {
+            noInternet();
+        }
     }
 
     @Override

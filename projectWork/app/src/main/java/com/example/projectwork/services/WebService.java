@@ -1,7 +1,12 @@
 package com.example.projectwork.services;
 
+import android.app.ListActivity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
+
+import com.example.projectwork.localDatabase.FilmProvider;
+import com.example.projectwork.localDatabase.FilmTableHelper;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,7 +42,7 @@ public class WebService {
         return instance;
     }
 
-    public void getMovies(String category, String apiKey, String language, int page, final IWebService iwebservice) {
+    public void getMovies(String category, String apiKey, String language, int page, final Context context, final IWebService iwebservice) {
 
         Call<MovieResults> filmsRequest = apiInterface.listOfMovies(category, apiKey, language, page);
 
@@ -48,6 +53,19 @@ public class WebService {
                     MovieResults results = response.body();
                     List<MovieResults.ResultsBean> listOfMovies = results.getResults();
                     iwebservice.onFilmsFetched(true, listOfMovies, -1, null);
+
+                    context.getContentResolver().delete(FilmProvider.FILMS_URI, null, null);
+
+                    for (MovieResults.ResultsBean movie : listOfMovies) {
+                        ContentValues cv = new ContentValues();
+                        cv.put(FilmTableHelper.ID_MOVIE, movie.getId());
+                        cv.put(FilmTableHelper.TITOLO, movie.getTitle());
+                        cv.put(FilmTableHelper.DESCRIZIONE, movie.getOverview());
+                        cv.put(FilmTableHelper.IMG_PRINCIPALE, movie.getPosterPath());
+                        cv.put(FilmTableHelper.IMG_DETTAGLIO, movie.getBackdropPath());
+                        context.getContentResolver().insert(FilmProvider.FILMS_URI, cv);
+                    }
+
                 } else {
                     try {
                         iwebservice.onFilmsFetched(true, null, response.code(), response.errorBody().string());
