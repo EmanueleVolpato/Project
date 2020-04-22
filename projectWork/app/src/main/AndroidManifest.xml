@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".activity.ActivityCategoria" />
         <activity android:name=".activity.DettaglioFilm" />
+        <activity android:name=".activity.DettaglioFilmPreferiti" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
