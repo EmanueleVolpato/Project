@@ -77,22 +77,27 @@ public class DettaglioFilm extends AppCompatActivity {
                             null);
 
                     int index = mCursor.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE);
-
+                    String idDB = null;
                     while (mCursor.moveToNext()) {
                         Log.d("AAA", mCursor.getString(index));
+                        idDB = mCursor.getString(index);
                     }
 
-                    imgStella.setImageResource(R.drawable.star_piena);
+                    if (idDB != null) {
+                        Toast.makeText(DettaglioFilm.this, "Film già inserito", Toast.LENGTH_SHORT).show();
+                    } else {
+                        imgStella.setImageResource(R.drawable.star_piena);
 
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(FilmPreferitiTableHelper.ID_MOVIE, idMovie);
-                    contentValues.put(FilmPreferitiTableHelper.TITOLO, titolo);
-                    contentValues.put(FilmPreferitiTableHelper.DESCRIZIONE, descrizione);
-                    contentValues.put(FilmPreferitiTableHelper.IMG_PRINCIPALE, immaginePrincipale);
-                    contentValues.put(FilmPreferitiTableHelper.IMG_DETTAGLIO, immagineDettaglio);
-                    DettaglioFilm.this.getContentResolver().insert(FilmPreferitiProvider.FILMS_URI, contentValues);
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(FilmPreferitiTableHelper.ID_MOVIE, idMovie);
+                        contentValues.put(FilmPreferitiTableHelper.TITOLO, titolo);
+                        contentValues.put(FilmPreferitiTableHelper.DESCRIZIONE, descrizione);
+                        contentValues.put(FilmPreferitiTableHelper.IMG_PRINCIPALE, immaginePrincipale);
+                        contentValues.put(FilmPreferitiTableHelper.IMG_DETTAGLIO, immagineDettaglio);
+                        DettaglioFilm.this.getContentResolver().insert(FilmPreferitiProvider.FILMS_URI, contentValues);
 
-                    Log.d("AAAA", "Salvato film " + idMovie + titolo + descrizione + immagineDettaglio + immaginePrincipale);
+                        Log.d("AAAA", "Salvato film " + idMovie + titolo + descrizione + immagineDettaglio + immaginePrincipale);
+                    }
                 }
             });
         }
