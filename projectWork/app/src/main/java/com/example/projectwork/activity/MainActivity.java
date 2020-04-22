@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
@@ -73,9 +74,18 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             @Override
             public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
                 if (success) {
-                    adapter = new RecycleViewAdapter(MainActivity.this, movies);
-                    recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-                    recyclerView.setAdapter(adapter);
+
+                    int orientation = getResources().getConfiguration().orientation;
+                    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        adapter = new RecycleViewAdapter(MainActivity.this, movies);
+                        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+                        recyclerView.setAdapter(adapter);                    }
+                    else {
+                        adapter = new RecycleViewAdapter(MainActivity.this, movies);
+                        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                        recyclerView.setAdapter(adapter);                    }
+
+
                 } else {
                     Toast.makeText(MainActivity.this, "Qualcosa è andato storto " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
@@ -100,10 +110,20 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 cachedMovies.add(movie);
             }
 
-            adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-            recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+
+
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
+                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();                  }
+            else {
+                adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
+                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();                }
+
         }
     }
 

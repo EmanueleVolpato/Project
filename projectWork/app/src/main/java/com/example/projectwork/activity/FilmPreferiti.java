@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.example.projectwork.R;
 import com.example.projectwork.adapter.RecycleViewAdapter;
+import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
 import com.example.projectwork.localDatabase.FilmPreferitiProvider;
 import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
 import com.example.projectwork.localDatabase.FilmProvider;
@@ -22,7 +25,7 @@ public class FilmPreferiti extends AppCompatActivity {
 
     List<MovieResults.ResultsBean> preferredMovie;
     RecyclerView recyclerView;
-    RecycleViewAdapter adapter;
+    RecyclerViewAdapterFilmPreferiti adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +52,20 @@ public class FilmPreferiti extends AppCompatActivity {
 
                 preferredMovie.add(movie);
             }
-
-            adapter = new RecycleViewAdapter(FilmPreferiti.this, preferredMovie);
+            adapter = new RecyclerViewAdapterFilmPreferiti(FilmPreferiti.this, preferredMovie);
             recyclerView.setLayoutManager(new GridLayoutManager(FilmPreferiti.this, 2));
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

@@ -1,13 +1,17 @@
 package com.example.projectwork.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.UserDictionary;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -96,8 +100,24 @@ public class DettaglioFilm extends AppCompatActivity {
                         idDB = mCursor.getString(index);
                     }
 
+
+
                     if (idDB != null) {
-                        Toast.makeText(DettaglioFilm.this, "Film già inserito", Toast.LENGTH_SHORT).show();
+                        new AlertDialog.Builder(DettaglioFilm.this)
+                                .setTitle("ATTENZIONE!!")
+                                .setMessage("Togliere il film dai preferiti?")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferitiProvider.FILMS_URI)), FilmPreferitiTableHelper.ID_MOVIE + "=" + idMovie, null);
+                                        imgStella.setImageResource(R.drawable.star);
+
+                                    }
+                                })
+
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+
                     } else {
                         imgStella.setImageResource(R.drawable.star_piena);
 
@@ -115,4 +135,15 @@ public class DettaglioFilm extends AppCompatActivity {
             });
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 public class FilmPreferitiTableHelper implements BaseColumns {
 
     public static final String TABLE_NAME = "filmPreferiti";
-    public static final String ID_MOVIE = "id_movie";
+    public static String ID_MOVIE = "id_movie";
     public static final String TITOLO = "titolo";
     public static final String DESCRIZIONE = "descrizione";
     public static final String IMG_PRINCIPALE = "img_principale";
