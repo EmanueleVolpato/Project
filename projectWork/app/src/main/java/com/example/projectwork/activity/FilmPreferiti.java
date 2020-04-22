@@ -4,18 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.example.projectwork.R;
-import com.example.projectwork.adapter.RecycleViewAdapter;
 import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
 import com.example.projectwork.localDatabase.FilmPreferitiProvider;
 import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
-import com.example.projectwork.localDatabase.FilmProvider;
-import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.MovieResults;
 
 import java.util.ArrayList;

@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity android:name=".activity.FilmPreferiti"></activity>
-        <activity android:name=".activity.LogoActivity">
+        <activity android:name=".activity.LogoActivity"
+            android:theme="@style/LogoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +23,6 @@
         </activity>
         <activity android:name=".activity.ActivityCategoria" />
         <activity android:name=".activity.DettaglioFilm" />
-        <activity android:name=".activity.DettaglioFilmPreferiti" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
