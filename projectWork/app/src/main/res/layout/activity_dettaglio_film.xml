@@ -47,6 +47,10 @@
                 android:text="id"
                 android:textColor="#ffff" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="18dp" />
+
             <ImageView
                 android:id="@+id/stella"
                 android:layout_width="80dp"
@@ -54,6 +58,10 @@
                 android:clickable="true"
                 android:focusable="true"
                 app:srcCompat="@drawable/star" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="18dp" />
 
             <TextView
                 android:id="@+id/descrizioneFilmDettaglio"

@@ -54,7 +54,6 @@ public class DettaglioFilm extends AppCompatActivity {
             idMovie = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
 
             if (immagineDettaglio.equals(null) || immagineDettaglio.equals("") || (TextUtils.isEmpty(immagineDettaglio)))
-            //immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
             {
                 Glide.with(DettaglioFilm.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
@@ -66,7 +65,11 @@ public class DettaglioFilm extends AppCompatActivity {
             }
 
             txtTitolo.setText(titolo);
+            if(descrizione!="")
             txtDecrizione.setText(descrizione);
+            else
+                txtDecrizione.setText("NESSUNA OVERVIEW DISPONIBILE");
+
 
             String[] selectionArgs = {idMovie};
             mCursor = DettaglioFilm.this.getContentResolver().query(
