@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.projectwork.R;
@@ -140,7 +141,23 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menucommons, menu);
-        return super.onCreateOptionsMenu(menu);
+        MenuItem search = menu.findItem(R.id.searchBar);
+        SearchView searchView = (SearchView)search.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        return true;
     }
 
     @Override
@@ -169,6 +186,9 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             vIntent.putExtras(vBundle);
             startActivity(vIntent);
         }
+
+
+
         return super.onOptionsItemSelected(item);
     }
 
