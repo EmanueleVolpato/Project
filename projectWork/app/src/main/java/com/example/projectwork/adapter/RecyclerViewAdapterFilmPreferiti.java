@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,16 +24,20 @@ import com.example.projectwork.localDatabase.FilmPreferitiProvider;
 import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
 import com.example.projectwork.services.MovieResults;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder>{
+public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> implements Filterable {
 
     private Context context;
     private List<MovieResults.ResultsBean> mData;
+    private List<MovieResults.ResultsBean> mDataSearch;
+
 
     public RecyclerViewAdapterFilmPreferiti(Context context, List<MovieResults.ResultsBean> mData) {
         this.context = context;
         this.mData = mData;
+        mDataSearch = new ArrayList<>(mData);
     }
 
     @NonNull
@@ -102,4 +108,41 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
             this.cellView = cellView;
         }
     }
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<MovieResults.ResultsBean> filtroList = new ArrayList<>();
+            if(constraint == null || constraint.length()==0)
+            {
+                filtroList.addAll(mDataSearch);
+            }else
+            {
+                String filtroPattern = constraint.toString().toLowerCase().trim();
+
+                for(MovieResults.ResultsBean item :mDataSearch)
+                {
+                    if(item.getTitle().toLowerCase().contains(filtroPattern)) {
+                        filtroList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filtroList;
+            return results;
+        }
+
+
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mData.clear();
+            mData.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

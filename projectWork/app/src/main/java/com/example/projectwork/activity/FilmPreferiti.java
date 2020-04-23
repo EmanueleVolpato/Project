@@ -1,12 +1,17 @@
 package com.example.projectwork.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.example.projectwork.R;
 import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
@@ -64,4 +69,57 @@ public class FilmPreferiti extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menucommons, menu);
+        MenuItem search = menu.findItem(R.id.searchBar);
+        SearchView searchView = (SearchView)search.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.listaUltimiFilmUscitiAlCinema) {
+            Bundle vBundle = new Bundle();
+            Intent vIntent = new Intent(FilmPreferiti.this, ActivityCategoria.class);
+            //vBundle.putString(categoriaSelezionata, "ultimifilmuscitialcinema");
+            vIntent.putExtras(vBundle);
+            startActivity(vIntent);
+
+        } else if (id == R.id.listaFilmPiuVotati) {
+            Bundle vBundle = new Bundle();
+            Intent vIntent = new Intent(FilmPreferiti.this, ActivityCategoria.class);
+            //vBundle.putString(categoriaSelezionata, "filmvotati");
+            vIntent.putExtras(vBundle);
+            startActivity(vIntent);
+        } else if (id == R.id.filmInUscita) {
+            Bundle vBundle = new Bundle();
+            Intent vIntent = new Intent(FilmPreferiti.this, ActivityCategoria.class);
+            //vBundle.putString(categoriaSelezionata, "prossimifilm");
+            vIntent.putExtras(vBundle);
+            startActivity(vIntent);
+        }
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

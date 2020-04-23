@@ -79,6 +79,8 @@ public class MovieResults {
         this.results = results;
     }
 
+
+
     public static class ResultsBean {
 
         private String filmPreferiti;

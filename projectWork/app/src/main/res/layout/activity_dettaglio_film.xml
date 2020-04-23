@@ -25,7 +25,7 @@
                 android:layout_width="392dp"
                 android:layout_height="170dp"
                 android:background="#2d2d2d"
-                android:scaleType="centerCrop" />
+                android:scaleType="fitStart" />
 
             <TextView
                 android:id="@+id/titoloFilmDettaglio"
