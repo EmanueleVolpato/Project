@@ -13,13 +13,7 @@
         android:title="PREFERITI"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/listaUltimiFilmUscitiAlCinema"
-        android:title="NOVITA'" />
-    <item
-        android:id="@+id/listaFilmPiuVotati"
-        android:title="FILM PIU' VOTATI" />
-    <item
-        android:id="@+id/filmInUscita"
-        android:title="PROSSIME USCITE" />
+        android:id="@+id/idCategorie"
+        android:title="CATEGORIE" />
 
 </menu>

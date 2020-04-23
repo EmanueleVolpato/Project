@@ -45,7 +45,8 @@ public class DettaglioFilm extends AppCompatActivity {
         imageViewDettaglio = findViewById(R.id.imageViewDettaglio);
         imgStella = findViewById(R.id.stella);
 
-        if (getIntent().getExtras() != null) {
+        if (getIntent().getExtras() != null)
+        {
             final String titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
             final String descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
             final String immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);

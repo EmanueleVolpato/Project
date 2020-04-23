@@ -1,11 +1,14 @@
 package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -34,17 +37,21 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     public static final String categoriaSelezionata = "ID";
 
-    private String CATEGORY = "popular";
+    private String CATEGORY = "";
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     private String LANGUAGE = "it";
     private int PAGE = 1;
-
     private WebService webService;
-
     List<MovieResults.ResultsBean> cachedMovies;
-
     RecyclerView recyclerView;
     RecycleViewAdapter adapter;
+
+
+    AlertDialog alertDialog;
+    AlertDialog.Builder builder;
+    String[] categorie ={"Novità","Prossime Uscite","Più votati","Popolari"};
+    String categoriaSelect="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         recyclerView = findViewById(R.id.recyclerviewFilm);
 
         if (controlloConnessione()) {
+            CATEGORY = "popular";
             webService = WebService.getInstance();
             internet();
         } else {
@@ -114,16 +122,20 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
 
             int orientation = getResources().getConfiguration().orientation;
+
+
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
                 recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();                  }
+                adapter.notifyDataSetChanged();
+            }
             else {
                 adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
                 recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();                }
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -166,14 +178,38 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         if (id == R.id.listaPreferiti) {
             startActivity(new Intent(this, FilmPreferiti.class));
 
-        } else if (id == R.id.listaUltimiFilmUscitiAlCinema) {
-            Bundle vBundle = new Bundle();
-            Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);
-            vBundle.putString(categoriaSelezionata, "ultimifilmuscitialcinema");
-            vIntent.putExtras(vBundle);
-            startActivity(vIntent);
+        } else if (id == R.id.idCategorie) {
 
-        } else if (id == R.id.listaFilmPiuVotati) {
+            builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Seleziona una categoria");
+
+            builder.setSingleChoiceItems(categorie, -1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    categoriaSelect = categorie[i];
+                }
+            });
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(categoriaSelect=="Popolari")
+                    {
+                        CATEGORY = "popular";
+                        webService = WebService.getInstance();
+                        internet();
+                    }
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+            alertDialog = builder.create();
+            alertDialog.show();
+
+        }/* else if (id == R.id.listaFilmPiuVotati) {
             Bundle vBundle = new Bundle();
             Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);
             vBundle.putString(categoriaSelezionata, "filmvotati");
@@ -186,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             vIntent.putExtras(vBundle);
             startActivity(vIntent);
         }
-
+*/
 
 
         return super.onOptionsItemSelected(item);

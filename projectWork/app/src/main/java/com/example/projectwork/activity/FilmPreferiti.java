@@ -93,33 +93,4 @@ public class FilmPreferiti extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.listaUltimiFilmUscitiAlCinema) {
-            Bundle vBundle = new Bundle();
-            Intent vIntent = new Intent(FilmPreferiti.this, ActivityCategoria.class);
-            //vBundle.putString(categoriaSelezionata, "ultimifilmuscitialcinema");
-            vIntent.putExtras(vBundle);
-            startActivity(vIntent);
-
-        } else if (id == R.id.listaFilmPiuVotati) {
-            Bundle vBundle = new Bundle();
-            Intent vIntent = new Intent(FilmPreferiti.this, ActivityCategoria.class);
-            //vBundle.putString(categoriaSelezionata, "filmvotati");
-            vIntent.putExtras(vBundle);
-            startActivity(vIntent);
-        } else if (id == R.id.filmInUscita) {
-            Bundle vBundle = new Bundle();
-            Intent vIntent = new Intent(FilmPreferiti.this, ActivityCategoria.class);
-            //vBundle.putString(categoriaSelezionata, "prossimifilm");
-            vIntent.putExtras(vBundle);
-            startActivity(vIntent);
-        }
-
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
 }
