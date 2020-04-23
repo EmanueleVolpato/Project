@@ -197,6 +197,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         CATEGORY = "popular";
                         webService = WebService.getInstance();
                         internet();
+                    }else if(categoriaSelect=="Più votati")
+                    {
+                        CATEGORY = "top_rated";
+                        webService = WebService.getInstance();
+                        internet();
                     }
                 }
             });
