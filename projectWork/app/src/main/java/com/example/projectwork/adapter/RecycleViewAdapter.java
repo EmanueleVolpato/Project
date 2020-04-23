@@ -2,16 +2,20 @@ package com.example.projectwork.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilm;
+import com.example.projectwork.localDatabase.FilmPreferitiProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.MovieResults;
 
@@ -44,6 +48,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+
         final ImageView img = holder.cellView.findViewById(R.id.imageFilm);
         final TextView txt = holder.cellView.findViewById(R.id.titoloFilm);
         final CardView card = holder.cellView.findViewById(R.id.cardViewId);
@@ -54,12 +59,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getPosterPath())
                 .into(img);
 
+
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DettaglioFilm.class);
                 Bundle bundle = new Bundle();
                 int id = mData.get(position).getId();
+                Toast.makeText(context, id +"", Toast.LENGTH_SHORT).show();
                 bundle.putString(FilmTableHelper.ID_MOVIE, Integer.toString(id));
                 bundle.putString(FilmTableHelper.TITOLO, mData.get(position).getTitle());
                 bundle.putString(FilmTableHelper.DESCRIZIONE, mData.get(position).getOverview());
@@ -77,6 +84,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
+
         View cellView;
         MyViewHolder(@NonNull View cellView) {
             super(cellView);

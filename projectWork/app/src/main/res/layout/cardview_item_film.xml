@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="140dp"
     android:clickable="true"
     android:id="@+id/cardViewId"
@@ -21,7 +22,6 @@
             android:layout_height="179dp"
             android:background="#2d2d2d"
             android:scaleType="centerCrop" />
-
         <TextView
             android:id="@+id/titoloFilm"
             android:layout_width="match_parent"
@@ -31,17 +31,6 @@
             android:text="titolo film"
             android:textColor="#ffff"
             android:textSize="15sp"></TextView>
-
-        <TextView
-            android:id="@+id/idFilm"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/cardview_dark_background"
-            android:gravity="center"
-            android:text="id film"
-            android:visibility="gone"
-            android:textColor="#ffff"
-            android:textSize="13sp"></TextView>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

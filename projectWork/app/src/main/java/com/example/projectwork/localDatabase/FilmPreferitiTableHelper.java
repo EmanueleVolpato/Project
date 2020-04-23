@@ -13,7 +13,7 @@ public class FilmPreferitiTableHelper implements BaseColumns {
 
 
     public static final String CREATE = "CREATE TABLE " + TABLE_NAME + " ( " +
-            ID_MOVIE + " TEXT, " +
+            ID_MOVIE + " TEXT PRIMARY KEY, " +
             DESCRIZIONE + " TEXT, " +
             IMG_PRINCIPALE + " TEXT, " +
             IMG_DETTAGLIO + " TEXT, " +

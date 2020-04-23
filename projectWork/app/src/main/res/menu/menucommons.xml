@@ -2,6 +2,12 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
+        android:id="@+id/app_bar_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/listaPreferiti"
         android:icon="@drawable/star_piena"
         android:title="PREFERITI"
@@ -9,9 +15,6 @@
     <item
         android:id="@+id/listaUltimiFilmUscitiAlCinema"
         android:title="NOVITA'" />
-    <item
-        android:id="@+id/listaPopolari"
-        android:title="POPOLARI" />
     <item
         android:id="@+id/listaFilmPiuVotati"
         android:title="FILM PIU' VOTATI" />

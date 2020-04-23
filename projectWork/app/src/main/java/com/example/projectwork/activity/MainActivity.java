@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();                }
-
         }
     }
 
@@ -157,12 +156,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             vIntent.putExtras(vBundle);
             startActivity(vIntent);
 
-        } else if (id == R.id.listaPopolari) {
-            Bundle vBundle = new Bundle();
-            Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);
-            vBundle.putString(categoriaSelezionata, "filmpopolari");
-            vIntent.putExtras(vBundle);
-            startActivity(vIntent);
         } else if (id == R.id.listaFilmPiuVotati) {
             Bundle vBundle = new Bundle();
             Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);

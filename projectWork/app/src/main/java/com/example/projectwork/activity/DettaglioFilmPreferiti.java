@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,11 +34,12 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
             final String descrizione = getIntent().getExtras().getString(FilmPreferitiTableHelper.DESCRIZIONE);
             final String immagineDettaglio = getIntent().getExtras().getString(FilmPreferitiTableHelper.IMG_DETTAGLIO);
             final String immaginePrincipale = getIntent().getExtras().getString(FilmPreferitiTableHelper.IMG_PRINCIPALE);
-
             idMovie = getIntent().getExtras().getString(FilmPreferitiTableHelper.ID_MOVIE);
 
+            Toast.makeText(DettaglioFilmPreferiti.this,idMovie+"",Toast.LENGTH_LONG).show();
+
+
             if (immagineDettaglio.equals(null) || immagineDettaglio.equals("") || (TextUtils.isEmpty(immagineDettaglio)))
-            //immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
             {
                 Glide.with(DettaglioFilmPreferiti.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
@@ -47,6 +49,7 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
                         .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
                         .into(imageViewDettaglio);
             }
+
 
             txtTitolo.setText(titolo);
             txtDecrizione.setText(descrizione);

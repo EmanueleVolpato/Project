@@ -2,6 +2,7 @@ package com.example.projectwork.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilmPreferiti;
+import com.example.projectwork.localDatabase.FilmPreferitiProvider;
 import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
 import com.example.projectwork.services.MovieResults;
 
@@ -26,7 +28,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
 
     private Context context;
     private List<MovieResults.ResultsBean> mData;
-    int id;
 
     public RecyclerViewAdapterFilmPreferiti(Context context, List<MovieResults.ResultsBean> mData) {
         this.context = context;
@@ -61,8 +62,9 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
             public void onClick(View view) {
                 Intent intent = new Intent(context, DettaglioFilmPreferiti.class);
                 Bundle bundle = new Bundle();
-                id = mData.get(position).getId();
+                int id = mData.get(position).getId();
                 bundle.putString(FilmPreferitiTableHelper.ID_MOVIE, Integer.toString(id));
+                Toast.makeText(context, id +"", Toast.LENGTH_SHORT).show();
                 bundle.putString(FilmPreferitiTableHelper.TITOLO, mData.get(position).getTitle());
                 bundle.putString(FilmPreferitiTableHelper.DESCRIZIONE, mData.get(position).getOverview());
                 bundle.putString(FilmPreferitiTableHelper.IMG_PRINCIPALE, mData.get(position).getPosterPath());
@@ -78,7 +80,11 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
         card.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(context, "LONG"+id, Toast.LENGTH_SHORT).show();
+                int id2 = mData.get(position).getId();
+                Toast.makeText(context, id2 +"", Toast.LENGTH_SHORT).show();
+
+                //context.getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferitiProvider.FILMS_URI)), FilmPreferitiTableHelper.ID_MOVIE + "=" + id, null);
+
                 return false;
             }
         });
