@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.projectwork.R;
@@ -20,28 +23,47 @@ public class LogoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
-        playProgress();
+        final ImageView imageView = (ImageView) findViewById(R.id.imageLogo);
+        final Animation animation_1 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.rotate);
+        final Animation animation_2 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.antirotate);
+        final Animation animation_3 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.abc_fade_out);
 
-        //Code to start timer and take action after the timer ends
-        new Handler().postDelayed(new Runnable() {
+        imageView.startAnimation(animation_2);
+        animation_2.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void run() {
-                //Do any action here. Now we are moving to next page
-                Intent mySuperIntent = new Intent(LogoActivity.this, MainActivity.class);
-                startActivity(mySuperIntent);
-
-                //This 'finish()' is for exiting the app when back button pressed from Home page which is ActivityHome
-                finish();
+            public void onAnimationStart(Animation animation) {
 
             }
-        }, SPLASH_TIME);
-    }
 
-    //Method to run progress bar for 5 seconds
-    private void playProgress() {
-        ObjectAnimator.ofInt(splashProgress, "progress", 100)
-                .setDuration(5000)
-                .start();
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                imageView.startAnimation(animation_1);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        animation_1.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                imageView.startAnimation(animation_3);
+                finish();
+                Intent i = new Intent(getBaseContext(),MainActivity.class);
+                startActivity(i);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 }
-

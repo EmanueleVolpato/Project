@@ -27,7 +27,8 @@
                 android:background="#2d2d2d"
                 android:scaleType="fitStart" />
 
-            <TextView
+
+             <TextView
                 android:id="@+id/titoloFilmDettaglio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,16 +37,6 @@
                 android:textColor="#ffff"
                 android:textSize="20dp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/IDFILM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:visibility="gone"
-                android:text="id"
-                android:textColor="#ffff" />
 
             <Space
                 android:layout_width="match_parent"

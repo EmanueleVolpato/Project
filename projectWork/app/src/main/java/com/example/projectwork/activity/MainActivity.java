@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
                 movie.setId(movies.getColumnIndex(FilmTableHelper.ID_MOVIE));
                 movie.setTitle(movies.getString(movies.getColumnIndex(FilmTableHelper.TITOLO)));
+                movie.setReleaseDate(movies.getString(movies.getColumnIndex(FilmTableHelper.DATA)));
                 movie.setOverview(movies.getString(movies.getColumnIndex(FilmTableHelper.DESCRIZIONE)));
                 movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmTableHelper.IMG_PRINCIPALE)));
                 movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmTableHelper.IMG_DETTAGLIO)));

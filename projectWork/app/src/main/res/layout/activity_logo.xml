@@ -10,6 +10,7 @@
 
     <ImageView
         android:layout_width="321dp"
+        android:id="@+id/imageLogo"
         android:layout_height="583dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
