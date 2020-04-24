@@ -35,8 +35,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IWebService {
 
-    public static final String categoriaSelezionata = "ID";
-
     private String CATEGORY = "";
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     private String LANGUAGE = "it";
@@ -201,6 +199,16 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         CATEGORY = "top_rated";
                         webService = WebService.getInstance();
                         internet();
+                    }else if(categoriaSelect=="Prossime Uscite")
+                    {
+                        CATEGORY = "upcoming";
+                        webService = WebService.getInstance();
+                        internet();
+                    }else if(categoriaSelect=="Novità")
+                    {
+                        CATEGORY = "now_playing";
+                        webService = WebService.getInstance();
+                        internet();
                     }
                 }
             });
@@ -213,22 +221,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             alertDialog = builder.create();
             alertDialog.show();
 
-        }/* else if (id == R.id.listaFilmPiuVotati) {
-            Bundle vBundle = new Bundle();
-            Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);
-            vBundle.putString(categoriaSelezionata, "filmvotati");
-            vIntent.putExtras(vBundle);
-            startActivity(vIntent);
-        } else if (id == R.id.filmInUscita) {
-            Bundle vBundle = new Bundle();
-            Intent vIntent = new Intent(MainActivity.this, ActivityCategoria.class);
-            vBundle.putString(categoriaSelezionata, "prossimifilm");
-            vIntent.putExtras(vBundle);
-            startActivity(vIntent);
         }
-*/
-
-
         return super.onOptionsItemSelected(item);
     }
 
