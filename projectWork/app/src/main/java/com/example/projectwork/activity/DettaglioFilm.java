@@ -54,16 +54,10 @@ public class DettaglioFilm extends AppCompatActivity {
 
             idMovie = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
 
-            if (immagineDettaglio.equals(null) || immagineDettaglio.equals("") || (TextUtils.isEmpty(immagineDettaglio)))
-            {
-                Glide.with(DettaglioFilm.this)
-                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                        .into(imageViewDettaglio);
-            } else {
-                Glide.with(DettaglioFilm.this)
-                        .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
-                        .into(imageViewDettaglio);
-            }
+            Glide.with(DettaglioFilm.this)
+                    .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                    .into(imageViewDettaglio);
+
 
             txtTitolo.setText(titolo);
             if(descrizione!="")
