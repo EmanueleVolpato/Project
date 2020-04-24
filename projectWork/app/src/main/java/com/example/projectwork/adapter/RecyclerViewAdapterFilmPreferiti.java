@@ -103,7 +103,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
 
-                //context.getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferitiProvider.FILMS_URI)), FilmPreferitiTableHelper.ID_MOVIE + "=" + id, null);
 
                 return false;
             }
