@@ -66,6 +66,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             CATEGORY = "popular";
             webService = WebService.getInstance();
             internetMovies = new ArrayList<>();
+
+            adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
+            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+            recyclerView.setAdapter(adapter);
+
             internet();
         } else {
             noInternet();
@@ -97,19 +102,26 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             @Override
             public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
                 if (success) {
-                    internetMovies.addAll(movies);
-                    int orientation = getResources().getConfiguration().orientation;
+                    /*int orientation = getResources().getConfiguration().orientation;
                     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
                         // adapter.setListMovies(movies);
                         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
                         recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+                        adapter.setMovies(movies);
+                        adapter.notifyDataSetChanged();
                     } else {
                         adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
                         //  adapter.setListMovies(movies);
                         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
                         recyclerView.setAdapter(adapter);
-                    }
+                        adapter.notifyDataSetChanged();
+                    }*/
+                    internetMovies.addAll(movies);
+                    adapter.setMovies(internetMovies);
+                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
                 }
@@ -137,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             }
 
             int orientation = getResources().getConfiguration().orientation;
-
 
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);

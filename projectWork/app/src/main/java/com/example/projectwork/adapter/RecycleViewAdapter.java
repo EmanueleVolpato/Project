@@ -40,6 +40,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         mDataSearch = new ArrayList<>(mData);
     }
 
+    public void setMovies(List<MovieResults.ResultsBean> mData){
+        this.mData = mData;
+    }
+
+    public void resetMovies(){
+        this.mData.clear();
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
