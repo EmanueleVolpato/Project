@@ -39,17 +39,9 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
             Toast.makeText(DettaglioFilmPreferiti.this,idMovie+"",Toast.LENGTH_LONG).show();
 
 
-            if (immagineDettaglio.equals(null) || immagineDettaglio.equals("") || (TextUtils.isEmpty(immagineDettaglio)))
-            {
-                Glide.with(DettaglioFilmPreferiti.this)
-                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                        .into(imageViewDettaglio);
-            } else {
-                Glide.with(DettaglioFilmPreferiti.this)
-                        .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
-                        .into(imageViewDettaglio);
-            }
-
+            Glide.with(DettaglioFilmPreferiti.this)
+                    .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                    .into(imageViewDettaglio);
 
             txtTitolo.setText(titolo);
             txtDecrizione.setText(descrizione);

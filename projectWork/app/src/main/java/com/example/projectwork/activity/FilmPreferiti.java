@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.projectwork.R;
 import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
@@ -34,20 +35,31 @@ public class FilmPreferiti extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_preferiti);
         getSupportActionBar().setTitle("PREFERRED MOVIES");
+
         recyclerView = findViewById(R.id.recyclerViewFilmPreferiti);
+
         caricaPreferiti();
     }
 
-
-
     private void caricaPreferiti() {
         preferredMovie = new ArrayList<>();
-        Cursor movies = FilmPreferiti.this.getContentResolver().query(FilmPreferitiProvider.FILMS_URI, null, null, null, null);
+        Cursor movies = FilmPreferiti.this.getContentResolver().query(
+                FilmPreferitiProvider.FILMS_URI,
+                null,
+                null,
+                null,
+                null);
+
         if (movies != null) {
             while (movies.moveToNext()) {
                 MovieResults.ResultsBean movie = new MovieResults.ResultsBean();
 
-                movie.setId(movies.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE));
+                Toast.makeText(FilmPreferiti.this, movies.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE) + " "
+                        + movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.TITOLO)) , Toast.LENGTH_SHORT).show();
+
+
+                String id = movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE));
+                movie.setId(Integer.parseInt(id));
                 movie.setTitle(movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.TITOLO)));
                 movie.setOverview(movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.DESCRIZIONE)));
                 movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.IMG_PRINCIPALE)));
@@ -63,10 +75,8 @@ public class FilmPreferiti extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_BACK))
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             finish();
         }
         return super.onKeyDown(keyCode, event);
@@ -77,7 +87,7 @@ public class FilmPreferiti extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu2, menu);
         MenuItem search = menu.findItem(R.id.app_bar_search_preferred);
-        SearchView searchView = (SearchView)search.getActionView();
+        SearchView searchView = (SearchView) search.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -94,7 +104,4 @@ public class FilmPreferiti extends AppCompatActivity {
 
         return true;
     }
-
-
-
 }
