@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.example.projectwork.R;
 import com.example.projectwork.adapter.RecycleViewAdapter;
 import com.example.projectwork.localDatabase.FilmDB;
+import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.IWebService;
@@ -108,7 +109,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             while (movies.moveToNext()) {
                 MovieResults.ResultsBean movie = new MovieResults.ResultsBean();
 
-                movie.setId(movies.getColumnIndex(FilmTableHelper.ID_MOVIE));
+                String id = movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE));
+                movie.setId(Integer.parseInt(id));
                 movie.setTitle(movies.getString(movies.getColumnIndex(FilmTableHelper.TITOLO)));
                 //movie.setReleaseDate(movies.getString(movies.getColumnIndex(FilmTableHelper.DATA)));
                 movie.setOverview(movies.getString(movies.getColumnIndex(FilmTableHelper.DESCRIZIONE)));
