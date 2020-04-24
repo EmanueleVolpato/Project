@@ -1,6 +1,8 @@
 package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,12 +16,15 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.example.projectwork.R;
@@ -59,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("MOVIES");
-
+        
         recyclerView = findViewById(R.id.recyclerviewFilm);
 
         int orientation = getResources().getConfiguration().orientation;

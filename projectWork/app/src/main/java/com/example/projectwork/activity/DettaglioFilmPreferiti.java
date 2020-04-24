@@ -33,10 +33,8 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
             final String titolo = getIntent().getExtras().getString(FilmPreferitiTableHelper.TITOLO);
             final String descrizione = getIntent().getExtras().getString(FilmPreferitiTableHelper.DESCRIZIONE);
             final String immagineDettaglio = getIntent().getExtras().getString(FilmPreferitiTableHelper.IMG_DETTAGLIO);
-            final String immaginePrincipale = getIntent().getExtras().getString(FilmPreferitiTableHelper.IMG_PRINCIPALE);
             idMovie = getIntent().getExtras().getString(FilmPreferitiTableHelper.ID_MOVIE);
 
-            Toast.makeText(DettaglioFilmPreferiti.this,idMovie+"",Toast.LENGTH_LONG).show();
 
 
             Glide.with(DettaglioFilmPreferiti.this)
