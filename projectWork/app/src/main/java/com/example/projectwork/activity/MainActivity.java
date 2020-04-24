@@ -62,13 +62,19 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
         recyclerView = findViewById(R.id.recyclerviewFilm);
 
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        }
+
         if (controlloConnessione()) {
             CATEGORY = "popular";
             webService = WebService.getInstance();
-            internetMovies = new ArrayList<>();
 
+            internetMovies = new ArrayList<>();
             adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
             recyclerView.setAdapter(adapter);
 
             internet();
@@ -102,23 +108,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             @Override
             public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
                 if (success) {
-                    /*int orientation = getResources().getConfiguration().orientation;
-                    if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
-                        // adapter.setListMovies(movies);
-                        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-
-                        adapter.setMovies(movies);
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
-                        //  adapter.setListMovies(movies);
-                        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    }*/
                     internetMovies.addAll(movies);
                     adapter.setMovies(internetMovies);
                     adapter.notifyDataSetChanged();
@@ -136,31 +125,17 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         if (movies != null) {
             while (movies.moveToNext()) {
                 MovieResults.ResultsBean movie = new MovieResults.ResultsBean();
-
                 String id = movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE));
                 movie.setId(Integer.parseInt(id));
                 movie.setTitle(movies.getString(movies.getColumnIndex(FilmTableHelper.TITOLO)));
-                //movie.setReleaseDate(movies.getString(movies.getColumnIndex(FilmTableHelper.DATA)));
                 movie.setOverview(movies.getString(movies.getColumnIndex(FilmTableHelper.DESCRIZIONE)));
                 movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmTableHelper.IMG_PRINCIPALE)));
                 movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmTableHelper.IMG_DETTAGLIO)));
-
                 cachedMovies.add(movie);
             }
-
-            int orientation = getResources().getConfiguration().orientation;
-
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
-                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            } else {
-                adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
-                recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
+            adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 
