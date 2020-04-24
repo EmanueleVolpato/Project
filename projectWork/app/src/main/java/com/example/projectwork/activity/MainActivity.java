@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -45,11 +46,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     RecyclerView recyclerView;
     RecycleViewAdapter adapter;
 
+    LinearLayoutManager layoutManager;
 
     AlertDialog alertDialog;
     AlertDialog.Builder builder;
-    String[] categorie ={"Novità","Prossime Uscite","Più votati","Popolari"};
-    String categoriaSelect="";
+    String[] categorie = {"Novità", "Prossime Uscite", "Più votati", "Popolari"};
+    String categoriaSelect = "";
 
 
     @Override
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         getSupportActionBar().setTitle("MOVIES");
 
         recyclerView = findViewById(R.id.recyclerviewFilm);
+        new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
         if (controlloConnessione()) {
             CATEGORY = "popular";
@@ -67,6 +71,29 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         } else {
             noInternet();
         }
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy < 0) {
+                    //Toast.makeText(MainActivity.this, "su", Toast.LENGTH_SHORT).show();
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        if (PAGE > 1) {
+                            PAGE--;
+                            webService = WebService.getInstance();
+                            internet();
+                        }
+                    }
+                } else if (dy > 0) {
+                    // Toast.makeText(MainActivity.this, "giu", Toast.LENGTH_SHORT).show();
+                    if (!recyclerView.canScrollVertically(1)) {
+                        PAGE++;
+                        webService = WebService.getInstance();
+                        internet();
+                    }
+                }
+            }
+        });
     }
 
     private boolean controlloConnessione() {
@@ -82,18 +109,16 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             @Override
             public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
                 if (success) {
-
                     int orientation = getResources().getConfiguration().orientation;
                     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         adapter = new RecycleViewAdapter(MainActivity.this, movies);
                         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
-                        recyclerView.setAdapter(adapter);                    }
-                    else {
+                        recyclerView.setAdapter(adapter);
+                    } else {
                         adapter = new RecycleViewAdapter(MainActivity.this, movies);
                         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-                        recyclerView.setAdapter(adapter);                    }
-
-
+                        recyclerView.setAdapter(adapter);
+                    }
                 } else {
                     Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
                 }
@@ -128,8 +153,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-            }
-            else {
+            } else {
                 adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
                 recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
                 recyclerView.setAdapter(adapter);
@@ -154,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menucommons, menu);
         MenuItem search = menu.findItem(R.id.searchBar);
-        SearchView searchView = (SearchView)search.getActionView();
+        SearchView searchView = (SearchView) search.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -192,23 +216,19 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(categoriaSelect=="Popolari")
-                    {
+                    if (categoriaSelect == "Popolari") {
                         CATEGORY = "popular";
                         webService = WebService.getInstance();
                         internet();
-                    }else if(categoriaSelect=="Più votati")
-                    {
+                    } else if (categoriaSelect == "Più votati") {
                         CATEGORY = "top_rated";
                         webService = WebService.getInstance();
                         internet();
-                    }else if(categoriaSelect=="Prossime Uscite")
-                    {
+                    } else if (categoriaSelect == "Prossime Uscite") {
                         CATEGORY = "upcoming";
                         webService = WebService.getInstance();
                         internet();
-                    }else if(categoriaSelect=="Novità")
-                    {
+                    } else if (categoriaSelect == "Novità") {
                         CATEGORY = "now_playing";
                         webService = WebService.getInstance();
                         internet();
