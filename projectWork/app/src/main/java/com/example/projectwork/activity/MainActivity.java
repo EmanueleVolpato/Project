@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     RecycleViewAdapter adapter;
 
 
+
+
     AlertDialog alertDialog;
     AlertDialog.Builder builder;
     String[] categorie ={"Novità","Prossime Uscite","Più votati","Popolari"};
@@ -67,6 +69,19 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         } else {
             noInternet();
         }
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    PAGE++;
+                    Toast.makeText(MainActivity.this, "last", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private boolean controlloConnessione() {
