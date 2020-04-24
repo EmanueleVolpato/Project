@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
 
                 } else {
-                    Toast.makeText(MainActivity.this, "Qualcosa è andato storto " + errorMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -119,8 +119,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 cachedMovies.add(movie);
             }
 
-
-
             int orientation = getResources().getConfiguration().orientation;
 
 
@@ -142,12 +140,13 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     @Override
     protected void onResume() {
         super.onResume();
-        if (controlloConnessione()) {
+        /*if (controlloConnessione()) {
             webService = WebService.getInstance();
             internet();
         } else {
             noInternet();
         }
+         */
     }
 
     @Override

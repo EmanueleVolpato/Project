@@ -1,6 +1,7 @@
 package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,7 @@ public class FilmPreferiti extends AppCompatActivity {
     List<MovieResults.ResultsBean> preferredMovie;
     RecyclerView recyclerView;
     RecyclerViewAdapterFilmPreferiti adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +75,8 @@ public class FilmPreferiti extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menucommons, menu);
-        MenuItem search = menu.findItem(R.id.searchBar);
+        getMenuInflater().inflate(R.menu.menu2, menu);
+        MenuItem search = menu.findItem(R.id.app_bar_search_preferred);
         SearchView searchView = (SearchView)search.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -92,5 +94,7 @@ public class FilmPreferiti extends AppCompatActivity {
 
         return true;
     }
+
+
 
 }
