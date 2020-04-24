@@ -34,7 +34,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private List<MovieResults.ResultsBean> mData;
     private List<MovieResults.ResultsBean> mDataSearch;
 
-    public RecycleViewAdapter(Context context, List<MovieResults.ResultsBean> mData) {
+    public RecycleViewAdapter(Context context,  List<MovieResults.ResultsBean> mData) {
         this.context = context;
         this.mData = mData;
         mDataSearch = new ArrayList<>(mData);

@@ -42,17 +42,17 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     private String LANGUAGE = "it";
     private int PAGE = 1;
     private WebService webService;
+
     List<MovieResults.ResultsBean> cachedMovies;
+    List<MovieResults.ResultsBean> internetMovies;
+
     RecyclerView recyclerView;
     RecycleViewAdapter adapter;
-
-    LinearLayoutManager layoutManager;
 
     AlertDialog alertDialog;
     AlertDialog.Builder builder;
     String[] categorie = {"Novità", "Prossime Uscite", "Più votati", "Popolari"};
     String categoriaSelect = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +61,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         getSupportActionBar().setTitle("MOVIES");
 
         recyclerView = findViewById(R.id.recyclerviewFilm);
-        new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
 
         if (controlloConnessione()) {
             CATEGORY = "popular";
             webService = WebService.getInstance();
+            internetMovies = new ArrayList<>();
             internet();
         } else {
             noInternet();
@@ -74,23 +73,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0) {
-                    //Toast.makeText(MainActivity.this, "su", Toast.LENGTH_SHORT).show();
-                    if (!recyclerView.canScrollVertically(-1)) {
-                        if (PAGE > 1) {
-                            PAGE--;
-                            webService = WebService.getInstance();
-                            internet();
-                        }
-                    }
-                } else if (dy > 0) {
-                    // Toast.makeText(MainActivity.this, "giu", Toast.LENGTH_SHORT).show();
-                    if (!recyclerView.canScrollVertically(1)) {
-                        PAGE++;
-                        webService = WebService.getInstance();
-                        internet();
-                    }
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(1)) {
+                    PAGE++;
+                    webService = WebService.getInstance();
+                    internet();
                 }
             }
         });
@@ -109,13 +97,16 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             @Override
             public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
                 if (success) {
+                    internetMovies.addAll(movies);
                     int orientation = getResources().getConfiguration().orientation;
                     if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        adapter = new RecycleViewAdapter(MainActivity.this, movies);
+                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
+                        // adapter.setListMovies(movies);
                         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
                         recyclerView.setAdapter(adapter);
                     } else {
-                        adapter = new RecycleViewAdapter(MainActivity.this, movies);
+                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
+                        //  adapter.setListMovies(movies);
                         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
                         recyclerView.setAdapter(adapter);
                     }
