@@ -37,11 +37,11 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public RecycleViewAdapter(Context context,  List<MovieResults.ResultsBean> mData) {
         this.context = context;
         this.mData = mData;
-        mDataSearch = new ArrayList<>(mData);
     }
 
     public void setMovies(List<MovieResults.ResultsBean> mData){
         this.mData = mData;
+        mDataSearch = new ArrayList<>(mData);
     }
 
     @NonNull
@@ -75,7 +75,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 Intent intent = new Intent(context, DettaglioFilm.class);
                 Bundle bundle = new Bundle();
                 int id = mData.get(position).getId();
-                Toast.makeText(context, id +"", Toast.LENGTH_SHORT).show();
                 bundle.putString(FilmTableHelper.ID_MOVIE, Integer.toString(id));
                 bundle.putString(FilmTableHelper.TITOLO, mData.get(position).getTitle());
                 bundle.putString(FilmTableHelper.DESCRIZIONE, mData.get(position).getOverview());

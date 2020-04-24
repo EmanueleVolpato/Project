@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         } else {
             noInternet();
         }
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -142,13 +141,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     @Override
     protected void onResume() {
         super.onResume();
-        /*if (controlloConnessione()) {
-            webService = WebService.getInstance();
-            internet();
-        } else {
-            noInternet();
-        }
-         */
     }
 
     @Override
@@ -196,18 +188,34 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                     if (categoriaSelect == "Popolari") {
                         CATEGORY = "popular";
                         webService = WebService.getInstance();
+                        internetMovies = new ArrayList<>();
+                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
+                        recyclerView.setAdapter(adapter);
+
                         internet();
                     } else if (categoriaSelect == "Più votati") {
                         CATEGORY = "top_rated";
                         webService = WebService.getInstance();
+                        internetMovies = new ArrayList<>();
+                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
+                        recyclerView.setAdapter(adapter);
+
                         internet();
                     } else if (categoriaSelect == "Prossime Uscite") {
                         CATEGORY = "upcoming";
                         webService = WebService.getInstance();
+                        internetMovies = new ArrayList<>();
+                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
+                        recyclerView.setAdapter(adapter);
+
                         internet();
                     } else if (categoriaSelect == "Novità") {
                         CATEGORY = "now_playing";
                         webService = WebService.getInstance();
+                        internetMovies = new ArrayList<>();
+                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
+                        recyclerView.setAdapter(adapter);
+
                         internet();
                     }
                 }

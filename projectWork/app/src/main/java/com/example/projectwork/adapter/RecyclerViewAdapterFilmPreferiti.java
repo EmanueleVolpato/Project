@@ -73,7 +73,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                 Bundle bundle = new Bundle();
                 int id = mData.get(position).getId();
                 bundle.putString(FilmPreferitiTableHelper.ID_MOVIE, Integer.toString(id));
-                Toast.makeText(context, id +"", Toast.LENGTH_SHORT).show();
                 bundle.putString(FilmPreferitiTableHelper.TITOLO, mData.get(position).getTitle());
                 bundle.putString(FilmPreferitiTableHelper.DESCRIZIONE, mData.get(position).getOverview());
                 bundle.putString(FilmPreferitiTableHelper.IMG_PRINCIPALE, mData.get(position).getPosterPath());
@@ -87,8 +86,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
             @Override
             public boolean onLongClick(View v) {
                 final int idMovie = mData.get(position).getId();
-              //  Toast.makeText(context, id2 +"", Toast.LENGTH_SHORT).show();
-
                 new AlertDialog.Builder(context)
                         .setTitle("ATTENZIONE!!")
                         .setMessage("Togliere il film dai preferiti?")
