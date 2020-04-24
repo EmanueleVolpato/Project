@@ -41,7 +41,7 @@ public class FilmPreferiti extends AppCompatActivity {
         caricaPreferiti();
     }
 
-    private void caricaPreferiti() {
+    public void caricaPreferiti() {
         preferredMovie = new ArrayList<>();
         Cursor movies = FilmPreferiti.this.getContentResolver().query(
                 FilmPreferitiProvider.FILMS_URI,

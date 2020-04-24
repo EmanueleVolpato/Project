@@ -1,6 +1,7 @@
 package com.example.projectwork.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,11 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
+import com.example.projectwork.activity.DettaglioFilm;
 import com.example.projectwork.activity.DettaglioFilmPreferiti;
 import com.example.projectwork.localDatabase.FilmPreferitiProvider;
 import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
@@ -80,14 +83,25 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
             }
         });
 
-
-
-
         card.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                int id2 = mData.get(position).getId();
-                Toast.makeText(context, id2 +"", Toast.LENGTH_SHORT).show();
+                final int idMovie = mData.get(position).getId();
+              //  Toast.makeText(context, id2 +"", Toast.LENGTH_SHORT).show();
+
+                new AlertDialog.Builder(context)
+                        .setTitle("ATTENZIONE!!")
+                        .setMessage("Togliere il film dai preferiti?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                context.getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferitiProvider.FILMS_URI)), FilmPreferitiTableHelper.ID_MOVIE + "=" + idMovie, null);
+                                mData.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
 
                 //context.getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferitiProvider.FILMS_URI)), FilmPreferitiTableHelper.ID_MOVIE + "=" + id, null);
 
