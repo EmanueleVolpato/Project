@@ -27,6 +27,7 @@ import com.example.projectwork.activity.DettaglioFilm;
 import com.example.projectwork.activity.DettaglioFilmPreferiti;
 import com.example.projectwork.localDatabase.FilmPreferitiProvider;
 import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
+import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.MovieResults;
 
 import java.util.ArrayList;
@@ -37,7 +38,11 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
     private Context context;
     private List<MovieResults.ResultsBean> mData;
     private List<MovieResults.ResultsBean> mDataSearch;
-    
+
+    Dialog myDialog;
+    Button btnOk,btnCancel;
+
+
     public RecyclerViewAdapterFilmPreferiti(Context context, List<MovieResults.ResultsBean> mData) {
         this.context = context;
         this.mData = mData;
@@ -60,6 +65,8 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
         final ImageView img = holder.cellView.findViewById(R.id.imageFilm);
         final TextView txt = holder.cellView.findViewById(R.id.titoloFilm);
         final CardView card = holder.cellView.findViewById(R.id.cardViewId);
+        myDialog = new Dialog(context);
+
 
         txt.setText(mData.get(position).getTitle());
 
@@ -86,7 +93,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
         card.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                final int idMovie = mData.get(position).getId();
+               /* final int idMovie = mData.get(position).getId();
                 new AlertDialog.Builder(context)
                         .setTitle("ATTENZIONE!!")
                         .setMessage("Togliere il film dai preferiti?")
@@ -100,6 +107,49 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
+*/
+
+
+
+
+                myDialog.setContentView(R.layout.dialog);
+                btnCancel = myDialog.findViewById(R.id.buttoncancel);
+                btnOk = myDialog.findViewById(R.id.buttonok);
+                ImageView imageViewCancel;
+                imageViewCancel = myDialog.findViewById(R.id.imageViewfilm);
+                TextView textViewtitoloo;
+                textViewtitoloo = myDialog.findViewById(R.id.textViewtitolo);
+
+
+                String titolo = mData.get(position).getTitle();
+                String immagineDettaglio = mData.get(position).getBackdropPath();
+                final int idMovie = mData.get(position).getId();
+
+
+                textViewtitoloo.setText("Vuoi togliere "+titolo +" dai preferiti?");
+                Glide.with(context)
+                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                        .into(imageViewCancel);
+
+
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialog.dismiss();
+                    }
+                });
+
+                btnOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        context.getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferitiProvider.FILMS_URI)), FilmPreferitiTableHelper.ID_MOVIE + "=" + idMovie, null);
+                        mData.remove(position);
+                        notifyDataSetChanged();
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.show();
+
 
                 return false;
             }
