@@ -1,5 +1,6 @@
 package com.example.projectwork.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -35,6 +37,8 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
     private Context context;
     private List<MovieResults.ResultsBean> mData;
     private List<MovieResults.ResultsBean> mDataSearch;
+    Dialog myDialog;
+    Button btnOk,btnCancel;
 
 
     public RecyclerViewAdapterFilmPreferiti(Context context, List<MovieResults.ResultsBean> mData) {
@@ -100,7 +104,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
 
-
                 return false;
             }
         });
@@ -145,7 +148,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
             results.values = filtroList;
             return results;
         }
-
 
 
         @Override

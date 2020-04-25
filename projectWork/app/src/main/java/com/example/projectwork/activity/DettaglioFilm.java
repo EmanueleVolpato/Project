@@ -3,9 +3,12 @@ package com.example.projectwork.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.UserDictionary;
@@ -13,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +37,10 @@ public class DettaglioFilm extends AppCompatActivity {
     ImageView imageViewDettaglio, imgStella;
     Cursor mCursor;
     String idMovie;
+    Dialog myDialog;
+    String immagineDettaglio;
+    String titolo;
+    Button btnOk,btnCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +51,17 @@ public class DettaglioFilm extends AppCompatActivity {
         txtTitolo = findViewById(R.id.titoloFilmDettaglio);
         txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);
         imageViewDettaglio = findViewById(R.id.imageViewDettaglio);
+
         imgStella = findViewById(R.id.stella);
+        myDialog = new Dialog(this);
+
+
 
         if (getIntent().getExtras() != null)
         {
-            final String titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
+             titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
             final String descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
-            final String immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
+            immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
             final String immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
 
             idMovie = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
@@ -101,7 +113,7 @@ public class DettaglioFilm extends AppCompatActivity {
 
 
                     if (idDB != null) {
-                        new AlertDialog.Builder(DettaglioFilm.this)
+                       /* new AlertDialog.Builder(DettaglioFilm.this)
                                 .setTitle("ATTENZIONE!!")
                                 .setMessage("Togliere il film dai preferiti?")
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -115,7 +127,8 @@ public class DettaglioFilm extends AppCompatActivity {
                                 .setNegativeButton(android.R.string.no, null)
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
-
+                                */
+                        ShowPopup(v);
                     } else {
                         imgStella.setImageResource(R.drawable.star_piena);
 
@@ -144,4 +157,38 @@ public class DettaglioFilm extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+
+    public void ShowPopup(View v){
+        myDialog.setContentView(R.layout.dialog);
+        btnCancel = myDialog.findViewById(R.id.buttoncancel);
+        btnOk = myDialog.findViewById(R.id.buttonok);
+        ImageView imageViewCancel;
+        imageViewCancel = myDialog.findViewById(R.id.imageViewfilm);
+        TextView textViewtitoloo;
+        textViewtitoloo = myDialog.findViewById(R.id.textViewtitolo);
+
+        textViewtitoloo.setText("Vuoi togliere "+titolo +" dai preferiti?");
+        Glide.with(DettaglioFilm.this)
+                .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                .into(imageViewCancel);
+
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferitiProvider.FILMS_URI)), FilmPreferitiTableHelper.ID_MOVIE + "=" + idMovie, null);
+                imgStella.setImageResource(R.drawable.star);
+                myDialog.dismiss();
+            }
+        });
+        //myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
 }
