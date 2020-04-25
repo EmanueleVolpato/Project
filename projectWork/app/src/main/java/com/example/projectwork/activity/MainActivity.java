@@ -97,6 +97,10 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 }
             }
         });
+
+
+
+
     }
 
     private boolean controlloConnessione() {

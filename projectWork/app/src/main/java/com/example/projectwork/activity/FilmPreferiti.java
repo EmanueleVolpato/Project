@@ -55,11 +55,6 @@ public class FilmPreferiti extends AppCompatActivity {
         if (movies != null) {
             while (movies.moveToNext()) {
                 MovieResults.ResultsBean movie = new MovieResults.ResultsBean();
-
-                Toast.makeText(FilmPreferiti.this, movies.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE) + " "
-                        + movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.TITOLO)) , Toast.LENGTH_SHORT).show();
-
-
                 String id = movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE));
                 movie.setId(Integer.parseInt(id));
                 movie.setTitle(movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.TITOLO)));
