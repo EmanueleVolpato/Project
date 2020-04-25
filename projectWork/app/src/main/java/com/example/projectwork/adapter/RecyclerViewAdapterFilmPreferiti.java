@@ -37,10 +37,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
     private Context context;
     private List<MovieResults.ResultsBean> mData;
     private List<MovieResults.ResultsBean> mDataSearch;
-    Dialog myDialog;
-    Button btnOk,btnCancel;
-
-
+    
     public RecyclerViewAdapterFilmPreferiti(Context context, List<MovieResults.ResultsBean> mData) {
         this.context = context;
         this.mData = mData;
