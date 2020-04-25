@@ -10,10 +10,16 @@ public interface ApiInterface {
     //https://api.themoviedb.org/3/movie/popular?api_key=e6de0d8da508a9809d74351ed62affef&language=en-US&page=1
 
     @GET("/3/movie/{category}")
-    Call<MovieResults> listOfMovies(
+    Call<FilmResults> listOfFilm(
             @Path("category") String category,
             @Query("api_key") String apiKey,
             @Query("language") String language,
             @Query("page") int page
     );
+
+    @GET("3/search/movie?")
+    Call<FilmResults> searchFilm(
+            @Query("api_key") String apiKey,
+            @Query("language") String language,
+            @Query("query") String query);
 }

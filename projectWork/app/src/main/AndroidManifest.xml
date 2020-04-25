@@ -42,8 +42,8 @@
             android:authorities="com.example.projectwork.localDatabase.FilmProvider" />
 
         <provider
-            android:name=".localDatabase.FilmPreferitiProvider"
-            android:authorities="com.example.projectwork.localDatabase.FilmPreferitiProvider" />
+            android:name=".localDatabase.FilmPreferredProvider"
+            android:authorities="com.example.projectwork.localDatabase.FilmPreferredProvider" />
     </application>
 
 </manifest>

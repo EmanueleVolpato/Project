@@ -1,12 +1,9 @@
 package com.example.projectwork.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,21 +11,19 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.projectwork.R;
-import com.example.projectwork.adapter.RecycleViewAdapter;
 import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
-import com.example.projectwork.localDatabase.FilmPreferitiProvider;
-import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
-import com.example.projectwork.services.MovieResults;
+import com.example.projectwork.localDatabase.FilmPreferredProvider;
+import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
+import com.example.projectwork.services.FilmResults;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FilmPreferiti extends AppCompatActivity {
 
-    List<MovieResults.ResultsBean> preferredMovie;
+    List<FilmResults.Data> preferredFilm;
     RecyclerView recyclerView;
     RecyclerViewAdapterFilmPreferiti adapter;
 
@@ -36,17 +31,23 @@ public class FilmPreferiti extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_preferiti);
-        getSupportActionBar().setTitle("PREFERRED MOVIES");
+        getSupportActionBar().setTitle("PREFERRED FILM");
 
         recyclerView = findViewById(R.id.recyclerViewFilmPreferiti);
+
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+            recyclerView.setLayoutManager(new GridLayoutManager(FilmPreferiti.this, 4));
+        else
+            recyclerView.setLayoutManager(new GridLayoutManager(FilmPreferiti.this, 2));
 
         caricaPreferiti();
     }
 
     public void caricaPreferiti() {
-        preferredMovie = new ArrayList<>();
+        preferredFilm = new ArrayList<>();
         Cursor movies = FilmPreferiti.this.getContentResolver().query(
-                FilmPreferitiProvider.FILMS_URI,
+                FilmPreferredProvider.FILMS_URI,
                 null,
                 null,
                 null,
@@ -54,29 +55,19 @@ public class FilmPreferiti extends AppCompatActivity {
 
         if (movies != null) {
             while (movies.moveToNext()) {
-                MovieResults.ResultsBean movie = new MovieResults.ResultsBean();
-                String id = movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE));
+                FilmResults.Data movie = new FilmResults.Data();
+                String id = movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.ID_MOVIE));
                 movie.setId(Integer.parseInt(id));
-                movie.setTitle(movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.TITOLO)));
-                movie.setOverview(movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.DESCRIZIONE)));
-                movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.IMG_PRINCIPALE)));
-                movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.IMG_DETTAGLIO)));
+                movie.setTitle(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.TITOLO)));
+                movie.setOverview(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.DESCRIZIONE)));
+                movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.IMG_PRINCIPALE)));
+                movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.IMG_DETTAGLIO)));
 
-                preferredMovie.add(movie);
+                preferredFilm.add(movie);
             }
-
-
-            int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                adapter = new RecyclerViewAdapterFilmPreferiti(FilmPreferiti.this, preferredMovie);
-                recyclerView.setLayoutManager(new GridLayoutManager(FilmPreferiti.this, 4));
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();                  }
-            else {
-                adapter = new RecyclerViewAdapterFilmPreferiti(FilmPreferiti.this, preferredMovie);
-                recyclerView.setLayoutManager(new GridLayoutManager(FilmPreferiti.this, 2));
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();                  }
+            adapter = new RecyclerViewAdapterFilmPreferiti(FilmPreferiti.this, preferredFilm);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -87,7 +78,6 @@ public class FilmPreferiti extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

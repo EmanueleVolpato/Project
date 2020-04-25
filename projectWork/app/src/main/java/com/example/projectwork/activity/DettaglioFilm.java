@@ -1,88 +1,72 @@
 package com.example.projectwork.activity;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.UserDictionary;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
-import com.example.projectwork.localDatabase.FilmPreferitiProvider;
-import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
-import com.example.projectwork.localDatabase.FilmProvider;
+import com.example.projectwork.localDatabase.FilmPreferredProvider;
+import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DettaglioFilm extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione;
-    ImageView imageViewDettaglio, imgStella;
+    ImageView imgDettaglio, imgStella;
     Cursor mCursor;
-    String idMovie;
+    String idFilm;
     Dialog myDialog;
     String immagineDettaglio;
     String titolo;
-    Button btnOk,btnCancel;
+    Button btnOk, btnCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
-        getSupportActionBar().setTitle("MOVIE DETAILS");
+        getSupportActionBar().setTitle("FILM DETAILS");
 
         txtTitolo = findViewById(R.id.titoloFilmDettaglio);
         txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);
-        imageViewDettaglio = findViewById(R.id.imageViewDettaglio);
+        imgDettaglio = findViewById(R.id.imageViewDettaglio);
 
         imgStella = findViewById(R.id.stella);
         myDialog = new Dialog(this);
 
-
-
-        if (getIntent().getExtras() != null)
-        {
-             titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
+        if (getIntent().getExtras() != null) {
+            titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
             final String descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
             immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
             final String immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
 
-            idMovie = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
+            idFilm = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
 
             Glide.with(DettaglioFilm.this)
                     .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                    .into(imageViewDettaglio);
-
+                    .into(imgDettaglio);
 
             txtTitolo.setText(titolo);
-            if(descrizione!="")
-            txtDecrizione.setText(descrizione);
+            if (descrizione != "")
+                txtDecrizione.setText(descrizione);
             else
                 txtDecrizione.setText("NESSUNA OVERVIEW DISPONIBILE");
 
-
-            String[] selectionArgs = {idMovie};
+            String[] selectionArgs = {idFilm};
             mCursor = DettaglioFilm.this.getContentResolver().query(
-                    FilmPreferitiProvider.FILMS_URI,
+                    FilmPreferredProvider.FILMS_URI,
                     null,
-                    FilmPreferitiTableHelper.ID_MOVIE + " = ?",
+                    FilmPreferredTableHelper.ID_MOVIE + " = ?",
                     selectionArgs,
                     null);
 
@@ -90,57 +74,38 @@ public class DettaglioFilm extends AppCompatActivity {
                 imgStella.setImageResource(R.drawable.star_piena);
             }
 
-
-
             imgStella.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    String[] selectionArgs = {idMovie};
+                    String[] selectionArgs = {idFilm};
 
                     mCursor = DettaglioFilm.this.getContentResolver().query(
-                            FilmPreferitiProvider.FILMS_URI,
+                            FilmPreferredProvider.FILMS_URI,
                             null,
-                            FilmPreferitiTableHelper.ID_MOVIE + " = ?",
+                            FilmPreferredTableHelper.ID_MOVIE + " = ?",
                             selectionArgs,
                             null);
 
-                    int index = mCursor.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE);
+                    int index = mCursor.getColumnIndex(FilmPreferredTableHelper.ID_MOVIE);
                     String idDB = null;
                     while (mCursor.moveToNext()) {
                         Log.d("AAA", mCursor.getString(index));
                         idDB = mCursor.getString(index);
                     }
 
-
-
                     if (idDB != null) {
-                       /* new AlertDialog.Builder(DettaglioFilm.this)
-                                .setTitle("ATTENZIONE!!")
-                                .setMessage("Togliere il film dai preferiti?")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferitiProvider.FILMS_URI)), FilmPreferitiTableHelper.ID_MOVIE + "=" + idMovie, null);
-                                        imgStella.setImageResource(R.drawable.star);
-
-                                    }
-                                })
-
-                                .setNegativeButton(android.R.string.no, null)
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                                */
                         ShowPopup(v);
                     } else {
                         imgStella.setImageResource(R.drawable.star_piena);
 
                         ContentValues contentValues = new ContentValues();
-                        contentValues.put(FilmPreferitiTableHelper.ID_MOVIE, idMovie);
-                        contentValues.put(FilmPreferitiTableHelper.TITOLO, titolo);
-                        contentValues.put(FilmPreferitiTableHelper.DESCRIZIONE, descrizione);
-                        contentValues.put(FilmPreferitiTableHelper.IMG_PRINCIPALE, immaginePrincipale);
-                        contentValues.put(FilmPreferitiTableHelper.IMG_DETTAGLIO, immagineDettaglio);
-                        DettaglioFilm.this.getContentResolver().insert(FilmPreferitiProvider.FILMS_URI, contentValues);
+                        contentValues.put(FilmPreferredTableHelper.ID_MOVIE, idFilm);
+                        contentValues.put(FilmPreferredTableHelper.TITOLO, titolo);
+                        contentValues.put(FilmPreferredTableHelper.DESCRIZIONE, descrizione);
+                        contentValues.put(FilmPreferredTableHelper.IMG_PRINCIPALE, immaginePrincipale);
+                        contentValues.put(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
+                        DettaglioFilm.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, contentValues);
 
-                        Log.d("AAAA", "Salvato film " + idMovie + titolo + descrizione + immagineDettaglio + immaginePrincipale);
+                        Log.d("AAAA", "Salvato film " + idFilm + titolo + descrizione + immagineDettaglio + immaginePrincipale);
                     }
                 }
             });
@@ -148,17 +113,14 @@ public class DettaglioFilm extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_BACK))
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             finish();
         }
         return super.onKeyDown(keyCode, event);
     }
 
-
-    public void ShowPopup(View v){
+    public void ShowPopup(View v) {
         myDialog.setContentView(R.layout.dialog);
         btnCancel = myDialog.findViewById(R.id.buttoncancel);
         btnOk = myDialog.findViewById(R.id.buttonok);
@@ -167,11 +129,10 @@ public class DettaglioFilm extends AppCompatActivity {
         TextView textViewtitoloo;
         textViewtitoloo = myDialog.findViewById(R.id.textViewtitolo);
 
-        textViewtitoloo.setText("Vuoi togliere "+titolo +" dai preferiti?");
+        textViewtitoloo.setText("Vuoi togliere " + titolo + " dai preferiti?");
         Glide.with(DettaglioFilm.this)
                 .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                 .into(imageViewCancel);
-
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,7 +144,7 @@ public class DettaglioFilm extends AppCompatActivity {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferitiProvider.FILMS_URI)), FilmPreferitiTableHelper.ID_MOVIE + "=" + idMovie, null);
+                getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferredProvider.FILMS_URI)), FilmPreferredTableHelper.ID_MOVIE + "=" + idFilm, null);
                 imgStella.setImageResource(R.drawable.star);
                 myDialog.dismiss();
             }

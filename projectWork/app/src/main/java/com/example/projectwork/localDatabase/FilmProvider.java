@@ -3,20 +3,16 @@ package com.example.projectwork.localDatabase;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class FilmProvider extends ContentProvider {
-
 
     public static final String AUTORITY = "com.example.projectwork.localDatabase.FilmProvider";
     public static final String BASE_PATH_FILMS = "films";
@@ -32,7 +28,6 @@ public class FilmProvider extends ContentProvider {
         mUriMatcher.addURI(AUTORITY, BASE_PATH_FILMS, ALL_FILM);
         mUriMatcher.addURI(AUTORITY, BASE_PATH_FILMS + "/#", SINGLE_FILM);
     }
-
 
     @Override
     public boolean onCreate() {

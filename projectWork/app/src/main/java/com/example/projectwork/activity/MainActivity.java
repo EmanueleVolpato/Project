@@ -1,40 +1,31 @@
 package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.SearchView;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.example.projectwork.R;
 import com.example.projectwork.adapter.RecycleViewAdapter;
-import com.example.projectwork.localDatabase.FilmDB;
-import com.example.projectwork.localDatabase.FilmPreferitiTableHelper;
+import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.IWebService;
-import com.example.projectwork.services.MovieResults;
+import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.WebService;
 
 import java.util.ArrayList;
@@ -48,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     private int PAGE = 1;
     private WebService webService;
 
-    List<MovieResults.ResultsBean> cachedMovies;
-    List<MovieResults.ResultsBean> internetMovies;
+    List<FilmResults.Data> noInternetFilm;
+    List<FilmResults.Data> internetFilm;
 
     RecyclerView recyclerView;
     RecycleViewAdapter adapter;
@@ -63,8 +54,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("MOVIES");
-        
+        getSupportActionBar().setTitle("FILM");
+
         recyclerView = findViewById(R.id.recyclerviewFilm);
 
         int orientation = getResources().getConfiguration().orientation;
@@ -78,29 +69,26 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             CATEGORY = "popular";
             webService = WebService.getInstance();
 
-            internetMovies = new ArrayList<>();
-            adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
+            internetFilm = new ArrayList<>();
+            adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
             recyclerView.setAdapter(adapter);
 
             internet();
+
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    if (!recyclerView.canScrollVertically(1)) {
+                        PAGE++;
+                        webService = WebService.getInstance();
+                        internet();
+                    }
+                }
+            });
         } else {
             noInternet();
         }
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(1)) {
-                    PAGE++;
-                    webService = WebService.getInstance();
-                    internet();
-                }
-            }
-        });
-
-
-
-
     }
 
     private boolean controlloConnessione() {
@@ -112,12 +100,29 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     }
 
     private void internet() {
-        webService.getMovies(CATEGORY, API_KEY, LANGUAGE, PAGE, MainActivity.this, new IWebService() {
+        webService.getFilms(CATEGORY, API_KEY, LANGUAGE, PAGE, MainActivity.this, new IWebService() {
             @Override
-            public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
+            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
                 if (success) {
-                    internetMovies.addAll(movies);
-                    adapter.setMovies(internetMovies);
+                    internetFilm.addAll(films);
+                    adapter.setFilms(internetFilm);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void searchFilms(String QUERY) {
+        webService.searchFilms(QUERY, API_KEY, LANGUAGE, MainActivity.this, new IWebService() {
+            @Override
+            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
+                if (success) {
+                    adapter.resetFilms();
+                    internetFilm.clear();
+                    internetFilm.addAll(films);
+                    adapter.setFilms(internetFilm);
                     adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
@@ -127,21 +132,21 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     }
 
     private void noInternet() {
-        cachedMovies = new ArrayList<>();
-        Cursor movies = MainActivity.this.getContentResolver().query(FilmProvider.FILMS_URI, null, null, null, null);
+        noInternetFilm = new ArrayList<>();
+        Cursor cFilms = MainActivity.this.getContentResolver().query(FilmProvider.FILMS_URI, null, null, null, null);
 
-        if (movies != null) {
-            while (movies.moveToNext()) {
-                MovieResults.ResultsBean movie = new MovieResults.ResultsBean();
-                String id = movies.getString(movies.getColumnIndex(FilmPreferitiTableHelper.ID_MOVIE));
-                movie.setId(Integer.parseInt(id));
-                movie.setTitle(movies.getString(movies.getColumnIndex(FilmTableHelper.TITOLO)));
-                movie.setOverview(movies.getString(movies.getColumnIndex(FilmTableHelper.DESCRIZIONE)));
-                movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmTableHelper.IMG_PRINCIPALE)));
-                movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmTableHelper.IMG_DETTAGLIO)));
-                cachedMovies.add(movie);
+        if (cFilms != null) {
+            while (cFilms.moveToNext()) {
+                FilmResults.Data film = new FilmResults.Data();
+                String id = cFilms.getString(cFilms.getColumnIndex(FilmPreferredTableHelper.ID_MOVIE));
+                film.setId(Integer.parseInt(id));
+                film.setTitle(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.TITOLO)));
+                film.setOverview(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.DESCRIZIONE)));
+                film.setPosterPath(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.IMG_PRINCIPALE)));
+                film.setBackdropPath(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.IMG_DETTAGLIO)));
+                noInternetFilm.add(film);
             }
-            adapter = new RecycleViewAdapter(MainActivity.this, cachedMovies);
+            adapter = new RecycleViewAdapter(MainActivity.this, noInternetFilm);
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
@@ -166,11 +171,19 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                //adapter.getFilter().filter(newText);
+                if (!newText.isEmpty()) {
+                    searchFilms(newText);
+                } else {
+                    PAGE = 1;
+                    CATEGORY = "popular";
+                    adapter.resetFilms();
+                    internetFilm.clear();
+                    internet();
+                }
                 return false;
             }
         });
-
         return true;
     }
 
@@ -179,7 +192,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         int id = item.getItemId();
         if (id == R.id.listaPreferiti) {
             startActivity(new Intent(this, FilmPreferiti.class));
-
         } else if (id == R.id.idCategorie) {
 
             builder = new AlertDialog.Builder(MainActivity.this);
@@ -195,36 +207,28 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (categoriaSelect == "Popolari") {
+                        PAGE = 1;
                         CATEGORY = "popular";
-                        webService = WebService.getInstance();
-                        internetMovies = new ArrayList<>();
-                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
-                        recyclerView.setAdapter(adapter);
-
+                        adapter.resetFilms();
+                        internetFilm.clear();
                         internet();
                     } else if (categoriaSelect == "Più votati") {
+                        PAGE = 1;
                         CATEGORY = "top_rated";
-                        webService = WebService.getInstance();
-                        internetMovies = new ArrayList<>();
-                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
-                        recyclerView.setAdapter(adapter);
-
+                        adapter.resetFilms();
+                        internetFilm.clear();
                         internet();
                     } else if (categoriaSelect == "Prossime Uscite") {
+                        PAGE = 1;
                         CATEGORY = "upcoming";
-                        webService = WebService.getInstance();
-                        internetMovies = new ArrayList<>();
-                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
-                        recyclerView.setAdapter(adapter);
-
+                        adapter.resetFilms();
+                        internetFilm.clear();
                         internet();
                     } else if (categoriaSelect == "Novità") {
+                        PAGE = 1;
                         CATEGORY = "now_playing";
-                        webService = WebService.getInstance();
-                        internetMovies = new ArrayList<>();
-                        adapter = new RecycleViewAdapter(MainActivity.this, internetMovies);
-                        recyclerView.setAdapter(adapter);
-
+                        adapter.resetFilms();
+                        internetFilm.clear();
                         internet();
                     }
                 }
@@ -234,16 +238,14 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 public void onClick(DialogInterface dialog, int which) {
                 }
             });
-
             alertDialog = builder.create();
             alertDialog.show();
-
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onFilmsFetched(boolean success, List<MovieResults.ResultsBean> movies, int errorCode, String errorMessage) {
+    public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
 
     }
 }

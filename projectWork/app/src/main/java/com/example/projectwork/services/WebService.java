@@ -1,6 +1,5 @@
 package com.example.projectwork.services;
 
-import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
@@ -9,16 +8,13 @@ import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.internal.EverythingIsNonNull;
 
 public class WebService {
 
@@ -32,7 +28,6 @@ public class WebService {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         apiInterface = retrofit.create(ApiInterface.class);
     }
 
@@ -42,21 +37,50 @@ public class WebService {
         return instance;
     }
 
-    public void getMovies(String category, String apiKey, String language, int page, final Context context, final IWebService iwebservice) {
+    public void searchFilms(String query, String apiKey, String language, final Context context, final IWebService iwebservice){
 
-        Call<MovieResults> filmsRequest = apiInterface.listOfMovies(category, apiKey, language, page);
+        Call<FilmResults> filmsRequest = apiInterface.searchFilm(apiKey, language, query);
 
-        filmsRequest.enqueue(new Callback<MovieResults>() {
+        filmsRequest.enqueue(new Callback<FilmResults>() {
             @Override
-            public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
+            public void onResponse(Call<FilmResults> call, Response<FilmResults> response) {
                 if (response.code() == 200) {
-                    MovieResults results = response.body();
-                    List<MovieResults.ResultsBean> listOfMovies = results.getResults();
+                    FilmResults results = response.body();
+                    List<FilmResults.Data> listOfMovies = results.getResults();
+                    iwebservice.onFilmsFetched(true, listOfMovies, -1, null);
+
+                } else {
+                    try {
+                        iwebservice.onFilmsFetched(true, null, response.code(), response.errorBody().string());
+                    } catch (IOException ex) {
+                        Log.e("WebService", ex.toString());
+                        iwebservice.onFilmsFetched(true, null, response.code(), "Generic error message");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FilmResults> call, Throwable t) {
+                iwebservice.onFilmsFetched(false, null, -1, t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void getFilms(String category, String apiKey, String language, int page, final Context context, final IWebService iwebservice) {
+
+        Call<FilmResults> filmsRequest = apiInterface.listOfFilm(category, apiKey, language, page);
+
+        filmsRequest.enqueue(new Callback<FilmResults>() {
+            @Override
+            public void onResponse(Call<FilmResults> call, Response<FilmResults> response) {
+                if (response.code() == 200) {
+                    FilmResults results = response.body();
+                    List<FilmResults.Data> listOfMovies = results.getResults();
                     iwebservice.onFilmsFetched(true, listOfMovies, -1, null);
 
                     context.getContentResolver().delete(FilmProvider.FILMS_URI, null, null);
 
-                    for (MovieResults.ResultsBean movie : listOfMovies) {
+                    for (FilmResults.Data movie : listOfMovies) {
                         ContentValues cv = new ContentValues();
                         cv.put(FilmTableHelper.ID_MOVIE, movie.getId());
                         cv.put(FilmTableHelper.TITOLO, movie.getTitle());
@@ -77,10 +101,9 @@ public class WebService {
             }
 
             @Override
-            public void onFailure(Call<MovieResults> call, Throwable t) {
+            public void onFailure(Call<FilmResults> call, Throwable t) {
                 iwebservice.onFilmsFetched(false, null, -1, t.getLocalizedMessage());
             }
-
         });
     }
 }

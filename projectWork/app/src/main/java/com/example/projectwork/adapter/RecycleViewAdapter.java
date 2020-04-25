@@ -2,8 +2,6 @@ package com.example.projectwork.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +10,12 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilm;
-import com.example.projectwork.localDatabase.FilmPreferitiProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
-import com.example.projectwork.services.MovieResults;
+import com.example.projectwork.services.FilmResults;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,20 +24,22 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> implements Filterable {
+public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> {
 
     private Context context;
-    private List<MovieResults.ResultsBean> mData;
-    private List<MovieResults.ResultsBean> mDataSearch;
+    private List<FilmResults.Data> mData;
 
-    public RecycleViewAdapter(Context context,  List<MovieResults.ResultsBean> mData) {
+    public RecycleViewAdapter(Context context,  List<FilmResults.Data> mData) {
         this.context = context;
         this.mData = mData;
     }
 
-    public void setMovies(List<MovieResults.ResultsBean> mData){
+    public void setFilms(List<FilmResults.Data> mData){
         this.mData = mData;
-        mDataSearch = new ArrayList<>(mData);
+    }
+
+    public void resetFilms(){
+        this.mData.clear();
     }
 
     @NonNull
@@ -100,42 +98,4 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             this.cellView = cellView;
         }
     }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
-    private Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<MovieResults.ResultsBean> filtroList = new ArrayList<>();
-            if(constraint == null || constraint.length()==0)
-            {
-                filtroList.addAll(mDataSearch);
-            }else
-            {
-                String filtroPattern = constraint.toString().toLowerCase().trim();
-
-                for(MovieResults.ResultsBean item :mDataSearch)
-                {
-                    if(item.getTitle().toLowerCase().contains(filtroPattern)) {
-                        filtroList.add(item);
-                    }
-                }
-            }
-            FilterResults results = new FilterResults();
-            results.values = filtroList;
-            return results;
-        }
-
-
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            mData.clear();
-            mData.addAll((List)results.values);
-            notifyDataSetChanged();
-        }
-    };
 }
