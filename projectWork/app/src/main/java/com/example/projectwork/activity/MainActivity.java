@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                     categoriaSelect = categorie[i];
                 }
             });
+
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

@@ -58,20 +58,25 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
         View view;
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.cardview_item_film,parent,false);
+
         return new RecycleViewAdapter.MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final RecycleViewAdapter.MyViewHolder holder, final int position) {
         final ImageView img = holder.cellView.findViewById(R.id.imageFilm);
-        final CardView card2 = holder.cellView.findViewById(R.id.cardViewId);
+        //final TextView txt = holder.cellView.findViewById(R.id.titoloFilm);
+        final CardView card = holder.cellView.findViewById(R.id.cardViewId);
         myDialog = new Dialog(context);
+
+
+        //txt.setText(mData.get(position).getTitle());
 
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getPosterPath())
                 .into(img);
 
-        card2.setOnClickListener(new View.OnClickListener() {
+        card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DettaglioFilmPreferiti.class);
@@ -87,7 +92,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
             }
         });
 
-        card2.setOnLongClickListener(new View.OnLongClickListener() {
+        card.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 myDialog.setContentView(R.layout.dialog);
