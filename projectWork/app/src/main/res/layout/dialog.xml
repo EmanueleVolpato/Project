@@ -21,44 +21,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
 
-    <TextView
-        android:id="@+id/textViewtitolo"
-        android:layout_width="179dp"
-        android:layout_height="73dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginLeft="176dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="176dp"
-        android:textColor="#ffff"
-        android:layout_marginRight="176dp"
-        android:layout_marginBottom="44dp"
-        android:gravity="center"
-        android:text="Vuoi togliere il film dai preferiti?"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/buttoncancel"
+    <LinearLayout
+        android:layout_width="413dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewfilm" />
-
-    <Button
-        android:id="@+id/buttoncancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginLeft="56dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/buttonstyle"
-        android:shadowColor="#C31717"
-        android:text="@android:string/cancel"
-        android:textColor="#ffff"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewtitolo" />
+        app:layout_constraintTop_toBottomOf="@+id/buttoncancel"></LinearLayout>
 
     <Button
         android:id="@+id/buttonok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
         android:background="@drawable/buttonstyle"
@@ -67,13 +43,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewtitolo" />
 
-    <LinearLayout
-        android:layout_width="413dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="13dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+    <Button
+        android:id="@+id/buttoncancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/buttonstyle"
+        android:shadowColor="#C31717"
+        android:text="@android:string/cancel"
+        android:textColor="#ffff"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttoncancel"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textViewtitolo" />
+
+    <TextView
+        android:id="@+id/textViewtitolo"
+        android:layout_width="179dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginLeft="176dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="176dp"
+        android:layout_marginRight="176dp"
+        android:layout_marginBottom="44dp"
+        android:gravity="center"
+        android:text="Vuoi togliere il film dai preferiti?"
+        android:textColor="#ffff"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buttoncancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewfilm" />
 </androidx.constraintlayout.widget.ConstraintLayout>

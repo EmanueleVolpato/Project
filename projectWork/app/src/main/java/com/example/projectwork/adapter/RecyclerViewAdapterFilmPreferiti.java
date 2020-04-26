@@ -58,19 +58,14 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
         View view;
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.cardview_item_film,parent,false);
-
         return new RecycleViewAdapter.MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final RecycleViewAdapter.MyViewHolder holder, final int position) {
         final ImageView img = holder.cellView.findViewById(R.id.imageFilm);
-       // final TextView txt = holder.cellView.findViewById(R.id.titoloFilm);
         final CardView card2 = holder.cellView.findViewById(R.id.cardViewId);
         myDialog = new Dialog(context);
-
-
-        //txt.setText(mData.get(position).getTitle());
 
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getPosterPath())
