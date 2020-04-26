@@ -119,7 +119,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 });
 
 
-                esc.setOnClickListener(new View.OnClickListener() {
+                vota.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                        Toast.makeText(context,"votato",Toast.LENGTH_SHORT).show();
