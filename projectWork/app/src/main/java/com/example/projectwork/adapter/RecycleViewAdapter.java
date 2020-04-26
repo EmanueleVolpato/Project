@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private List<FilmResults.Data> mData;
 
     Dialog myDialogLike;
-    Button btnEsc;
     ImageView imgLike;
 
     public RecycleViewAdapter(Context context,  List<FilmResults.Data> mData) {
@@ -96,13 +96,18 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             @Override
             public boolean onLongClick(View v) {
                 myDialogLike.setContentView(R.layout.like_dialog);
-                //btnEsc = myDialogLike.findViewById(R.id.buttonEsc);
                 imgLike = myDialogLike.findViewById(R.id.imageViewLike);
                 ImageView imageViewCopertina;
                 imageViewCopertina = myDialogLike.findViewById(R.id.imageViewfilmLike);
-
                 String immagineDettaglio = mData.get(position).getBackdropPath();
-                //final int idMovie = mData.get(position).getId();
+                RatingBar ratingBar;
+                ratingBar = myDialogLike.findViewById(R.id.ratingBar);
+
+
+                float valutazione = (float) mData.get(position).getVoteAverage();
+
+                ratingBar.setRating(valutazione);
+
 
 
                 Glide.with(context)
