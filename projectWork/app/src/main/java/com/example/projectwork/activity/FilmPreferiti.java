@@ -31,7 +31,7 @@ public class FilmPreferiti extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_preferiti);
-        getSupportActionBar().setTitle("PREFERRED FILM");
+        getSupportActionBar().setTitle("PREFERRED MOVIES");
 
         recyclerView = findViewById(R.id.recyclerViewFilmPreferiti);
 

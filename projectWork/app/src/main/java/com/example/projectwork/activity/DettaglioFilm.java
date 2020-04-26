@@ -35,7 +35,7 @@ public class DettaglioFilm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
-        getSupportActionBar().setTitle("FILM DETAILS");
+        getSupportActionBar().setTitle("MOVIE DETAILS");
 
         txtTitolo = findViewById(R.id.titoloFilmDettaglio);
         txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);

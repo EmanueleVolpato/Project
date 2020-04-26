@@ -57,10 +57,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         final ImageView img = holder.cellView.findViewById(R.id.imageFilm);
-        final TextView txt = holder.cellView.findViewById(R.id.titoloFilm);
+        //final TextView txt = holder.cellView.findViewById(R.id.titoloFilm);
         final CardView card = holder.cellView.findViewById(R.id.cardViewId);
 
-        txt.setText(mData.get(position).getTitle());
+        //txt.setText(mData.get(position).getTitle());
 
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getPosterPath())

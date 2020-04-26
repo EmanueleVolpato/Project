@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("FILM");
+        getSupportActionBar().setTitle("MOVIES");
 
         recyclerView = findViewById(R.id.recyclerviewFilm);
 

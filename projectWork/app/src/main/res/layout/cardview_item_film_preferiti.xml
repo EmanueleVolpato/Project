@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="140dp"
+    android:layout_width="160dp"
     android:clickable="true"
-    android:id="@+id/cardViewId"
+    android:id="@+id/cardViewId2"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="215dp"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="26dp"
+    android:layout_margin="14dp"
     cardview:cardCornerRadius="10dp">
 
     <LinearLayout
@@ -18,30 +18,9 @@
         <ImageView
             android:id="@+id/imageFilm"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
+            android:layout_height="215dp"
             android:background="#2d2d2d"
             android:scaleType="centerCrop" />
-
-        <TextView
-            android:id="@+id/titoloFilm"
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:background="@color/cardview_dark_background"
-            android:gravity="center"
-            android:text="titolo film"
-            android:textColor="#ffff"
-            android:textSize="15sp"></TextView>
-
-        <TextView
-            android:id="@+id/idFilm"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/cardview_dark_background"
-            android:gravity="center"
-            android:text="id film"
-            android:visibility="gone"
-            android:textColor="#ffff"
-            android:textSize="13sp"></TextView>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
