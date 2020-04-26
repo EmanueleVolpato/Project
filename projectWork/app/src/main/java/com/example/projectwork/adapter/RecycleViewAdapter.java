@@ -37,7 +37,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private List<FilmResults.Data> mData;
 
     Dialog myDialogLike;
-    ImageView imgLike;
 
     public RecycleViewAdapter(Context context,  List<FilmResults.Data> mData) {
         this.context = context;
@@ -107,6 +106,26 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 titolo = myDialogLike.findViewById(R.id.textViewtitoloLike);
                 TextView votoFilm;
                 votoFilm = myDialogLike.findViewById(R.id.textViewVoto);
+                Button esc,vota;
+                esc = myDialogLike.findViewById(R.id.buttoncancelLike);
+                vota = myDialogLike.findViewById(R.id.buttonVota);
+
+
+                esc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialogLike.dismiss();
+                    }
+                });
+
+
+                esc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       Toast.makeText(context,"votato",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
 
                 String valutazione = String.valueOf((float) mData.get(position).getVoteAverage() );
                 votoFilm.setText("VOTO FILM: "+valutazione);
