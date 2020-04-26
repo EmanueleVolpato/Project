@@ -92,47 +92,32 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             }
         });
 
+
+
         card.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 myDialogLike.setContentView(R.layout.like_dialog);
-                imgLike = myDialogLike.findViewById(R.id.imageViewLike);
                 ImageView imageViewCopertina;
                 imageViewCopertina = myDialogLike.findViewById(R.id.imageViewfilmLike);
                 String immagineDettaglio = mData.get(position).getBackdropPath();
                 RatingBar ratingBar;
                 ratingBar = myDialogLike.findViewById(R.id.ratingBar);
+                TextView titolo;
+                titolo = myDialogLike.findViewById(R.id.textViewtitoloLike);
+                TextView votoFilm;
+                votoFilm = myDialogLike.findViewById(R.id.textViewVoto);
 
+                String valutazione = String.valueOf((float) mData.get(position).getVoteAverage() );
+                votoFilm.setText("VOTO FILM: "+valutazione);
 
-                float valutazione = (float) mData.get(position).getVoteAverage();
-
-                ratingBar.setRating(valutazione);
-
+                String titoloLike = mData.get(position).getTitle();
+                titolo.setText(titoloLike);
 
 
                 Glide.with(context)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                         .into(imageViewCopertina);
-
-
-
-             /*   btnEsc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        myDialogLike.dismiss();
-                    }
-                });
-
-              */
-
-                imgLike.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context,"LIKE",Toast.LENGTH_SHORT).show();
-                        imgLike.setImageResource(R.drawable.like);
-                    }
-                });
-
 
                 myDialogLike.show();
 
