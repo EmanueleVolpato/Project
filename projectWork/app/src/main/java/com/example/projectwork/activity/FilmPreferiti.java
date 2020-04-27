@@ -61,6 +61,7 @@ public class FilmPreferiti extends AppCompatActivity {
                 movie.setTitle(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.TITOLO)));
                 movie.setOverview(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.DESCRIZIONE)));
                 movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.IMG_PRINCIPALE)));
+                movie.setReleaseDate(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.DATA)));
                 movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.IMG_DETTAGLIO)));
 
                 preferredFilm.add(movie);

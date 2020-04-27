@@ -13,9 +13,9 @@ import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 
 public class DettaglioFilmPreferiti  extends AppCompatActivity {
 
-    TextView txtTitolo, txtDecrizione;
+    TextView txtTitolo, txtDecrizione,txtData;
     ImageView imageViewDettaglio;
-    String idFilm;
+    String idFilm,titolo,data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +26,13 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
         txtTitolo = findViewById(R.id.titoloFilmDettaglio);
         txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);
         imageViewDettaglio = findViewById(R.id.imageViewDettaglio);
+        txtData = findViewById(R.id.dataFilmDettaglio);
 
         if (getIntent().getExtras() != null) {
-            final String titolo = getIntent().getExtras().getString(FilmPreferredTableHelper.TITOLO);
+            titolo = getIntent().getExtras().getString(FilmPreferredTableHelper.TITOLO);
             final String descrizione = getIntent().getExtras().getString(FilmPreferredTableHelper.DESCRIZIONE);
             final String immagineDettaglio = getIntent().getExtras().getString(FilmPreferredTableHelper.IMG_DETTAGLIO);
+            data = getIntent().getExtras().getString(FilmPreferredTableHelper.DATA);
             idFilm = getIntent().getExtras().getString(FilmPreferredTableHelper.ID_MOVIE);
 
             Glide.with(DettaglioFilmPreferiti.this)
@@ -38,6 +40,7 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
                     .into(imageViewDettaglio);
 
             txtTitolo.setText(titolo);
+            txtData.setText(data);
             txtDecrizione.setText(descrizione);
 
         }

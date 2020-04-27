@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 film.setId(Integer.parseInt(id));
                 film.setTitle(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.TITOLO)));
                 film.setVoteAverage(cFilms.getInt(cFilms.getColumnIndex(FilmTableHelper.VOTO)));
+                film.setReleaseDate(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.DATA)));
                 film.setOverview(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.DESCRIZIONE)));
                 film.setPosterPath(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.IMG_PRINCIPALE)));
                 film.setBackdropPath(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.IMG_DETTAGLIO)));

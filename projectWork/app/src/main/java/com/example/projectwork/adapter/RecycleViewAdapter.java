@@ -83,6 +83,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 int id = mData.get(position).getId();
                 bundle.putString(FilmTableHelper.ID_MOVIE, Integer.toString(id));
                 bundle.putString(FilmTableHelper.TITOLO, mData.get(position).getTitle());
+                bundle.putString(FilmTableHelper.DATA, mData.get(position).getReleaseDate());
                 bundle.putString(FilmTableHelper.DESCRIZIONE, mData.get(position).getOverview());
                 bundle.putString(FilmTableHelper.IMG_PRINCIPALE, mData.get(position).getPosterPath());
                 bundle.putString(FilmTableHelper.IMG_DETTAGLIO, mData.get(position).getBackdropPath());

@@ -22,7 +22,7 @@ import com.example.projectwork.localDatabase.FilmTableHelper;
 
 public class DettaglioFilm extends AppCompatActivity {
 
-    TextView txtTitolo, txtDecrizione;
+    TextView txtTitolo, txtDecrizione,txtData;
     ImageView imgDettaglio, imgStella;
     Cursor mCursor;
     String idFilm;
@@ -30,6 +30,7 @@ public class DettaglioFilm extends AppCompatActivity {
     String immagineDettaglio;
     String titolo;
     Button btnOk, btnCancel;
+    String data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class DettaglioFilm extends AppCompatActivity {
         txtTitolo = findViewById(R.id.titoloFilmDettaglio);
         txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);
         imgDettaglio = findViewById(R.id.imageViewDettaglio);
+        txtData = findViewById(R.id.textViewDataFilm);
 
         imgStella = findViewById(R.id.stella);
         myDialog = new Dialog(this);
@@ -49,6 +51,7 @@ public class DettaglioFilm extends AppCompatActivity {
             final String descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
             immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
             final String immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
+            data = getIntent().getExtras().getString(FilmTableHelper.DATA);
 
             idFilm = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
 
@@ -57,6 +60,9 @@ public class DettaglioFilm extends AppCompatActivity {
                     .into(imgDettaglio);
 
             txtTitolo.setText(titolo);
+            txtData.setText(data);
+
+
             if (descrizione != "")
                 txtDecrizione.setText(descrizione);
             else
@@ -100,6 +106,7 @@ public class DettaglioFilm extends AppCompatActivity {
                         ContentValues contentValues = new ContentValues();
                         contentValues.put(FilmPreferredTableHelper.ID_MOVIE, idFilm);
                         contentValues.put(FilmPreferredTableHelper.TITOLO, titolo);
+                        contentValues.put(FilmPreferredTableHelper.DATA, data);
                         contentValues.put(FilmPreferredTableHelper.DESCRIZIONE, descrizione);
                         contentValues.put(FilmPreferredTableHelper.IMG_PRINCIPALE, immaginePrincipale);
                         contentValues.put(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);

@@ -86,6 +86,7 @@ public class WebService {
                         cv.put(FilmTableHelper.TITOLO, movie.getTitle());
                         cv.put(FilmTableHelper.DESCRIZIONE, movie.getOverview());
                         cv.put(FilmTableHelper.IMG_PRINCIPALE, movie.getPosterPath());
+                        cv.put(FilmTableHelper.DATA, movie.getReleaseDate());
                         cv.put(FilmTableHelper.VOTO, movie.getVoteAverage());
                         cv.put(FilmTableHelper.IMG_DETTAGLIO, movie.getBackdropPath());
                         context.getContentResolver().insert(FilmProvider.FILMS_URI, cv);
