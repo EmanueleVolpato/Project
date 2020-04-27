@@ -171,6 +171,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 pieChart.setUsePercentValues(true);
                 data.setValueFormatter(new PercentFormatter(pieChart));
                 pieChart.setHoleRadius(60);
+                pieChart.getDescription().setEnabled(false);
 
 
                 if(valutazione<=40)
@@ -191,7 +192,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 }else
 
 
-                pieChart.getDescription().setEnabled(false);
                 pieChart.setRotationEnabled(false);
                 pieChart.getLegend().setEnabled(false);
                 data.setValueTextSize(15f);
