@@ -19,5 +19,9 @@
         android:id="@+id/temaApp"
         android:title="TEMA" />
 
+    <item
+        android:id="@+id/linguaApp"
+        android:title="LINGUA" />
+
 
 </menu>
