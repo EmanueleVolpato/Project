@@ -121,7 +121,12 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 final TextView votoPersonale;
                 votoPersonale = myDialogLike.findViewById(R.id.textViewVotoPersonale);
 
-                int [] color={ Color.rgb(3,107,218), Color.rgb(10,10,10)};
+                int [] colorGreen={ Color.rgb(0,187,45), Color.rgb(10,10,10)};
+                int [] colorRed={ Color.rgb(255,0,0), Color.rgb(10,10,10)};
+                int [] colorArancio={ Color.rgb(255,117,20), Color.rgb(10,10,10)};
+                int [] colorYellow={ Color.rgb(255,255,45), Color.rgb(10,10,10)};
+                int [] colorBlue={ Color.rgb(3,107,218), Color.rgb(10,10,10)};
+
 
 
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -151,6 +156,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 Double valutazione =mData.get(position).getVoteAverage()*10;
                 Double conteggio = 100-valutazione;
 
+                PieChart pieChart = myDialogLike.findViewById(R.id.pieChart);
+
                 Float number[] = {Float.valueOf(String.valueOf(valutazione)), Float.valueOf(String.valueOf(conteggio))};
 
                 List<PieEntry> pieEntries = new ArrayList<>();
@@ -161,20 +168,32 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
                 PieDataSet dataSet = new PieDataSet(pieEntries,"");
                 PieData data = new PieData(dataSet);
-                dataSet.setColors(color);
+                pieChart.setUsePercentValues(true);
+                data.setValueFormatter(new PercentFormatter(pieChart));
 
-                PieChart pieChart = myDialogLike.findViewById(R.id.pieChart);
+                if(valutazione<=40)
+                {
+                    dataSet.setColors(colorRed);
+                }else if(valutazione>40&&valutazione<=59)
+                {
+                    dataSet.setColors(colorArancio);
+                }else if(valutazione>=60&&valutazione<=69)
+                {
+                    dataSet.setColors(colorYellow);
+                }else if(valutazione>69&&valutazione<=89)
+                {
+                    dataSet.setColors(colorGreen);
+                }else if(valutazione>=90)
+                {
+                    dataSet.setColors(colorBlue);
+                }else
+
+
                 pieChart.getDescription().setEnabled(false);
+                pieChart.setRotationEnabled(false);
                 pieChart.getLegend().setEnabled(false);
-                data.setValueTextSize(20f);
+                data.setValueTextSize(15f);
                 pieChart.animateX(1500);
-
-                data.setValueFormatter(new ValueFormatter() {
-                    @Override
-                    public String getFormattedValue(float value) {
-                        return String.valueOf((int) Math.floor(value));
-                    }
-                });
 
                 pieChart.setData(data);
                 pieChart.invalidate();
