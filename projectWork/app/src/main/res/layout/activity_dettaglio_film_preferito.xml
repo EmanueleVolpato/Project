@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
     tools:context=".activity.DettaglioFilm">
 
     <androidx.core.widget.NestedScrollView
@@ -34,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Titolo Film"
-                android:textColor="#ffff"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -46,7 +44,7 @@
                 android:padding="8dp"
                 android:visibility="gone"
                 android:text="id"
-                android:textColor="#ffff" />
+                />
 
             <TextView
                 android:id="@+id/descrizioneFilmDettaglio"
@@ -54,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="descrizione"
-                android:textColor="#ffff"
                 android:textSize="18dp" />
 
 

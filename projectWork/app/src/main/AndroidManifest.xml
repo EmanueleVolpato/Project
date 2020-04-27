@@ -11,7 +11,7 @@
         android:label="FILM+"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        android:theme="@style/AppTheme">
         <activity android:name=".activity.FilmPreferiti"></activity>
         <activity android:name=".activity.LogoActivity"
             android:theme="@style/LogoTheme">
