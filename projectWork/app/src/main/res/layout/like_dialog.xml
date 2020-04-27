@@ -86,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/buttonstyle"
         android:text="@android:string/cancel"
         android:textColor="#000000"
@@ -97,8 +97,8 @@
         android:id="@+id/buttonVota"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/buttonstyle"
         android:text="VOTA"
         android:textColor="#000000"
@@ -124,6 +124,23 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textViewtitoloLike"
+        android:layout_width="279dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="181dp"
+        android:layout_marginEnd="171dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewfilmLike" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

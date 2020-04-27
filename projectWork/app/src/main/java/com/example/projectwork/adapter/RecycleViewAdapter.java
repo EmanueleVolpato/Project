@@ -112,7 +112,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 RatingBar ratingBar;
                 ratingBar = myDialogLike.findViewById(R.id.ratingBar);
                 TextView titolo;
-                //titolo = myDialogLike.findViewById(R.id.textViewtitoloLike);
+                titolo = myDialogLike.findViewById(R.id.textViewtitoloLike);
                 Button esc,vota;
                 esc = myDialogLike.findViewById(R.id.buttoncancelLike);
                 vota = myDialogLike.findViewById(R.id.buttonVota);
@@ -166,7 +166,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 pieChart.invalidate();
 
                 String titoloLike = mData.get(position).getTitle();
-                //titolo.setText(titoloLike);
+                titolo.setText(titoloLike);
 
 
                 Glide.with(context)
