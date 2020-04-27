@@ -31,26 +31,18 @@
                 android:id="@+id/titoloFilmDettaglio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
                 android:layout_marginTop="10dp"
                 android:text="Titolo Film"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/IDFILM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:visibility="gone"
-                android:text="id"
-                />
-
-            <TextView
                 android:id="@+id/descrizioneFilmDettaglio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColor="#000000"
                 android:text="descrizione"
                 android:textSize="18dp" />
 
