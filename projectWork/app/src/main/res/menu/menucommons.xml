@@ -15,5 +15,9 @@
     <item
         android:id="@+id/idCategorie"
         android:title="CATEGORIE" />
+    <item
+        android:id="@+id/temaApp"
+        android:title="TEMA" />
+
 
 </menu>

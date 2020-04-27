@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String[] categorie = {"Novità", "Prossime Uscite", "Più votati", "Popolari"};
     String categoriaSelect = "";
 
+    String[] tema = {"Chiaro", "Scuro"};
+    String temaSelect = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -199,6 +202,34 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         int id = item.getItemId();
         if (id == R.id.listaPreferiti) {
             startActivity(new Intent(MainActivity.this, FilmPreferiti.class));
+        } else if (id == R.id.temaApp) {
+            builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Scegli il tema");
+
+            builder.setSingleChoiceItems(tema, -1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    temaSelect = tema[i];
+                }
+            });
+
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                        if (temaSelect == "Scuro") {
+                            Toast.makeText(MainActivity.this, "TEMA SCURO ATTIVATO", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "TEMA CHIARO ATTIVATO", Toast.LENGTH_SHORT).show();
+                        }
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alertDialog = builder.create();
+            alertDialog.show();
         } else if (id == R.id.idCategorie) {
 
             builder = new AlertDialog.Builder(MainActivity.this);
