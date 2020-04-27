@@ -31,16 +31,19 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> {
+public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> implements Filterable {
 
     private Context context;
     private List<FilmResults.Data> mData;
+    private List<FilmResults.Data> mDataSearch;
+
 
     Dialog myDialogLike;
 
     public RecycleViewAdapter(Context context,  List<FilmResults.Data> mData) {
         this.context = context;
         this.mData = mData;
+        mDataSearch = new ArrayList<>(mData);
     }
 
     public void setFilms(List<FilmResults.Data> mData){
@@ -161,6 +164,42 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         return mData.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<FilmResults.Data> filtroList = new ArrayList<>();
+            if(constraint == null || constraint.length()==0)
+            {
+                filtroList.addAll(mDataSearch);
+            }else
+            {
+                String filtroPattern = constraint.toString().toLowerCase().trim();
+
+                for(FilmResults.Data item :mDataSearch)
+                {
+                    if(item.getTitle().toLowerCase().contains(filtroPattern)) {
+                        filtroList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filtroList;
+            return results;
+        }
+
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mData.clear();
+            mData.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 

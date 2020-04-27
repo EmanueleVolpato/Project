@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     List<FilmResults.Data> noInternetFilm;
     List<FilmResults.Data> internetFilm;
+    List<FilmResults.Data> searchInternetFilm;
 
     RecyclerView recyclerView;
     RecycleViewAdapter adapter;
@@ -114,16 +115,24 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         });
     }
 
-    private void searchFilms(String QUERY) {
+    private void searchFilms(final String QUERY) {
         webService.searchFilms(QUERY, API_KEY, LANGUAGE, MainActivity.this, new IWebService() {
             @Override
             public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
                 if (success) {
-                    adapter.resetFilms();
-                    internetFilm.clear();
-                    internetFilm.addAll(films);
-                    adapter.setFilms(internetFilm);
-                    adapter.notifyDataSetChanged();
+                    if(!QUERY.isEmpty()) {
+                        //internetFilm.clear();
+                        searchInternetFilm = new ArrayList<>();
+                        adapter.resetFilms();
+                        searchInternetFilm.addAll(films);
+                        adapter.setFilms(searchInternetFilm);
+                        adapter.notifyDataSetChanged();
+                    }
+                    else{
+                        adapter.resetFilms();
+                        adapter.setFilms(internetFilm);
+                        adapter.notifyDataSetChanged();
+                    }
                 } else {
                     Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
                 }
@@ -142,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 film.setId(Integer.parseInt(id));
                 film.setTitle(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.TITOLO)));
                 film.setVoteAverage(cFilms.getInt(cFilms.getColumnIndex(FilmTableHelper.VOTO)));
-                film.setReleaseDate(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.DATA)));
                 film.setOverview(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.DESCRIZIONE)));
                 film.setPosterPath(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.IMG_PRINCIPALE)));
                 film.setBackdropPath(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.IMG_DETTAGLIO)));
@@ -173,14 +181,19 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (!newText.isEmpty()) {
+                if (controlloConnessione()) {
+                    /*if (!newText.isEmpty()) {
+                        searchFilms(newText);
+                    } else {
+                        PAGE = 1;
+                        CATEGORY = "popular";
+                        adapter.resetFilms();
+                        internetFilm.clear();
+                        internet();
+                    }*/
                     searchFilms(newText);
-                } else {
-                    PAGE = 1;
-                    CATEGORY = "popular";
-                    adapter.resetFilms();
-                    internetFilm.clear();
-                    internet();
+                }else{
+                    adapter.getFilter().filter(newText);
                 }
                 return false;
             }
