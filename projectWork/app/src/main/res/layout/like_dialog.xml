@@ -10,8 +10,8 @@
 
     <TextView
         android:id="@+id/textViewVotoPersonale"
-        android:layout_width="197dp"
-        android:layout_height="34dp"
+        android:layout_width="222dp"
+        android:layout_height="32dp"
         android:layout_marginStart="177dp"
         android:layout_marginLeft="177dp"
         android:layout_marginTop="32dp"
