@@ -116,7 +116,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override
                     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        votoPersonale.setText("IL TUO VOTO: "+ratingBar.getRating());
+                        votoPersonale.setText("IL TUO VOTO: "+ratingBar.getRating()+" /10");
                     }
                 });
 
@@ -138,7 +138,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
 
                 String valutazione = String.valueOf((float) mData.get(position).getVoteAverage() );
-                votoFilm.setText("VOTO FILM: "+valutazione);
+                votoFilm.setText("VOTO FILM: "+valutazione+" /10");
 
                 String titoloLike = mData.get(position).getTitle();
                 titolo.setText(titoloLike);
