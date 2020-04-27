@@ -170,6 +170,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 PieData data = new PieData(dataSet);
                 pieChart.setUsePercentValues(true);
                 data.setValueFormatter(new PercentFormatter(pieChart));
+                pieChart.setHoleRadius(60);
+
 
                 if(valutazione<=40)
                 {
