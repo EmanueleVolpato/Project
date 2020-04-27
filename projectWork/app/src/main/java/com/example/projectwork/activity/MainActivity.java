@@ -176,15 +176,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                /*if (!newText.isEmpty()) {
-                    searchFilms(newText);
-                } else {
-                    PAGE = 1;
-                    CATEGORY = "popular";
-                    adapter.resetFilms();
-                    internetFilm.clear();
-                    internet();
-                }*/
                 if (controlloConnessione()) {
                     if (!newText.isEmpty()) {
                         searchFilms(newText);

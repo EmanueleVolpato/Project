@@ -23,15 +23,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
 
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="408dp"
         android:layout_height="281dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="49dp"
-        android:layout_marginBottom="1dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +38,8 @@
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
-            android:layout_width="341dp"
-            android:layout_height="match_parent"
+            android:layout_width="340dp"
+            android:layout_height="258dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="96dp"
             android:layout_marginEnd="111dp"
@@ -52,50 +51,18 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="412dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="2dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-        <RatingBar
-            android:id="@+id/ratingBar"
-            style="@style/MyRatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="25dp"
-            android:clickable="true"
-            android:isIndicator="false"
-            android:max="10"
-            android:numStars="10"
-            android:progressTint="@color/colorPrimaryDark"
-            android:stepSize="0.5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="532dp" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearLayout5"
         android:layout_width="406dp"
-        android:layout_height="36dp"
+        android:layout_height="33dp"
         android:layout_marginStart="2dp"
+        android:layout_marginTop="11dp"
         android:layout_marginBottom="25dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/buttoncancelLike"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar">
 
         <TextView
             android:id="@+id/textViewVotoPersonale"
@@ -137,6 +104,27 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/MyRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="24dp"
+        android:clickable="true"
+        android:isIndicator="false"
+        android:max="10"
+        android:numStars="10"
+        android:progressTint="@color/colorPrimaryDark"
+        android:stepSize="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

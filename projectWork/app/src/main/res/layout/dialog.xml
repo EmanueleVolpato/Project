@@ -20,6 +20,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
 
+
+
     <LinearLayout
         android:layout_width="413dp"
         android:layout_height="40dp"
