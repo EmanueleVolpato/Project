@@ -110,6 +110,15 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 Button esc,vota;
                 esc = myDialogLike.findViewById(R.id.buttoncancelLike);
                 vota = myDialogLike.findViewById(R.id.buttonVota);
+                final TextView votoPersonale;
+                votoPersonale = myDialogLike.findViewById(R.id.textViewVotoPersonale);
+
+                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        votoPersonale.setText("IL TUO VOTO: "+ratingBar.getRating());
+                    }
+                });
 
 
                 esc.setOnClickListener(new View.OnClickListener() {
