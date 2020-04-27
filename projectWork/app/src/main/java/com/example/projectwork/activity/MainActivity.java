@@ -173,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //adapter.getFilter().filter(newText);
                 if (!newText.isEmpty()) {
                     searchFilms(newText);
                 } else {
