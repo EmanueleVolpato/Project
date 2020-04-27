@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (temaSelect == "Italiano") {
+                    if (linguaSelect == "Italiano") {
                         Toast.makeText(MainActivity.this, "LINGUA ITALIANA SELEZIONATA", Toast.LENGTH_SHORT).show();
                         PAGE = 1;
                         CATEGORY = "popular";
