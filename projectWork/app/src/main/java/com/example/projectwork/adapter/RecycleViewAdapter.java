@@ -28,6 +28,8 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,8 +148,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 });
 
 
-                Double valutazione =mData.get(position).getVoteAverage();
-                Double conteggio = 10-valutazione;
+                Double valutazione =mData.get(position).getVoteAverage()*10;
+                Double conteggio = 100-valutazione;
 
                 Float number[] = {Float.valueOf(String.valueOf(valutazione)), Float.valueOf(String.valueOf(conteggio))};
 
@@ -162,6 +164,18 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 dataSet.setColors(color);
 
                 PieChart pieChart = myDialogLike.findViewById(R.id.pieChart);
+                pieChart.getDescription().setEnabled(false);
+                pieChart.getLegend().setEnabled(false);
+                data.setValueTextSize(20f);
+                pieChart.animateX(1500);
+
+                data.setValueFormatter(new ValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value) {
+                        return String.valueOf((int) Math.floor(value));
+                    }
+                });
+
                 pieChart.setData(data);
                 pieChart.invalidate();
 
