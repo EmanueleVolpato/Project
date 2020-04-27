@@ -3,6 +3,7 @@ package com.example.projectwork.adapter;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +24,10 @@ import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,14 +112,15 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 RatingBar ratingBar;
                 ratingBar = myDialogLike.findViewById(R.id.ratingBar);
                 TextView titolo;
-                titolo = myDialogLike.findViewById(R.id.textViewtitoloLike);
-                TextView votoFilm;
-                votoFilm = myDialogLike.findViewById(R.id.textViewVoto);
+                //titolo = myDialogLike.findViewById(R.id.textViewtitoloLike);
                 Button esc,vota;
                 esc = myDialogLike.findViewById(R.id.buttoncancelLike);
                 vota = myDialogLike.findViewById(R.id.buttonVota);
                 final TextView votoPersonale;
                 votoPersonale = myDialogLike.findViewById(R.id.textViewVotoPersonale);
+
+                int [] color={ Color.rgb(3,107,218), Color.rgb(10,10,10)};
+
 
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override
@@ -140,11 +146,27 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 });
 
 
-                String valutazione = String.valueOf((float) mData.get(position).getVoteAverage() );
-                votoFilm.setText("VOTO FILM: "+valutazione+" /10");
+                Double valutazione =mData.get(position).getVoteAverage();
+                Double conteggio = 10-valutazione;
+
+                Float number[] = {Float.valueOf(String.valueOf(valutazione)), Float.valueOf(String.valueOf(conteggio))};
+
+                List<PieEntry> pieEntries = new ArrayList<>();
+                for(int i =0;i<number.length;i++)
+                {
+                    pieEntries.add(new PieEntry(number[i]));
+                }
+
+                PieDataSet dataSet = new PieDataSet(pieEntries,"");
+                PieData data = new PieData(dataSet);
+                dataSet.setColors(color);
+
+                PieChart pieChart = myDialogLike.findViewById(R.id.pieChart);
+                pieChart.setData(data);
+                pieChart.invalidate();
 
                 String titoloLike = mData.get(position).getTitle();
-                titolo.setText(titoloLike);
+                //titolo.setText(titoloLike);
 
 
                 Glide.with(context)
@@ -208,5 +230,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             super(cellView);
             this.cellView = cellView;
         }
+    }
+
+    private void  pieChart() {
+
     }
 }
