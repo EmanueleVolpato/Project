@@ -88,7 +88,7 @@ public class DettaglioFilm extends AppCompatActivity {
                     imageViewCopertina = myDialoInfromazioniFilm.findViewById(R.id.imageViewfilmLike);
                     TextView titoloo;
                     titoloo = myDialoInfromazioniFilm.findViewById(R.id.textViewtitoloLike);
-                    Button esc;
+                    ImageView esc;
                     esc = myDialoInfromazioniFilm.findViewById(R.id.buttoncancelLike);
                     TextView dataUscita,genereFilm;
                     dataUscita = myDialoInfromazioniFilm.findViewById(R.id.textViewDataDiUscita);
@@ -295,7 +295,7 @@ public class DettaglioFilm extends AppCompatActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                votoPersonale.setText(String.valueOf((ratingBar.getRating()*2) +" /10"));
+                votoPersonale.setText(String.valueOf("Il tuo voto "+(ratingBar.getRating()*2) +" /10"));
             }
         });
 
