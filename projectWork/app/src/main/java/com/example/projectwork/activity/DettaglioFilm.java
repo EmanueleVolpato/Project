@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,11 +22,7 @@ import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,15 +97,6 @@ public class DettaglioFilm extends AppCompatActivity {
 
                     dataUscita.setText(data);
 
-                    int[] colorGreen = {Color.rgb(0, 187, 45), Color.rgb(156, 156, 156)};
-                    int[] colorRed = {Color.rgb(255, 0, 0), Color.rgb(156, 156, 156)};
-                    int[] colorArancio = {Color.rgb(255, 117, 20), Color.rgb(156, 156, 156)};
-                    int[] colorYellow = {Color.rgb(255, 255, 45), Color.rgb(156, 156, 156)};
-                    int[] colorBlue = {Color.rgb(3, 107, 218), Color.rgb(156, 156, 156)};
-
-
-
-
                     imgVota.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -125,47 +113,20 @@ public class DettaglioFilm extends AppCompatActivity {
                     });
 
 
-                    Double valutazione = Double.valueOf(voto)*10;
-                    Double conteggio = 100 - valutazione;
+                   Float valutazione = Float.valueOf(voto)*10;
+                   int valore = Math.round(valutazione) ;
 
-                    PieChart pieChart = myDialoInfromazioniFilm.findViewById(R.id.pieChart);
 
-                    Float number[] = {Float.valueOf(String.valueOf(valutazione)), Float.valueOf(String.valueOf(conteggio))};
 
-                    List<PieEntry> pieEntries = new ArrayList<>();
-                    for (int i = 0; i < number.length; i++) {
-                        pieEntries.add(new PieEntry(number[i]));
-                    }
+                    ProgressBar progressBar;
+                    progressBar = myDialoInfromazioniFilm.findViewById(R.id.progressBar);
+                    progressBar.setMax(100);
+                    progressBar.setProgress(valore);
 
-                    PieDataSet dataSet = new PieDataSet(pieEntries, "");
-                    final PieData dataa = new PieData(dataSet);
-                    pieChart.setUsePercentValues(true);
-                    dataa.setValueFormatter(new PercentFormatter(pieChart));
-                    pieChart.setHoleRadius(60);
-                    pieChart.getDescription().setEnabled(false);
-                    pieChart.setDrawRoundedSlices(true);
 
-                    if (valutazione <= 40) {
-                        dataSet.setColors(colorRed);
-                    } else if (valutazione > 40 && valutazione <= 59) {
-                        dataSet.setColors(colorArancio);
-                    } else if (valutazione >= 60 && valutazione <= 69) {
-                        dataSet.setColors(colorYellow);
-                    } else if (valutazione > 69 && valutazione <= 89) {
-                        dataSet.setColors(colorGreen);
-                    } else if (valutazione >= 90) {
-                        dataSet.setColors(colorBlue);
-                    } else
-
-                    pieChart.setRotationEnabled(false);
-                    pieChart.setTouchEnabled(false);
-                    pieChart.getLegend().setEnabled(false);
-                    dataa.setValueTextSize(15f);
-                    pieChart.animateX(1500);
-
-                    pieChart.setData(dataa);
-                    pieChart.invalidate();
-
+                   TextView votoAggiudicato;
+                   votoAggiudicato = myDialoInfromazioniFilm.findViewById(R.id.textVoto);
+                   votoAggiudicato.setText(valore +"%");
 
                     titoloo.setText(titolo);
 
