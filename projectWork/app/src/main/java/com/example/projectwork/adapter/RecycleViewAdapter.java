@@ -121,7 +121,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 final TextView votoPersonale;
                 votoPersonale = myDialogLike.findViewById(R.id.textViewVotoPersonale);
 
-                int [] colorGreen={ Color.rgb(0,187,45), Color.rgb(10,10,10)};
+                int [] colorGreen={ Color.rgb(0,187,45), Color.rgb(156,156,156)};
                 int [] colorRed={ Color.rgb(255,0,0), Color.rgb(10,10,10)};
                 int [] colorArancio={ Color.rgb(255,117,20), Color.rgb(10,10,10)};
                 int [] colorYellow={ Color.rgb(255,255,45), Color.rgb(10,10,10)};
@@ -175,7 +175,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 data.setValueFormatter(new PercentFormatter(pieChart));
                 pieChart.setHoleRadius(60);
                 pieChart.getDescription().setEnabled(false);
-                pieChart.setDrawRoundedSlices(false);
+                pieChart.setDrawRoundedSlices(true);
 
                 if(valutazione<=40)
                 {

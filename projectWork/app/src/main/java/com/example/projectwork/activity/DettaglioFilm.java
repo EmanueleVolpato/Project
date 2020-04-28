@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
@@ -29,7 +30,7 @@ public class DettaglioFilm extends AppCompatActivity {
     Dialog myDialog;
     String immagineDettaglio;
     String titolo;
-    Button btnOk, btnCancel;
+    Button btnOk, btnCancel,btnInformzioni;
     String data;
 
     @Override
@@ -41,9 +42,10 @@ public class DettaglioFilm extends AppCompatActivity {
         txtTitolo = findViewById(R.id.titoloFilmDettaglio);
         txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);
         imgDettaglio = findViewById(R.id.imageViewDettaglio);
-        txtData = findViewById(R.id.textViewDataFilm);
+        btnInformzioni = findViewById(R.id.buttonApriDialogInformzioni);
+        //txtData = findViewById(R.id.textViewDataFilm);
 
-        imgStella = findViewById(R.id.stella);
+       // imgStella = findViewById(R.id.stella);
         myDialog = new Dialog(this);
 
         if (getIntent().getExtras() != null) {
@@ -60,7 +62,7 @@ public class DettaglioFilm extends AppCompatActivity {
                     .into(imgDettaglio);
 
             txtTitolo.setText(titolo);
-            txtData.setText(data);
+//            txtData.setText(data);
 
 
             if (descrizione != "")
@@ -80,7 +82,7 @@ public class DettaglioFilm extends AppCompatActivity {
                 imgStella.setImageResource(R.drawable.star_piena);
             }
 
-            imgStella.setOnClickListener(new View.OnClickListener() {
+/*            imgStella.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     String[] selectionArgs = {idFilm};
 
@@ -116,7 +118,18 @@ public class DettaglioFilm extends AppCompatActivity {
                     }
                 }
             });
+
+ */
         }
+
+
+        btnInformzioni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DettaglioFilm.this, "CIAO", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     @Override
@@ -156,7 +169,6 @@ public class DettaglioFilm extends AppCompatActivity {
                 myDialog.dismiss();
             }
         });
-        //myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
     }
 }
