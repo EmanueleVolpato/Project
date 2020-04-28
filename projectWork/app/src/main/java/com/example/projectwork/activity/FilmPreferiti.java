@@ -11,12 +11,14 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.projectwork.R;
 import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.services.FilmResults;
+import com.example.projectwork.services.WebService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,35 @@ public class FilmPreferiti extends AppCompatActivity {
     List<FilmResults.Data> preferredFilm;
     RecyclerView recyclerView;
     RecyclerViewAdapterFilmPreferiti adapter;
+
+    public static class A {
+
+        boolean c;
+
+        private A(boolean c) {
+            this.c = c;
+
+        }
+
+        private static A instance;
+
+        public static A getInstance(boolean c) {
+            if (instance == null)
+                instance = new A(c);
+            return instance;
+        }
+
+        public boolean getBool() {
+            return c;
+        }
+
+        public void setBool(boolean c) {
+            this.c = c;
+        }
+    }
+
+    private A aS;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +71,7 @@ public class FilmPreferiti extends AppCompatActivity {
             recyclerView.setLayoutManager(new GridLayoutManager(FilmPreferiti.this, 4));
         else
             recyclerView.setLayoutManager(new GridLayoutManager(FilmPreferiti.this, 2));
+
 
         caricaPreferiti();
     }
