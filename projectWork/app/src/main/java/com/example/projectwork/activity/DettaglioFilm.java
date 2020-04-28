@@ -79,57 +79,6 @@ public class DettaglioFilm extends AppCompatActivity {
                 txtDecrizione.setText(descrizione);
             else
                 txtDecrizione.setText("NESSUNA OVERVIEW DISPONIBILE");
-/*
-            String[] selectionArgs = {idFilm};
-            mCursor = DettaglioFilm.this.getContentResolver().query(
-                    FilmPreferredProvider.FILMS_URI,
-                    null,
-                    FilmPreferredTableHelper.ID_MOVIE + " = ?",
-                    selectionArgs,
-                    null);
-
-            while (mCursor.moveToNext()) {
-                imgStella.setImageResource(R.drawable.star_piena);
-            }
-
-            imgStella.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    String[] selectionArgs = {idFilm};
-
-                    mCursor = DettaglioFilm.this.getContentResolver().query(
-                            FilmPreferredProvider.FILMS_URI,
-                            null,
-                            FilmPreferredTableHelper.ID_MOVIE + " = ?",
-                            selectionArgs,
-                            null);
-
-                    int index = mCursor.getColumnIndex(FilmPreferredTableHelper.ID_MOVIE);
-                    String idDB = null;
-                    while (mCursor.moveToNext()) {
-                        Log.d("AAA", mCursor.getString(index));
-                        idDB = mCursor.getString(index);
-                    }
-
-                    if (idDB != null) {
-                        ShowPopup(v);
-                    } else {
-                        imgStella.setImageResource(R.drawable.star_piena);
-
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put(FilmPreferredTableHelper.ID_MOVIE, idFilm);
-                        contentValues.put(FilmPreferredTableHelper.TITOLO, titolo);
-                        contentValues.put(FilmPreferredTableHelper.DATA, data);
-                        contentValues.put(FilmPreferredTableHelper.DESCRIZIONE, descrizione);
-                        contentValues.put(FilmPreferredTableHelper.IMG_PRINCIPALE, immaginePrincipale);
-                        contentValues.put(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
-                        DettaglioFilm.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, contentValues);
-
-                        Log.d("AAAA", "Salvato film " + idFilm + titolo + descrizione + immagineDettaglio + immaginePrincipale);
-                    }
-                }
-            });
-
- */
 
 
             btnInformzioni.setOnClickListener(new View.OnClickListener() {
@@ -200,8 +149,7 @@ public class DettaglioFilm extends AppCompatActivity {
                         dataSet.setColors(colorBlue);
                     } else
 
-
-                        pieChart.setRotationEnabled(false);
+                    pieChart.setRotationEnabled(false);
                     pieChart.getLegend().setEnabled(false);
                     data.setValueTextSize(15f);
                     pieChart.animateX(1500);
@@ -240,13 +188,13 @@ public class DettaglioFilm extends AppCompatActivity {
                             int index = mCursor.getColumnIndex(FilmPreferredTableHelper.ID_MOVIE);
                             String idDB = null;
                             while (mCursor.moveToNext()) {
-                                Log.d("AAA", mCursor.getString(index));
                                 idDB = mCursor.getString(index);
                             }
 
                             if (idDB != null) {
                                 ShowPopup(v);
                             } else {
+
                                 imgStella.setImageResource(R.drawable.star_piena);
 
                                 ContentValues contentValues = new ContentValues();
@@ -281,6 +229,7 @@ public class DettaglioFilm extends AppCompatActivity {
     }
 
     public void ShowPopup(View v) {
+        myDialogLike.dismiss();
         myDialog.setContentView(R.layout.dialog);
         btnCancel = myDialog.findViewById(R.id.buttoncancel);
         btnOk = myDialog.findViewById(R.id.buttonok);
@@ -298,6 +247,7 @@ public class DettaglioFilm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 myDialog.dismiss();
+                myDialogLike.show();
             }
         });
 
@@ -307,6 +257,7 @@ public class DettaglioFilm extends AppCompatActivity {
                 getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferredProvider.FILMS_URI)), FilmPreferredTableHelper.ID_MOVIE + "=" + idFilm, null);
                 imgStella.setImageResource(R.drawable.star);
                 myDialog.dismiss();
+                myDialogLike.show();
             }
         });
         myDialog.show();
