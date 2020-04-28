@@ -3,6 +3,7 @@ package com.example.projectwork.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -64,15 +65,21 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     String[] tema = {"Chiaro", "Scuro"};
     String temaSelect = "";
-    String[] lingua = {"Italiano", "Inglese"};
-    String linguaSelect = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.darktheme);
+        }
+        else setTheme(R.style.AppTheme);
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("MOVIES");
-
         recyclerView = findViewById(R.id.recyclerviewFilm);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
 
@@ -287,8 +294,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 public void onClick(DialogInterface dialog, int which) {
                     if (temaSelect == "Scuro") {
                         Toast.makeText(MainActivity.this, "TEMA SCURO ATTIVATO", Toast.LENGTH_SHORT).show();
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        restartApp();
                     } else {
                         Toast.makeText(MainActivity.this, "TEMA CHIARO ATTIVATO", Toast.LENGTH_SHORT).show();
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        restartApp();
                     }
                 }
             });
@@ -354,6 +365,13 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             alertDialog.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void restartApp()
+    {
+        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override

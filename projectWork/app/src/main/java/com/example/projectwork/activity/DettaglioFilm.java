@@ -1,7 +1,9 @@
 package com.example.projectwork.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -27,6 +29,8 @@ import com.example.projectwork.localDatabase.FilmTableHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.text.format.DateUtils.SECOND_IN_MILLIS;
+
 public class DettaglioFilm extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione,txtData;
@@ -43,6 +47,12 @@ public class DettaglioFilm extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.darktheme);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
         getSupportActionBar().setTitle("MOVIE DETAILS");
@@ -122,6 +132,7 @@ public class DettaglioFilm extends AppCompatActivity {
                     progressBar = myDialoInfromazioniFilm.findViewById(R.id.progressBar);
                     progressBar.setMax(100);
                     progressBar.setProgress(valore);
+
 
 
                    TextView votoAggiudicato;
