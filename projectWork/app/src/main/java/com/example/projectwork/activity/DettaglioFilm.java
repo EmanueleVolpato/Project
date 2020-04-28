@@ -242,6 +242,7 @@ public class DettaglioFilm extends AppCompatActivity {
     }
 
     public void ShowPopupPreferito(View v) {
+        myDialoInfromazioniFilm.dismiss();
         myDialogLikeFilm.setContentView(R.layout.dialog);
         btnCancel = myDialogLikeFilm.findViewById(R.id.buttoncancel);
         btnOk = myDialogLikeFilm.findViewById(R.id.buttonok);
@@ -259,6 +260,7 @@ public class DettaglioFilm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 myDialogLikeFilm.dismiss();
+                myDialoInfromazioniFilm.show();
             }
         });
 
@@ -268,6 +270,7 @@ public class DettaglioFilm extends AppCompatActivity {
                 getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferredProvider.FILMS_URI)), FilmPreferredTableHelper.ID_MOVIE + "=" + idFilm, null);
                 imgStella.setImageResource(R.drawable.star);
                 myDialogLikeFilm.dismiss();
+                myDialoInfromazioniFilm.show();
             }
         });
         myDialogLikeFilm.show();
@@ -300,9 +303,9 @@ public class DettaglioFilm extends AppCompatActivity {
         });
 
 
-        Button escVota,votaFilm;
-        escVota = dialogVotaFilm.findViewById(R.id.buttonEscVotaFilm);
-        votaFilm = dialogVotaFilm.findViewById(R.id.buttonVotaFilm);
+        ImageView escVota,votaFilm;
+        escVota = dialogVotaFilm.findViewById(R.id.buttonturnback);
+        votaFilm = dialogVotaFilm.findViewById(R.id.imgVotaFilm);
 
         escVota.setOnClickListener(new View.OnClickListener() {
             @Override
