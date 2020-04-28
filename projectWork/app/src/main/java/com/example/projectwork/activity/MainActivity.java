@@ -271,43 +271,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         int id = item.getItemId();
         if (id == R.id.listaPreferiti) {
             startActivity(new Intent(MainActivity.this, FilmPreferiti.class));
-        } else if (id == R.id.linguaApp) {
-            builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Scegli la lingua");
-
-            builder.setSingleChoiceItems(lingua, -1, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int i) {
-                    linguaSelect = lingua[i];
-                }
-            });
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (linguaSelect == "Italiano") {
-                        Toast.makeText(MainActivity.this, "LINGUA ITALIANA SELEZIONATA", Toast.LENGTH_SHORT).show();
-                        PAGE = 1;
-                        LANGUAGE = "it";
-                        adapter.resetFilms();
-                        internetFilm.clear();
-                        internet();
-                    } else {
-                        Toast.makeText(MainActivity.this, "LINGUA INGLESE SELEZIONATA", Toast.LENGTH_SHORT).show();
-                        PAGE = 1;
-                        LANGUAGE = "en";
-                        adapter.resetFilms();
-                        internetFilm.clear();
-                        internet();
-                    }
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
-            alertDialog = builder.create();
-            alertDialog.show();
         } else if (id == R.id.temaApp) {
             builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Scegli il tema");
