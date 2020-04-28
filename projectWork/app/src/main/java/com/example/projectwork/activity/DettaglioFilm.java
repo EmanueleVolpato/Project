@@ -160,6 +160,7 @@ public class DettaglioFilm extends AppCompatActivity {
                     } else
 
                     pieChart.setRotationEnabled(false);
+                    pieChart.setTouchEnabled(false);
                     pieChart.getLegend().setEnabled(false);
                     data.setValueTextSize(15f);
                     pieChart.animateX(1500);
