@@ -25,6 +25,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.projectwork.R;
+import com.example.projectwork.SharedPref;
 import com.example.projectwork.adapter.RecycleViewAdapter;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmProvider;
@@ -66,12 +67,14 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String[] tema = {"Chiaro", "Scuro"};
     String temaSelect = "";
 
+    SharedPref sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        sharedPref = new SharedPref(this);
 
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+        if(sharedPref.loadNightModeState()==true){
             setTheme(R.style.darktheme);
         }
         else setTheme(R.style.AppTheme);
@@ -294,11 +297,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 public void onClick(DialogInterface dialog, int which) {
                     if (temaSelect == "Scuro") {
                         Toast.makeText(MainActivity.this, "TEMA SCURO ATTIVATO", Toast.LENGTH_SHORT).show();
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        sharedPref.setNightModeState(true);
                         restartApp();
                     } else {
                         Toast.makeText(MainActivity.this, "TEMA CHIARO ATTIVATO", Toast.LENGTH_SHORT).show();
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        sharedPref.setNightModeState(false);
                         restartApp();
                     }
                 }

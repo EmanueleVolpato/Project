@@ -11,5 +11,15 @@ public class SharedPref {
         sharedPreferences = context.getSharedPreferences("filename",Context.MODE_PRIVATE);
     }
 
+    public void setNightModeState(Boolean state){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("Nightmode",state);
+        editor.commit();
+    }
+
+    public Boolean loadNightModeState(){
+        Boolean state = sharedPreferences.getBoolean("Nightmode",false);
+        return state;
+    }
 
 }

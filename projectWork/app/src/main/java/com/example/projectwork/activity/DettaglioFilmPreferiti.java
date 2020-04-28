@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
+import com.example.projectwork.SharedPref;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 
 public class DettaglioFilmPreferiti  extends AppCompatActivity {
@@ -29,15 +30,19 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
     Dialog dialogVotaFilmPreferiti;
     String immagineDettaglio;
     String descrizione,voto;
+    SharedPref sharedPref;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+        sharedPref = new SharedPref(this);
+
+        if(sharedPref.loadNightModeState()==true){
             setTheme(R.style.darktheme);
         }
         else setTheme(R.style.AppTheme);
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film_preferito);
