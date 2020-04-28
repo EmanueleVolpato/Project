@@ -37,7 +37,35 @@ public class WebService {
         return instance;
     }
 
-    public void searchFilms(String query, String apiKey, String language, final Context context, final IWebService iwebservice){
+    public void listGenres(String apiKey, String language, final Context context, final IWebServiceGenres iwebservice) {
+
+        Call<GenresResults> request = apiInterface.genresList(apiKey, language);
+
+        request.enqueue(new Callback<GenresResults>() {
+            @Override
+            public void onResponse(Call<GenresResults> call, Response<GenresResults> response) {
+                if (response.code() == 200) {
+                    GenresResults results = response.body();
+                    List<GenresResults.Data> listOfGeneres = results.getGenres();
+                    iwebservice.onGenresFetched(true, listOfGeneres, -1, null);
+                } else {
+                    try {
+                        iwebservice.onGenresFetched(true, null, response.code(), response.errorBody().string());
+                    } catch (IOException ex) {
+                        Log.e("WebService", ex.toString());
+                        iwebservice.onGenresFetched(true, null, response.code(), "Generic error message");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenresResults> call, Throwable t) {
+                iwebservice.onGenresFetched(false, null, -1, t.getLocalizedMessage());
+            }
+        });
+    }
+
+    public void searchFilms(String query, String apiKey, String language, final Context context, final IWebService iwebservice) {
 
         Call<FilmResults> filmsRequest = apiInterface.searchFilm(apiKey, language, query);
 

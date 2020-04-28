@@ -129,6 +129,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                     public void onClick(View v) {
                         context.getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferredProvider.FILMS_URI)), FilmPreferredTableHelper.ID_MOVIE + "=" + idMovie, null);
                         mData.remove(position);
+                        mDataSearch.remove(position);
                         notifyDataSetChanged();
                         myDialog.dismiss();
                     }

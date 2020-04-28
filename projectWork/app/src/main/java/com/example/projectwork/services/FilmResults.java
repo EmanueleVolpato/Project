@@ -129,8 +129,11 @@ public class FilmResults {
             return popularity;
         }
 
-        public String getFilmPreferiti(){return this.filmPreferiti;}
-        public void setFilmPreferiti(String filmPreferiti){
+        public String getFilmPreferiti() {
+            return this.filmPreferiti;
+        }
+
+        public void setFilmPreferiti(String filmPreferiti) {
             this.filmPreferiti = filmPreferiti;
         }
 
