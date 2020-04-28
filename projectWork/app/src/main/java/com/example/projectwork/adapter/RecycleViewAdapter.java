@@ -149,6 +149,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                     @Override
                     public void onClick(View v) {
                        Toast.makeText(context,"votato",Toast.LENGTH_SHORT).show();
+                        myDialogLike.dismiss();
                     }
                 });
 
@@ -172,7 +173,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 data.setValueFormatter(new PercentFormatter(pieChart));
                 pieChart.setHoleRadius(60);
                 pieChart.getDescription().setEnabled(false);
-
+                pieChart.setDrawRoundedSlices(false);
 
                 if(valutazione<=40)
                 {
