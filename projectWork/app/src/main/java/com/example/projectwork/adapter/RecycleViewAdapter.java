@@ -97,127 +97,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 bundle.putString(FilmTableHelper.DESCRIZIONE, mData.get(position).getOverview());
                 bundle.putString(FilmTableHelper.IMG_PRINCIPALE, mData.get(position).getPosterPath());
                 bundle.putString(FilmTableHelper.IMG_DETTAGLIO, mData.get(position).getBackdropPath());
+                bundle.putString(FilmTableHelper.VOTO, String.valueOf(mData.get(position).getVoteAverage()));
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });
-
-
-
-        card.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                myDialogLike.setContentView(R.layout.like_dialog);
-                ImageView imageViewCopertina;
-                imageViewCopertina = myDialogLike.findViewById(R.id.imageViewfilmLike);
-                String immagineDettaglio = mData.get(position).getBackdropPath();
-                RatingBar ratingBar;
-                ratingBar = myDialogLike.findViewById(R.id.ratingBar);
-                TextView titolo;
-                titolo = myDialogLike.findViewById(R.id.textViewtitoloLike);
-                Button esc,vota;
-                esc = myDialogLike.findViewById(R.id.buttoncancelLike);
-                vota = myDialogLike.findViewById(R.id.buttonVota);
-                final TextView votoPersonale;
-                votoPersonale = myDialogLike.findViewById(R.id.textViewVotoPersonale);
-
-                int [] colorGreen={ Color.rgb(0,187,45), Color.rgb(156,156,156)};
-                int [] colorRed={ Color.rgb(255,0,0), Color.rgb(10,10,10)};
-                int [] colorArancio={ Color.rgb(255,117,20), Color.rgb(10,10,10)};
-                int [] colorYellow={ Color.rgb(255,255,45), Color.rgb(10,10,10)};
-                int [] colorBlue={ Color.rgb(3,107,218), Color.rgb(10,10,10)};
-
-
-
-                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        votoPersonale.setText("IL TUO VOTO: "+ratingBar.getRating()+" /10");
-                    }
-                });
-
-
-                esc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        myDialogLike.dismiss();
-                        Toast.makeText(context,"esci",Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-
-                vota.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                       Toast.makeText(context,"votato",Toast.LENGTH_SHORT).show();
-                        myDialogLike.dismiss();
-                    }
-                });
-
-
-                Double valutazione =mData.get(position).getVoteAverage()*10;
-                Double conteggio = 100-valutazione;
-
-                PieChart pieChart = myDialogLike.findViewById(R.id.pieChart);
-
-                Float number[] = {Float.valueOf(String.valueOf(valutazione)), Float.valueOf(String.valueOf(conteggio))};
-
-                List<PieEntry> pieEntries = new ArrayList<>();
-                for(int i =0;i<number.length;i++)
-                {
-                    pieEntries.add(new PieEntry(number[i]));
-                }
-
-                PieDataSet dataSet = new PieDataSet(pieEntries,"");
-                PieData data = new PieData(dataSet);
-                pieChart.setUsePercentValues(true);
-                data.setValueFormatter(new PercentFormatter(pieChart));
-                pieChart.setHoleRadius(60);
-                pieChart.getDescription().setEnabled(false);
-                pieChart.setDrawRoundedSlices(true);
-
-                if(valutazione<=40)
-                {
-                    dataSet.setColors(colorRed);
-                }else if(valutazione>40&&valutazione<=59)
-                {
-                    dataSet.setColors(colorArancio);
-                }else if(valutazione>=60&&valutazione<=69)
-                {
-                    dataSet.setColors(colorYellow);
-                }else if(valutazione>69&&valutazione<=89)
-                {
-                    dataSet.setColors(colorGreen);
-                }else if(valutazione>=90)
-                {
-                    dataSet.setColors(colorBlue);
-                }else
-
-
-                pieChart.setRotationEnabled(false);
-                pieChart.getLegend().setEnabled(false);
-                data.setValueTextSize(15f);
-                pieChart.animateX(1500);
-
-                pieChart.setData(data);
-                pieChart.invalidate();
-
-                String titoloLike = mData.get(position).getTitle();
-                titolo.setText(titoloLike);
-
-
-                Glide.with(context)
-                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                        .into(imageViewCopertina);
-
-                myDialogLike.show();
-
-
-                return false;
-            }
-        });
     }
+
+
 
     @Override
     public int getItemCount() {

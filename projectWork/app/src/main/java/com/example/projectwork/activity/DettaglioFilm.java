@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,14 @@ import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DettaglioFilm extends AppCompatActivity {
 
@@ -32,6 +42,8 @@ public class DettaglioFilm extends AppCompatActivity {
     String titolo;
     Button btnOk, btnCancel,btnInformzioni;
     String data;
+    Dialog myDialogLike;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,26 +55,25 @@ public class DettaglioFilm extends AppCompatActivity {
         txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);
         imgDettaglio = findViewById(R.id.imageViewDettaglio);
         btnInformzioni = findViewById(R.id.buttonApriDialogInformzioni);
-        //txtData = findViewById(R.id.textViewDataFilm);
+        myDialogLike = new Dialog(DettaglioFilm.this);
 
-       // imgStella = findViewById(R.id.stella);
+        // imgStella = findViewById(R.id.stella);
         myDialog = new Dialog(this);
 
         if (getIntent().getExtras() != null) {
             titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
             final String descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
             immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
-            final String immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
             data = getIntent().getExtras().getString(FilmTableHelper.DATA);
-
             idFilm = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
+            final String voto = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
+
 
             Glide.with(DettaglioFilm.this)
                     .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                     .into(imgDettaglio);
 
             txtTitolo.setText(titolo);
-//            txtData.setText(data);
 
 
             if (descrizione != "")
@@ -120,16 +131,93 @@ public class DettaglioFilm extends AppCompatActivity {
             });
 
  */
+
+
+            btnInformzioni.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(DettaglioFilm.this, "CIAO", Toast.LENGTH_SHORT).show();
+                    myDialogLike.setContentView(R.layout.like_dialog);
+                    ImageView imageViewCopertina;
+                    imageViewCopertina = myDialogLike.findViewById(R.id.imageViewfilmLike);
+                    TextView titoloo;
+                    titoloo = myDialogLike.findViewById(R.id.textViewtitoloLike);
+                    Button esc;
+                    esc = myDialogLike.findViewById(R.id.buttoncancelLike);
+
+
+                    int[] colorGreen = {Color.rgb(0, 187, 45), Color.rgb(156, 156, 156)};
+                    int[] colorRed = {Color.rgb(255, 0, 0), Color.rgb(10, 10, 10)};
+                    int[] colorArancio = {Color.rgb(255, 117, 20), Color.rgb(10, 10, 10)};
+                    int[] colorYellow = {Color.rgb(255, 255, 45), Color.rgb(10, 10, 10)};
+                    int[] colorBlue = {Color.rgb(3, 107, 218), Color.rgb(10, 10, 10)};
+
+
+
+
+                    esc.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            myDialogLike.dismiss();
+                            Toast.makeText(DettaglioFilm.this, "esci", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+                    Double valutazione = Double.valueOf(voto)*10;
+                    Double conteggio = 100 - valutazione;
+
+                    PieChart pieChart = myDialogLike.findViewById(R.id.pieChart);
+
+                    Float number[] = {Float.valueOf(String.valueOf(valutazione)), Float.valueOf(String.valueOf(conteggio))};
+
+                    List<PieEntry> pieEntries = new ArrayList<>();
+                    for (int i = 0; i < number.length; i++) {
+                        pieEntries.add(new PieEntry(number[i]));
+                    }
+
+                    PieDataSet dataSet = new PieDataSet(pieEntries, "");
+                    PieData data = new PieData(dataSet);
+                    pieChart.setUsePercentValues(true);
+                    data.setValueFormatter(new PercentFormatter(pieChart));
+                    pieChart.setHoleRadius(60);
+                    pieChart.getDescription().setEnabled(false);
+                    pieChart.setDrawRoundedSlices(true);
+
+                    if (valutazione <= 40) {
+                        dataSet.setColors(colorRed);
+                    } else if (valutazione > 40 && valutazione <= 59) {
+                        dataSet.setColors(colorArancio);
+                    } else if (valutazione >= 60 && valutazione <= 69) {
+                        dataSet.setColors(colorYellow);
+                    } else if (valutazione > 69 && valutazione <= 89) {
+                        dataSet.setColors(colorGreen);
+                    } else if (valutazione >= 90) {
+                        dataSet.setColors(colorBlue);
+                    } else
+
+
+                        pieChart.setRotationEnabled(false);
+                    pieChart.getLegend().setEnabled(false);
+                    data.setValueTextSize(15f);
+                    pieChart.animateX(1500);
+
+                    pieChart.setData(data);
+                    pieChart.invalidate();
+
+
+                    titoloo.setText(titolo);
+
+
+                    Glide.with(DettaglioFilm.this)
+                            .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                            .into(imageViewCopertina);
+
+                    myDialogLike.show();
+
+                }
+            });
         }
-
-
-        btnInformzioni.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(DettaglioFilm.this, "CIAO", Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
     @Override
