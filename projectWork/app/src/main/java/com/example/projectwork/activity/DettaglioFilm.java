@@ -61,9 +61,10 @@ public class DettaglioFilm extends AppCompatActivity {
         if (getIntent().getExtras() != null) {
             titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
             final String descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
-            immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
+            final String immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
             data = getIntent().getExtras().getString(FilmTableHelper.DATA);
             idFilm = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
+            immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
             final String voto = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
 
 
@@ -78,7 +79,7 @@ public class DettaglioFilm extends AppCompatActivity {
                 txtDecrizione.setText(descrizione);
             else
                 txtDecrizione.setText("NESSUNA OVERVIEW DISPONIBILE");
-
+/*
             String[] selectionArgs = {idFilm};
             mCursor = DettaglioFilm.this.getContentResolver().query(
                     FilmPreferredProvider.FILMS_URI,
@@ -91,7 +92,7 @@ public class DettaglioFilm extends AppCompatActivity {
                 imgStella.setImageResource(R.drawable.star_piena);
             }
 
-/*            imgStella.setOnClickListener(new View.OnClickListener() {
+            imgStella.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     String[] selectionArgs = {idFilm};
 
@@ -134,7 +135,6 @@ public class DettaglioFilm extends AppCompatActivity {
             btnInformzioni.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(DettaglioFilm.this, "CIAO", Toast.LENGTH_SHORT).show();
                     myDialogLike.setContentView(R.layout.like_dialog);
                     ImageView imageViewCopertina;
                     imageViewCopertina = myDialogLike.findViewById(R.id.imageViewfilmLike);
@@ -145,6 +145,8 @@ public class DettaglioFilm extends AppCompatActivity {
                     TextView dataUscita,genereFilm;
                     dataUscita = myDialogLike.findViewById(R.id.textViewDataDiUscita);
                     genereFilm = myDialogLike.findViewById(R.id.textViewgenereFilm);
+                    imgStella = myDialogLike.findViewById(R.id.imageViewpreferiti);
+
 
                     dataUscita.setText(data);
 
@@ -179,7 +181,7 @@ public class DettaglioFilm extends AppCompatActivity {
                     }
 
                     PieDataSet dataSet = new PieDataSet(pieEntries, "");
-                    PieData data = new PieData(dataSet);
+                    final PieData data = new PieData(dataSet);
                     pieChart.setUsePercentValues(true);
                     data.setValueFormatter(new PercentFormatter(pieChart));
                     pieChart.setHoleRadius(60);
@@ -210,6 +212,54 @@ public class DettaglioFilm extends AppCompatActivity {
 
                     titoloo.setText(titolo);
 
+
+                    String[] selectionArgs = {idFilm};
+                    mCursor = DettaglioFilm.this.getContentResolver().query(
+                            FilmPreferredProvider.FILMS_URI,
+                            null,
+                            FilmPreferredTableHelper.ID_MOVIE + " = ?",
+                            selectionArgs,
+                            null);
+
+                    while (mCursor.moveToNext()) {
+                        imgStella.setImageResource(R.drawable.star_piena);
+                    }
+
+
+                    imgStella.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            String[] selectionArgs = {idFilm};
+
+                            mCursor = DettaglioFilm.this.getContentResolver().query(
+                                    FilmPreferredProvider.FILMS_URI,
+                                    null,
+                                    FilmPreferredTableHelper.ID_MOVIE + " = ?",
+                                    selectionArgs,
+                                    null);
+
+                            int index = mCursor.getColumnIndex(FilmPreferredTableHelper.ID_MOVIE);
+                            String idDB = null;
+                            while (mCursor.moveToNext()) {
+                                Log.d("AAA", mCursor.getString(index));
+                                idDB = mCursor.getString(index);
+                            }
+
+                            if (idDB != null) {
+                                ShowPopup(v);
+                            } else {
+                                imgStella.setImageResource(R.drawable.star_piena);
+
+                                ContentValues contentValues = new ContentValues();
+                                contentValues.put(FilmPreferredTableHelper.ID_MOVIE, idFilm);
+                                contentValues.put(FilmPreferredTableHelper.TITOLO, titolo);
+                                contentValues.put(FilmPreferredTableHelper.DATA, String.valueOf(data));
+                                contentValues.put(FilmPreferredTableHelper.DESCRIZIONE, descrizione);
+                                contentValues.put(FilmPreferredTableHelper.IMG_PRINCIPALE, immaginePrincipale);
+                                contentValues.put(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
+                                DettaglioFilm.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, contentValues);
+                            }
+                        }
+                    });
 
                     Glide.with(DettaglioFilm.this)
                             .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)

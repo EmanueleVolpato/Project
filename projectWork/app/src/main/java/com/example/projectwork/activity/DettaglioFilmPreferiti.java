@@ -26,7 +26,7 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
         txtTitolo = findViewById(R.id.titoloFilmDettaglio);
         txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);
         imageViewDettaglio = findViewById(R.id.imageViewDettaglio);
-        txtData = findViewById(R.id.dataFilmDettaglio);
+//        txtData = findViewById(R.id.dataFilmDettaglio);
 
         if (getIntent().getExtras() != null) {
             titolo = getIntent().getExtras().getString(FilmPreferredTableHelper.TITOLO);
@@ -40,7 +40,7 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
                     .into(imageViewDettaglio);
 
             txtTitolo.setText(titolo);
-            txtData.setText(data);
+        //    txtData.setText(data);
             txtDecrizione.setText(descrizione);
 
         }
