@@ -17,12 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
-import com.example.projectwork.localDatabase.FilmTableHelper;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,9 +113,11 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
                 ProgressBar progressBarPreferiti;
                 progressBarPreferiti = dialogInformzioniPreferiti.findViewById(R.id.progressBarPreferiti);
                 progressBarPreferiti.setMax(100);
-
                 progressBarPreferiti.setProgress(valore);
 
+                TextView votoAggiudicatoPreferiti;
+                votoAggiudicatoPreferiti = dialogInformzioniPreferiti.findViewById(R.id.textVotoPreferiti);
+                votoAggiudicatoPreferiti.setText(valore +"%");
 
                 titoloo.setText(titolo);
 

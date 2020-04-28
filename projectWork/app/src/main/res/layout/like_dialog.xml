@@ -142,6 +142,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/no_like" />
 
+    <TextView
+        android:id="@+id/textVoto"
+        android:layout_width="63dp"
+        android:layout_height="21dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.674" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

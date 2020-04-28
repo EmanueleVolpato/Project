@@ -22,12 +22,7 @@ import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +97,6 @@ public class DettaglioFilm extends AppCompatActivity {
 
                     dataUscita.setText(data);
 
-
-
                     imgVota.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -128,8 +121,12 @@ public class DettaglioFilm extends AppCompatActivity {
                     ProgressBar progressBar;
                     progressBar = myDialoInfromazioniFilm.findViewById(R.id.progressBar);
                     progressBar.setMax(100);
-
                     progressBar.setProgress(valore);
+
+
+                   TextView votoAggiudicato;
+                   votoAggiudicato = myDialoInfromazioniFilm.findViewById(R.id.textVoto);
+                   votoAggiudicato.setText(valore +"%");
 
                     titoloo.setText(titolo);
 
