@@ -23,12 +23,18 @@ public interface ApiInterface {
             @Query("language") String language,
             @Query("query") String query);
 
-  //  https://api.themoviedb.org/3/genre/movie/list?api_key=e6de0d8da508a9809d74351ed62affef&language=it
+    //https://api.themoviedb.org/3/genre/movie/list?api_key=e6de0d8da508a9809d74351ed62affef&language=it
 
     @GET("3/genre/movie/list?")
     Call<GenresResults> genresList(
             @Query("api_key") String apiKey,
             @Query("language") String language);
+
+    //https://api.themoviedb.org/3/authentication/guest_session/new?api_key=e6de0d8da508a9809d74351ed62affef
+
+    @GET("3/authentication/guest_session/new?")
+    Call<GuestSessionResults> guestSsession(
+            @Query("api_key") String apiKey);
 
     //http://youtube.com/watch?v= k1dFqDhoS9A
 }

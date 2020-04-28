@@ -37,7 +37,35 @@ public class WebService {
         return instance;
     }
 
-    public void listGenres(String apiKey, String language, final Context context, final IWebServiceGenres iwebservice) {
+    public void getGuestIdSession(String apiKey, final IWebServiceGuestSession iwebservice) {
+        Call<GuestSessionResults> request = apiInterface.guestSsession(apiKey);
+
+        request.enqueue(new Callback<GuestSessionResults>() {
+            @Override
+            public void onResponse(Call<GuestSessionResults> call, Response<GuestSessionResults> response) {
+                if (response.code() == 200) {
+                    GuestSessionResults results = response.body();
+                    //List<GuestSessionResults> listOfGeneres = results.getGenres();
+                    iwebservice.onGuestFetched(true, results, -1, null);
+                } else {
+                    try {
+                        iwebservice.onGuestFetched(true, null, response.code(), response.errorBody().string());
+                    } catch (IOException ex) {
+                        Log.e("WebService", ex.toString());
+                        iwebservice.onGuestFetched(true, null, response.code(), "Generic error message");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GuestSessionResults> call, Throwable t) {
+                iwebservice.onGuestFetched(false, null, -1, t.getLocalizedMessage());
+
+            }
+        });
+    }
+
+    public void listGenres(String apiKey, String language, final IWebServiceGenres iwebservice) {
 
         Call<GenresResults> request = apiInterface.genresList(apiKey, language);
 
@@ -65,7 +93,7 @@ public class WebService {
         });
     }
 
-    public void searchFilms(String query, String apiKey, String language, final Context context, final IWebService iwebservice) {
+    public void searchFilms(String query, String apiKey, String language, final IWebService iwebservice) {
 
         Call<FilmResults> filmsRequest = apiInterface.searchFilm(apiKey, language, query);
 
