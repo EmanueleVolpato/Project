@@ -19,9 +19,6 @@ import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 
-
-
-
 public class DettaglioFilmPreferiti  extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione;
