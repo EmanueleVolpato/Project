@@ -141,6 +141,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                     @Override
                     public void onClick(View v) {
                         myDialogLike.dismiss();
+                        Toast.makeText(context,"esci",Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
