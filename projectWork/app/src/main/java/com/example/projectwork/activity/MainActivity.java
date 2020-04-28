@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     String[] tema = {"Chiaro", "Scuro"};
     String temaSelect = "";
-
     String[] lingua = {"Italiano", "Inglese"};
     String linguaSelect = "";
 
