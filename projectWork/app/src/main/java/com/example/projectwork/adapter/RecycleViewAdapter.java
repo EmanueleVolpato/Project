@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +78,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         final ImageView img = holder.cellView.findViewById(R.id.imageFilm);
         final CardView card = holder.cellView.findViewById(R.id.cardViewId);
+
         myDialogLike = new Dialog(context);
 
 
