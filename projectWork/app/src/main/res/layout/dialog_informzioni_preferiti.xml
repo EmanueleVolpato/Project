@@ -8,9 +8,8 @@
     android:clickable="true"
     android:orientation="vertical">
 
-
-    <ImageView
-        android:id="@+id/imageViewfilmLike"
+<ImageView
+        android:id="@+id/imageViewfilmLikePreferiti"
         android:layout_width="300dp"
         android:layout_height="222dp"
         android:layout_marginStart="118dp"
@@ -35,10 +34,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewfilmLike">
+        app:layout_constraintTop_toBottomOf="@+id/imageViewfilmLikePreferiti">
 
         <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChart"
+            android:id="@+id/pieChartPreferiti"
             android:layout_width="340dp"
             android:layout_height="258dp"
             android:layout_gravity="center_horizontal"
@@ -53,18 +52,7 @@
 
 
     <ImageView
-        android:id="@+id/imageViewpreferiti"
-        android:layout_width="109dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="636dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.519"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/star" />
-
-    <ImageView
-        android:id="@+id/buttoncancelLike"
+        android:id="@+id/buttoncancelLikePreferiti"
         android:layout_width="82dp"
         android:layout_height="44dp"
         android:layout_marginTop="636dp"
@@ -75,7 +63,7 @@
         app:srcCompat="@drawable/back" />
 
     <TextView
-        android:id="@+id/textViewtitoloLike"
+        android:id="@+id/textViewtitoloLikePreferiti"
         android:layout_width="279dp"
         android:layout_height="49dp"
         android:layout_marginStart="181dp"
@@ -90,11 +78,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewfilmLike"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewfilmLikePreferiti"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textViewDataDiUscita"
+        android:id="@+id/textViewDataDiUscitaPreferiti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
@@ -103,10 +91,10 @@
         android:textColor="#000000"
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewtitoloLike" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewtitoloLikePreferiti" />
 
     <TextView
-        android:id="@+id/textViewgenereFilm"
+        android:id="@+id/textViewgenereFilmPreferiti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
@@ -117,7 +105,7 @@
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDataDiUscita"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDataDiUscitaPreferiti"
         app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
@@ -136,7 +124,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageViewVotaFilm"
+        android:id="@+id/imageViewVotaFilmPreferiti"
         android:layout_width="86dp"
         android:layout_height="46dp"
         android:layout_marginTop="632dp"
@@ -148,8 +136,5 @@
         app:srcCompat="@drawable/no_like" />
 
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-

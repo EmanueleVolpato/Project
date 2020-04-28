@@ -46,7 +46,18 @@
                 android:textColor="#000000"
                 android:text="descrizione"
                 android:textSize="18dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
 
+            <Button
+                android:id="@+id/buttonApriDialogInformzioniPreferiti"
+                android:layout_width="53dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/round_button"
+                android:text="+"
+                android:textSize="18dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

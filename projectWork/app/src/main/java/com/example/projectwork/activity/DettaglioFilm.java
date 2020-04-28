@@ -39,6 +39,7 @@ public class DettaglioFilm extends AppCompatActivity {
     String immagineDettaglio;
     String titolo;
     Button btnOk, btnCancel,btnInformzioni;
+    String voto;
     String data;
     Dialog myDialoInfromazioniFilm, dialogVotaFilm,myDialogLikeFilm;
 
@@ -64,7 +65,7 @@ public class DettaglioFilm extends AppCompatActivity {
             data = getIntent().getExtras().getString(FilmTableHelper.DATA);
             idFilm = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
             immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
-            final String voto = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
+            voto = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
 
 
             Glide.with(DettaglioFilm.this)
@@ -124,9 +125,6 @@ public class DettaglioFilm extends AppCompatActivity {
                     });
 
 
-
-
-
                     Double valutazione = Double.valueOf(voto)*10;
                     Double conteggio = 100 - valutazione;
 
@@ -140,9 +138,9 @@ public class DettaglioFilm extends AppCompatActivity {
                     }
 
                     PieDataSet dataSet = new PieDataSet(pieEntries, "");
-                    final PieData data = new PieData(dataSet);
+                    final PieData dataa = new PieData(dataSet);
                     pieChart.setUsePercentValues(true);
-                    data.setValueFormatter(new PercentFormatter(pieChart));
+                    dataa.setValueFormatter(new PercentFormatter(pieChart));
                     pieChart.setHoleRadius(60);
                     pieChart.getDescription().setEnabled(false);
                     pieChart.setDrawRoundedSlices(true);
@@ -162,10 +160,10 @@ public class DettaglioFilm extends AppCompatActivity {
                     pieChart.setRotationEnabled(false);
                     pieChart.setTouchEnabled(false);
                     pieChart.getLegend().setEnabled(false);
-                    data.setValueTextSize(15f);
+                    dataa.setValueTextSize(15f);
                     pieChart.animateX(1500);
 
-                    pieChart.setData(data);
+                    pieChart.setData(dataa);
                     pieChart.invalidate();
 
 
@@ -216,6 +214,7 @@ public class DettaglioFilm extends AppCompatActivity {
                                 contentValues.put(FilmPreferredTableHelper.TITOLO, titolo);
                                 contentValues.put(FilmPreferredTableHelper.DATA, String.valueOf(data));
                                 contentValues.put(FilmPreferredTableHelper.DESCRIZIONE, descrizione);
+                                contentValues.put(FilmPreferredTableHelper.VOTO, voto);
                                 contentValues.put(FilmPreferredTableHelper.IMG_PRINCIPALE, immaginePrincipale);
                                 contentValues.put(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
                                 DettaglioFilm.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, contentValues);

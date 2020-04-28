@@ -88,6 +88,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                 bundle.putString(FilmPreferredTableHelper.IMG_PRINCIPALE, mData.get(position).getPosterPath());
                 bundle.putString(FilmPreferredTableHelper.IMG_DETTAGLIO, mData.get(position).getBackdropPath());
                 bundle.putString(FilmPreferredTableHelper.DATA, mData.get(position).getReleaseDate());
+                bundle.putString(FilmPreferredTableHelper.VOTO, String.valueOf(mData.get(position).getVoteAverage()));
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
