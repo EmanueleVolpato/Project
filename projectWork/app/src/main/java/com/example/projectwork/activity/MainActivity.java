@@ -27,17 +27,15 @@ import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.GenresResults;
-import com.example.projectwork.services.GuestSessionResults;
 import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.IWebServiceGenres;
-import com.example.projectwork.services.IWebServiceGuestSession;
 import com.example.projectwork.services.WebService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IWebService {
 
     private String CATEGORY = "";
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
@@ -67,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
     String[] lingua = {"Italiano", "Inglese"};
     String linguaSelect = "";
 
-    String idGuestSession = "";  // id session guest
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,36 +77,7 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (controlloConnessione()) {
-                    CATEGORY = "popular";
-                    LANGUAGE = "it";
-                    PAGE = 1;
-                    webService = WebService.getInstance();
-
-                    internetFilm = new ArrayList<>();
-                    searchInternetFilm = new ArrayList<>();
-
-                    adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-                    recyclerView.setAdapter(adapter);
-
-                    internet();
-                    listGenres();
-                    idGuestSession();
-
-                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                            super.onScrollStateChanged(recyclerView, newState);
-                            if (!recyclerView.canScrollVertically(1)) {
-                                PAGE++;
-                                webService = WebService.getInstance();
-                                internet();
-                            }
-                        }
-                    });
-                } else {
-                    noInternet();
-                }
+                adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false );
             }
         });
@@ -176,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchFilms(String QUERY) {
-        webService.searchFilms(QUERY, API_KEY, LANGUAGE, new IWebService() {
+        webService.searchFilms(QUERY, API_KEY, LANGUAGE, MainActivity.this, new IWebService() {
             @Override
             public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
                 if (success) {
@@ -193,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void listGenres() {
-        webService.listGenres(API_KEY, LANGUAGE, new IWebServiceGenres() {
+        webService.listGenres(API_KEY, LANGUAGE, MainActivity.this, new IWebServiceGenres() {
             @Override
             public void onGenresFetched(boolean success, List<GenresResults.Data> genres, int errorCode, String errorMessage) {
                 if (success) {
@@ -208,19 +175,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void idGuestSession() {
-        webService.getGuestIdSession(API_KEY, new IWebServiceGuestSession() {
-            @Override
-            public void onGuestFetched(boolean success, GuestSessionResults guest, int errorCode, String errorMessage) {
-                if (success) {
-                   // Toast.makeText(MainActivity.this, guest.getGuest_session_id(), Toast.LENGTH_SHORT).show();
-                    idGuestSession = guest.getGuest_session_id();
-                } else {
-                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 
     private void noInternet() {
         noInternetFilm = new ArrayList<>();
@@ -408,5 +362,10 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
+        //films
     }
 }
