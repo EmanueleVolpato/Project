@@ -56,8 +56,6 @@ public class DettaglioFilm extends AppCompatActivity {
         imgDettaglio = findViewById(R.id.imageViewDettaglio);
         btnInformzioni = findViewById(R.id.buttonApriDialogInformzioni);
         myDialogLike = new Dialog(DettaglioFilm.this);
-
-        // imgStella = findViewById(R.id.stella);
         myDialog = new Dialog(this);
 
         if (getIntent().getExtras() != null) {
@@ -144,13 +142,17 @@ public class DettaglioFilm extends AppCompatActivity {
                     titoloo = myDialogLike.findViewById(R.id.textViewtitoloLike);
                     Button esc;
                     esc = myDialogLike.findViewById(R.id.buttoncancelLike);
+                    TextView dataUscita,genereFilm;
+                    dataUscita = myDialogLike.findViewById(R.id.textViewDataDiUscita);
+                    genereFilm = myDialogLike.findViewById(R.id.textViewgenereFilm);
 
+                    dataUscita.setText(data);
 
                     int[] colorGreen = {Color.rgb(0, 187, 45), Color.rgb(156, 156, 156)};
-                    int[] colorRed = {Color.rgb(255, 0, 0), Color.rgb(10, 10, 10)};
-                    int[] colorArancio = {Color.rgb(255, 117, 20), Color.rgb(10, 10, 10)};
-                    int[] colorYellow = {Color.rgb(255, 255, 45), Color.rgb(10, 10, 10)};
-                    int[] colorBlue = {Color.rgb(3, 107, 218), Color.rgb(10, 10, 10)};
+                    int[] colorRed = {Color.rgb(255, 0, 0), Color.rgb(156, 156, 156)};
+                    int[] colorArancio = {Color.rgb(255, 117, 20), Color.rgb(156, 156, 156)};
+                    int[] colorYellow = {Color.rgb(255, 255, 45), Color.rgb(156, 156, 156)};
+                    int[] colorBlue = {Color.rgb(3, 107, 218), Color.rgb(156, 156, 156)};
 
 
 
