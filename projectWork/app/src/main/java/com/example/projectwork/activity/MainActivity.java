@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     AlertDialog alertDialog;
     AlertDialog.Builder builder;
+
+
+    SwipeRefreshLayout swipeRefreshLayout;
+
     String[] categorie = {"Novità", "Prossime Uscite", "Più votati", "Popolari"};
     String categoriaSelect = "";
 
@@ -64,6 +69,15 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         getSupportActionBar().setTitle("MOVIES");
 
         recyclerView = findViewById(R.id.recyclerviewFilm);
+        swipeRefreshLayout = findViewById(R.id.swipeRefresh);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false );
+            }
+        });
 
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
