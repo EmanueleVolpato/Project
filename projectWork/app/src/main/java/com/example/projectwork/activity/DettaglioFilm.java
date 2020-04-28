@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -34,15 +33,14 @@ import java.util.List;
 public class DettaglioFilm extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione,txtData;
-    ImageView imgDettaglio, imgStella;
+    ImageView imgDettaglio, imgStella,imgVota;
     Cursor mCursor;
     String idFilm;
-    Dialog myDialog;
     String immagineDettaglio;
     String titolo;
     Button btnOk, btnCancel,btnInformzioni;
     String data;
-    Dialog myDialogLike;
+    Dialog myDialoInfromazioniFilm, dialogVotaFilm,myDialogLikeFilm;
 
 
     @Override
@@ -55,8 +53,9 @@ public class DettaglioFilm extends AppCompatActivity {
         txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);
         imgDettaglio = findViewById(R.id.imageViewDettaglio);
         btnInformzioni = findViewById(R.id.buttonApriDialogInformzioni);
-        myDialogLike = new Dialog(DettaglioFilm.this);
-        myDialog = new Dialog(this);
+        myDialoInfromazioniFilm = new Dialog(DettaglioFilm.this);
+        myDialogLikeFilm = new Dialog(DettaglioFilm.this);
+        dialogVotaFilm = new Dialog(DettaglioFilm.this);
 
         if (getIntent().getExtras() != null) {
             titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
@@ -84,17 +83,18 @@ public class DettaglioFilm extends AppCompatActivity {
             btnInformzioni.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    myDialogLike.setContentView(R.layout.like_dialog);
+                    myDialoInfromazioniFilm.setContentView(R.layout.like_dialog);
                     ImageView imageViewCopertina;
-                    imageViewCopertina = myDialogLike.findViewById(R.id.imageViewfilmLike);
+                    imageViewCopertina = myDialoInfromazioniFilm.findViewById(R.id.imageViewfilmLike);
                     TextView titoloo;
-                    titoloo = myDialogLike.findViewById(R.id.textViewtitoloLike);
+                    titoloo = myDialoInfromazioniFilm.findViewById(R.id.textViewtitoloLike);
                     Button esc;
-                    esc = myDialogLike.findViewById(R.id.buttoncancelLike);
+                    esc = myDialoInfromazioniFilm.findViewById(R.id.buttoncancelLike);
                     TextView dataUscita,genereFilm;
-                    dataUscita = myDialogLike.findViewById(R.id.textViewDataDiUscita);
-                    genereFilm = myDialogLike.findViewById(R.id.textViewgenereFilm);
-                    imgStella = myDialogLike.findViewById(R.id.imageViewpreferiti);
+                    dataUscita = myDialoInfromazioniFilm.findViewById(R.id.textViewDataDiUscita);
+                    genereFilm = myDialoInfromazioniFilm.findViewById(R.id.textViewgenereFilm);
+                    imgStella = myDialoInfromazioniFilm.findViewById(R.id.imageViewpreferiti);
+                    imgVota = myDialoInfromazioniFilm.findViewById(R.id.imageViewVotaFilm);
 
 
                     dataUscita.setText(data);
@@ -108,19 +108,29 @@ public class DettaglioFilm extends AppCompatActivity {
 
 
 
+                    imgVota.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ShowPopupVotaFilm(v);
+                        }
+                    });
+
+
                     esc.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            myDialogLike.dismiss();
-                            Toast.makeText(DettaglioFilm.this, "esci", Toast.LENGTH_SHORT).show();
-
+                            myDialoInfromazioniFilm.dismiss();
                         }
                     });
+
+
+
+
 
                     Double valutazione = Double.valueOf(voto)*10;
                     Double conteggio = 100 - valutazione;
 
-                    PieChart pieChart = myDialogLike.findViewById(R.id.pieChart);
+                    PieChart pieChart = myDialoInfromazioniFilm.findViewById(R.id.pieChart);
 
                     Float number[] = {Float.valueOf(String.valueOf(valutazione)), Float.valueOf(String.valueOf(conteggio))};
 
@@ -174,6 +184,9 @@ public class DettaglioFilm extends AppCompatActivity {
                     }
 
 
+
+
+
                     imgStella.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             String[] selectionArgs = {idFilm};
@@ -192,7 +205,7 @@ public class DettaglioFilm extends AppCompatActivity {
                             }
 
                             if (idDB != null) {
-                                ShowPopup(v);
+                                ShowPopupPreferito(v);
                             } else {
 
                                 imgStella.setImageResource(R.drawable.star_piena);
@@ -213,7 +226,7 @@ public class DettaglioFilm extends AppCompatActivity {
                             .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                             .into(imageViewCopertina);
 
-                    myDialogLike.show();
+                    myDialoInfromazioniFilm.show();
 
                 }
             });
@@ -228,15 +241,14 @@ public class DettaglioFilm extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public void ShowPopup(View v) {
-        myDialogLike.dismiss();
-        myDialog.setContentView(R.layout.dialog);
-        btnCancel = myDialog.findViewById(R.id.buttoncancel);
-        btnOk = myDialog.findViewById(R.id.buttonok);
+    public void ShowPopupPreferito(View v) {
+        myDialogLikeFilm.setContentView(R.layout.dialog);
+        btnCancel = myDialogLikeFilm.findViewById(R.id.buttoncancel);
+        btnOk = myDialogLikeFilm.findViewById(R.id.buttonok);
         ImageView imageViewCancel;
-        imageViewCancel = myDialog.findViewById(R.id.imageViewfilm);
+        imageViewCancel = myDialogLikeFilm.findViewById(R.id.imageViewfilm);
         TextView textViewtitoloo;
-        textViewtitoloo = myDialog.findViewById(R.id.textViewtitolo);
+        textViewtitoloo = myDialogLikeFilm.findViewById(R.id.textViewtitolo);
 
         textViewtitoloo.setText("Vuoi togliere " + titolo + " dai preferiti?");
         Glide.with(DettaglioFilm.this)
@@ -246,8 +258,7 @@ public class DettaglioFilm extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDialog.dismiss();
-                myDialogLike.show();
+                myDialogLikeFilm.dismiss();
             }
         });
 
@@ -256,10 +267,58 @@ public class DettaglioFilm extends AppCompatActivity {
             public void onClick(View v) {
                 getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferredProvider.FILMS_URI)), FilmPreferredTableHelper.ID_MOVIE + "=" + idFilm, null);
                 imgStella.setImageResource(R.drawable.star);
-                myDialog.dismiss();
-                myDialogLike.show();
+                myDialogLikeFilm.dismiss();
             }
         });
-        myDialog.show();
+        myDialogLikeFilm.show();
+    }
+
+
+
+    public void ShowPopupVotaFilm(View v) {
+        dialogVotaFilm.setContentView(R.layout.vota_dialog);
+        ImageView imageViewCopertinaVoto;
+        imageViewCopertinaVoto = dialogVotaFilm.findViewById(R.id.imageViewCopertinaVotaFilm);
+
+        Glide.with(DettaglioFilm.this)
+                .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                .into(imageViewCopertinaVoto);
+        TextView titoloFilmVoto;
+        titoloFilmVoto = dialogVotaFilm.findViewById(R.id.textViewtitolovotaFilm);
+        titoloFilmVoto.setText(titolo);
+
+        RatingBar ratingBar;
+        ratingBar = dialogVotaFilm.findViewById(R.id.ratingBar);
+        final TextView votoPersonale;
+        votoPersonale = dialogVotaFilm.findViewById(R.id.textViewvotoPersonale);
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                votoPersonale.setText(String.valueOf((ratingBar.getRating()*2) +" /10"));
+            }
+        });
+
+
+        Button escVota,votaFilm;
+        escVota = dialogVotaFilm.findViewById(R.id.buttonEscVotaFilm);
+        votaFilm = dialogVotaFilm.findViewById(R.id.buttonVotaFilm);
+
+        escVota.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogVotaFilm.dismiss();
+            }
+        });
+
+        votaFilm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DettaglioFilm.this,"votato",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialogVotaFilm.show();
+
     }
 }
