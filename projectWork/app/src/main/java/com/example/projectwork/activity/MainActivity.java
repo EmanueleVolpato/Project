@@ -23,6 +23,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.projectwork.R;
+import com.example.projectwork.SharedPref;
 import com.example.projectwork.adapter.RecycleViewAdapter;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
@@ -66,13 +67,18 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String[] tema = {"Chiaro", "Scuro"};
     String temaSelect = "";
 
-    String[] lingua = {"Italiano", "Inglese"};
-    String linguaSelect = "";
+    SharedPref sharedPref;
 
     String idSessionGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = new SharedPref(this);
+
+        if (sharedPref.loadNightModeState() == true) {
+            setTheme(R.style.darktheme);
+        } else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("MOVIES");
@@ -83,8 +89,35 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
+                if (controlloConnessione()) {
+                    CATEGORY = "popular";
+                    LANGUAGE="it";
+                    PAGE =1;
+                    webService = WebService.getInstance();
+
+                    internetFilm = new ArrayList<>();
+                    searchInternetFilm = new ArrayList<>();
+
+                    adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+                    recyclerView.setAdapter(adapter);
+
+                    internet();
+
+                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                            super.onScrollStateChanged(recyclerView, newState);
+                            if (!recyclerView.canScrollVertically(1)) {
+                                PAGE++;
+                                webService = WebService.getInstance();
+                                internet();
+                            }
+                        }
+                    });
+                } else {
+                    noInternet();
+                }
+                swipeRefreshLayout.setRefreshing(false );
             }
         });
 
@@ -289,8 +322,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 public void onClick(DialogInterface dialog, int which) {
                     if (temaSelect == "Scuro") {
                         Toast.makeText(MainActivity.this, "TEMA SCURO ATTIVATO", Toast.LENGTH_SHORT).show();
+                        sharedPref.setNightModeState(true);
+                        restartApp();
                     } else {
                         Toast.makeText(MainActivity.this, "TEMA CHIARO ATTIVATO", Toast.LENGTH_SHORT).show();
+                        sharedPref.setNightModeState(false);
+                        restartApp();
                     }
                 }
             });
@@ -361,5 +398,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     @Override
     public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
         //films
+    }
+
+    public void restartApp() {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
+        finish();
     }
 }

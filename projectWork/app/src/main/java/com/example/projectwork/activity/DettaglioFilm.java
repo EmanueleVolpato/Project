@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
+import com.example.projectwork.SharedPref;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
@@ -42,6 +43,7 @@ public class DettaglioFilm extends AppCompatActivity {
     String voto;
     String data;
     Dialog myDialoInfromazioniFilm, dialogVotaFilm, myDialogLikeFilm;
+    SharedPref sharedPref;
 
     String idSessionGuest;
     private WebService webService;
@@ -49,6 +51,12 @@ public class DettaglioFilm extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = new SharedPref(this);
+
+        if(sharedPref.loadNightModeState()==true){
+            setTheme(R.style.darktheme);
+        }
+        else setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
         getSupportActionBar().setTitle("MOVIE DETAILS");
