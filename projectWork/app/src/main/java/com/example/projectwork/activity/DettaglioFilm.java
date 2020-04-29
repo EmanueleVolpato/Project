@@ -363,7 +363,6 @@ public class DettaglioFilm extends AppCompatActivity {
         votaFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  Toast.makeText(DettaglioFilm.this, "votato", Toast.LENGTH_SHORT).show();
                 if (controlloConnessione()) {
                     JsonVota j = new JsonVota();
                     votaFilm(idFilm, j.ApiJsonMap(ratingBar.getRating() * 2));

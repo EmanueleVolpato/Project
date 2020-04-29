@@ -77,13 +77,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String idSessionGuest;
 
 
-
-    private static String LIST_STATE ="list_state";
-    private Parcelable savedRecyclerLayoutState;
-    private static final String BUNDLE_RECYCLER_LAYOUT = "recycler_layout";
-    Bundle mBundleRecyclerViewState;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -233,9 +226,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             public void onGuestFetched(boolean success, GuestSessionResults guest, int errorCode, String errorMessage) {
                 if (success) {
                     idSessionGuest = guest.getGuest_session_id();
-
-                    Toast.makeText(MainActivity.this, idSessionGuest, Toast.LENGTH_SHORT).show();
-
                     MainActivity.this.getContentResolver().delete(FilmPreferredProvider.FILMS_URI,
                             FilmPreferredTableHelper.ID_MOVIE + " = ?", new String[]{("key_session")});
 
