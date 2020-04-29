@@ -97,7 +97,7 @@
         app:layout_constraintHorizontal_bias="0.942"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        app:srcCompat="@drawable/no_like" />
+        app:srcCompat="@drawable/like" />
 
     <ImageView
         android:id="@+id/buttoncancelLike"

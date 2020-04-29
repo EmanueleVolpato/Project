@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         } else {
             noInternet();
         }
+
     }
 
     private boolean controlloConnessione() {

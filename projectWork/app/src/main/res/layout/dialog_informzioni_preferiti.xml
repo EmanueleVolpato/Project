@@ -129,7 +129,7 @@
         app:layout_constraintHorizontal_bias="0.881"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/no_like" />
+        app:srcCompat="@drawable/like" />
 
     <TextView
         android:id="@+id/textVotoPreferiti"

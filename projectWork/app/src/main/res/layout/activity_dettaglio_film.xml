@@ -32,6 +32,7 @@
                 android:id="@+id/titoloFilmDettaglio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:layout_marginTop="10dp"
                 android:text="Titolo Film"
                 android:textColor="?attr/textcolor"
@@ -61,7 +62,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:gravity="right|center_vertical">
 
         <Button
             android:id="@+id/buttonApriDialogInformzioni"
@@ -73,6 +75,10 @@
             android:text="+"
             android:textColor="?attr/textcolor"
             android:textSize="20dp" />
+
     </LinearLayout>
 
 </LinearLayout>
+
+
+
