@@ -77,6 +77,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         myDialogLike = new Dialog(context);
 
 
+
+
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getPosterPath())
                 .into(img);
@@ -153,5 +155,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             this.cellView = cellView;
         }
     }
+
+
 
 }

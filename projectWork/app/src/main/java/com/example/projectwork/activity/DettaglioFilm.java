@@ -1,10 +1,12 @@
 package com.example.projectwork.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -42,6 +44,7 @@ public class DettaglioFilm extends AppCompatActivity {
     Button btnOk, btnCancel, btnInformzioni;
     String voto;
     String data;
+    String descrizione;
     Dialog myDialoInfromazioniFilm, dialogVotaFilm, myDialogLikeFilm;
     SharedPref sharedPref;
 
@@ -88,7 +91,7 @@ public class DettaglioFilm extends AppCompatActivity {
             }
 
             titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
-            final String descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
+            descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
             final String immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
             data = getIntent().getExtras().getString(FilmTableHelper.DATA);
             idFilm = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
@@ -103,10 +106,27 @@ public class DettaglioFilm extends AppCompatActivity {
             txtTitolo.setText(titolo);
 
 
-            if (descrizione != "")
+            if (!descrizione.equals(""))
                 txtDecrizione.setText(descrizione);
             else
-                txtDecrizione.setText("NESSUNA OVERVIEW DISPONIBILE");
+            {
+
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(DettaglioFilm.this);
+                builder1.setMessage("NESSUNA DESCRIZIONE AL MOMENTO.");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+
+            }
 
 
             btnInformzioni.setOnClickListener(new View.OnClickListener() {

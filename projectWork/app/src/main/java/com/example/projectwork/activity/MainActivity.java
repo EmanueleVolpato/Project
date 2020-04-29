@@ -16,6 +16,9 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +42,9 @@ import com.example.projectwork.services.WebService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER;
 
 public class MainActivity extends AppCompatActivity implements IWebService {
 
@@ -68,13 +74,19 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String temaSelect = "";
 
     SharedPref sharedPref;
-
     String idSessionGuest;
+
+
+
+    private static String LIST_STATE ="list_state";
+    private Parcelable savedRecyclerLayoutState;
+    private static final String BUNDLE_RECYCLER_LAYOUT = "recycler_layout";
+    Bundle mBundleRecyclerViewState;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
-
         if (sharedPref.loadNightModeState() == true) {
             setTheme(R.style.darktheme);
         } else setTheme(R.style.AppTheme);
@@ -263,10 +275,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
