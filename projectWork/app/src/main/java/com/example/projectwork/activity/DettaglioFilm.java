@@ -99,11 +99,30 @@ public class DettaglioFilm extends AppCompatActivity {
             voto = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
 
 
-            Glide.with(DettaglioFilm.this)
-                    .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                    .into(imgDettaglio);
+                Glide.with(DettaglioFilm.this)
+                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                        .into(imgDettaglio);
 
-            txtTitolo.setText(titolo);
+
+            if(!titolo.equals("")) {
+                txtTitolo.setText(titolo);
+            }else
+            {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(DettaglioFilm.this);
+                builder1.setMessage("NESSUN TITOLO DISPONIBILE AL MOMENTO.");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
 
 
             if (!descrizione.equals(""))
