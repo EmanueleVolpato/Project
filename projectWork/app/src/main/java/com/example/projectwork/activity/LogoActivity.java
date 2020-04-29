@@ -34,8 +34,7 @@ public class LogoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
         final ImageView imageView = (ImageView) findViewById(R.id.imageLogo);
-        final Animation animation_1 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.rotate);
-        final Animation animation_2 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.antirotate);
+        final Animation animation_2 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.rotate);
         final Animation animation_3 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.abc_fade_out);
 
         imageView.startAnimation(animation_2);
@@ -47,7 +46,7 @@ public class LogoActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                imageView.startAnimation(animation_1);
+                imageView.startAnimation(animation_2);
             }
 
             @Override
@@ -56,7 +55,7 @@ public class LogoActivity extends AppCompatActivity {
             }
         });
 
-        animation_1.setAnimationListener(new Animation.AnimationListener() {
+            animation_2.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
 
