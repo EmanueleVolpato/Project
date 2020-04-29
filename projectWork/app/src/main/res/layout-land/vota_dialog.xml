@@ -11,9 +11,8 @@
         android:id="@+id/imageViewCopertinaVotaFilm"
         android:layout_width="300dp"
         android:layout_height="222dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="469dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.039"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
