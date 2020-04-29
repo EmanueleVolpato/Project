@@ -22,6 +22,8 @@ import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String idSessionGuest;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
         recyclerView = findViewById(R.id.recyclerviewFilm);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
-
+               //recyclerView.smoothScrollToPosition(0);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
