@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -130,10 +132,12 @@ public class DettaglioFilm extends AppCompatActivity {
                     progressBar = myDialoInfromazioniFilm.findViewById(R.id.progressBar);
                     progressBar.setMax(100);
                     progressBar.setProgress(valore);
+                    //int colorCodeDark = Color.parseColor("#FFFF00");
 
 
 
-                   TextView votoAggiudicato;
+
+                    TextView votoAggiudicato;
                    votoAggiudicato = myDialoInfromazioniFilm.findViewById(R.id.textVoto);
                    votoAggiudicato.setText(valore +"%");
 
