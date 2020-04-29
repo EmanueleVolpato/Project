@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="160dp"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:clickable="true"
     android:id="@+id/cardViewId"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="215dp"
+    android:layout_width="160dp"
+
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_margin="19dp"
     cardview:cardCornerRadius="10dp">
@@ -20,8 +20,7 @@
             android:id="@+id/imageFilm"
             android:layout_width="match_parent"
             android:layout_height="215dp"
-            android:background="#2d2d2d"
-            android:scaleType="centerCrop" />
+            android:background="#2d2d2d" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 
