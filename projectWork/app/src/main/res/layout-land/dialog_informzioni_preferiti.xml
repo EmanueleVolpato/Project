@@ -14,9 +14,9 @@
         android:id="@+id/imageViewYoutubePreferiti"
         android:layout_width="86dp"
         android:layout_height="46dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintHorizontal_bias="0.302"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewtitoloLikePreferiti"
         app:srcCompat="@drawable/youtube" />
@@ -54,8 +54,8 @@
 
     <TextView
         android:id="@+id/textViewtitoloLikePreferiti"
-        android:layout_width="279dp"
-        android:layout_height="49dp"
+        android:layout_width="221dp"
+        android:layout_height="45dp"
         android:layout_marginStart="19dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="488dp"
