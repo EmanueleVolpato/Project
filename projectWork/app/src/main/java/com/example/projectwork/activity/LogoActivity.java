@@ -1,6 +1,7 @@
 package com.example.projectwork.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -14,11 +15,22 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.projectwork.R;
+import com.example.projectwork.SharedPref;
 
 public class LogoActivity extends AppCompatActivity {
 
+    SharedPref sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPref = new SharedPref(this);
+
+        if(sharedPref.loadNightModeState()==true){
+            setTheme(R.style.darktheme);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
         final ImageView imageView = (ImageView) findViewById(R.id.imageLogo);

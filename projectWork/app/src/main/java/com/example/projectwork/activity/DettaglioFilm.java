@@ -1,11 +1,15 @@
 package com.example.projectwork.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -19,13 +23,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
+import com.example.projectwork.SharedPref;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class DettaglioFilm extends AppCompatActivity {
 
@@ -39,10 +42,17 @@ public class DettaglioFilm extends AppCompatActivity {
     String voto;
     String data;
     Dialog myDialoInfromazioniFilm, dialogVotaFilm,myDialogLikeFilm;
+    SharedPref sharedPref;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = new SharedPref(this);
+
+        if(sharedPref.loadNightModeState()==true){
+            setTheme(R.style.darktheme);
+        }
+        else setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
         getSupportActionBar().setTitle("MOVIE DETAILS");
@@ -122,9 +132,12 @@ public class DettaglioFilm extends AppCompatActivity {
                     progressBar = myDialoInfromazioniFilm.findViewById(R.id.progressBar);
                     progressBar.setMax(100);
                     progressBar.setProgress(valore);
+                    //int colorCodeDark = Color.parseColor("#FFFF00");
 
 
-                   TextView votoAggiudicato;
+
+
+                    TextView votoAggiudicato;
                    votoAggiudicato = myDialoInfromazioniFilm.findViewById(R.id.textVoto);
                    votoAggiudicato.setText(valore +"%");
 

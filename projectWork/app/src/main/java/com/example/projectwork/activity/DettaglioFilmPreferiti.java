@@ -13,14 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
+import com.example.projectwork.SharedPref;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DettaglioFilmPreferiti  extends AppCompatActivity {
 
@@ -32,10 +30,20 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
     Dialog dialogVotaFilmPreferiti;
     String immagineDettaglio;
     String descrizione,voto;
+    SharedPref sharedPref;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPref = new SharedPref(this);
+
+        if(sharedPref.loadNightModeState()==true){
+            setTheme(R.style.darktheme);
+        }
+        else setTheme(R.style.AppTheme);
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film_preferito);
         getSupportActionBar().setTitle("MOVIE DETAILS");

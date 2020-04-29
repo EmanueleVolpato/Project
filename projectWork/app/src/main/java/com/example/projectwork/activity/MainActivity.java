@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -34,6 +36,7 @@ import com.example.projectwork.services.WebService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements IWebService {
 
@@ -61,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     String[] tema = {"Chiaro", "Scuro"};
     String temaSelect = "";
-
     String[] lingua = {"Italiano", "Inglese"};
     String linguaSelect = "";
 
@@ -77,7 +79,34 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                adapter.notifyDataSetChanged();
+                if (controlloConnessione()) {
+                    CATEGORY = "popular";
+                    LANGUAGE="it";
+                    PAGE =1;
+                    webService = WebService.getInstance();
+
+                    internetFilm = new ArrayList<>();
+                    searchInternetFilm = new ArrayList<>();
+
+                    adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+                    recyclerView.setAdapter(adapter);
+
+                    internet();
+
+                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                            super.onScrollStateChanged(recyclerView, newState);
+                            if (!recyclerView.canScrollVertically(1)) {
+                                PAGE++;
+                                webService = WebService.getInstance();
+                                internet();
+                            }
+                        }
+                    });
+                } else {
+                    noInternet();
+                }
                 swipeRefreshLayout.setRefreshing(false );
             }
         });
@@ -331,4 +360,18 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
         //films
     }
+
+
+    public  void setLocate(String lang)
+    {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration configuration= new Configuration();
+        configuration.locale= locale;
+        getBaseContext().getResources().updateConfiguration(configuration,getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("settings",MODE_PRIVATE).edit();
+        editor.putString("my_lang",lang);
+        editor.apply();
+    }
+
 }
