@@ -1,15 +1,13 @@
 package com.example.projectwork.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
-import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.res.ColorStateList;
+import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -23,36 +21,34 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
-import com.example.projectwork.SharedPref;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
-
-
+import com.example.projectwork.services.IWebServiceVoteFilm;
+import com.example.projectwork.services.JsonVota;
+import com.example.projectwork.services.VoteFilmResults;
+import com.example.projectwork.services.WebService;
+import com.google.gson.JsonObject;
 
 public class DettaglioFilm extends AppCompatActivity {
 
-    TextView txtTitolo, txtDecrizione,txtData;
-    ImageView imgDettaglio, imgStella,imgVota;
+    TextView txtTitolo, txtDecrizione, txtData;
+    ImageView imgDettaglio, imgStella, imgVota;
     Cursor mCursor;
     String idFilm;
     String immagineDettaglio;
     String titolo;
-    Button btnOk, btnCancel,btnInformzioni;
+    Button btnOk, btnCancel, btnInformzioni;
     String voto;
     String data;
-    Dialog myDialoInfromazioniFilm, dialogVotaFilm,myDialogLikeFilm;
-    SharedPref sharedPref;
+    Dialog myDialoInfromazioniFilm, dialogVotaFilm, myDialogLikeFilm;
 
+    String idSessionGuest;
+    private WebService webService;
+    private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sharedPref = new SharedPref(this);
-
-        if(sharedPref.loadNightModeState()==true){
-            setTheme(R.style.darktheme);
-        }
-        else setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
         getSupportActionBar().setTitle("MOVIE DETAILS");
@@ -66,6 +62,23 @@ public class DettaglioFilm extends AppCompatActivity {
         dialogVotaFilm = new Dialog(DettaglioFilm.this);
 
         if (getIntent().getExtras() != null) {
+
+            String[] selectionArgs = {"key_session"};
+            Cursor c = DettaglioFilm.this.getContentResolver().query(
+                    FilmPreferredProvider.FILMS_URI,
+                    null,
+                    FilmPreferredTableHelper.ID_MOVIE + " = ?",
+                    selectionArgs,
+                    null);
+
+            while (c.moveToNext()) {
+                idSessionGuest = c.getString(c.getColumnIndex(FilmPreferredTableHelper.KEY_GUEST_VOTO));
+            }
+
+            if (controlloConnessione()) {
+                webService = WebService.getInstance();
+            }
+
             titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
             final String descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
             final String immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
@@ -98,7 +111,7 @@ public class DettaglioFilm extends AppCompatActivity {
                     titoloo = myDialoInfromazioniFilm.findViewById(R.id.textViewtitoloLike);
                     ImageView esc;
                     esc = myDialoInfromazioniFilm.findViewById(R.id.buttoncancelLike);
-                    TextView dataUscita,genereFilm;
+                    TextView dataUscita, genereFilm;
                     dataUscita = myDialoInfromazioniFilm.findViewById(R.id.textViewDataDiUscita);
                     genereFilm = myDialoInfromazioniFilm.findViewById(R.id.textViewgenereFilm);
                     imgStella = myDialoInfromazioniFilm.findViewById(R.id.imageViewpreferiti);
@@ -123,23 +136,19 @@ public class DettaglioFilm extends AppCompatActivity {
                     });
 
 
-                   Float valutazione = Float.valueOf(voto)*10;
-                   int valore = Math.round(valutazione) ;
-
+                    Float valutazione = Float.valueOf(voto) * 10;
+                    int valore = Math.round(valutazione);
 
 
                     ProgressBar progressBar;
                     progressBar = myDialoInfromazioniFilm.findViewById(R.id.progressBar);
                     progressBar.setMax(100);
                     progressBar.setProgress(valore);
-                    //int colorCodeDark = Color.parseColor("#FFFF00");
-
-
 
 
                     TextView votoAggiudicato;
-                   votoAggiudicato = myDialoInfromazioniFilm.findViewById(R.id.textVoto);
-                   votoAggiudicato.setText(valore +"%");
+                    votoAggiudicato = myDialoInfromazioniFilm.findViewById(R.id.textVoto);
+                    votoAggiudicato.setText(valore + "%");
 
                     titoloo.setText(titolo);
 
@@ -155,9 +164,6 @@ public class DettaglioFilm extends AppCompatActivity {
                     while (mCursor.moveToNext()) {
                         imgStella.setImageResource(R.drawable.star_piena);
                     }
-
-
-
 
 
                     imgStella.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +256,26 @@ public class DettaglioFilm extends AppCompatActivity {
         myDialogLikeFilm.show();
     }
 
+    private boolean controlloConnessione() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager == null)
+            return false;
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
 
+    private void votaFilm(String ID, JsonObject j) {
+        webService.votaFilm(ID, API_KEY, idSessionGuest, j, new IWebServiceVoteFilm() {
+            @Override
+            public void onVoteFetched(boolean success, VoteFilmResults voteResult, int errorCode, String errorMessage) {
+                if (success) {
+                    Toast.makeText(DettaglioFilm.this, voteResult.getStatus_message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DettaglioFilm.this, "errore", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     public void ShowPopupVotaFilm(View v) {
         dialogVotaFilm.setContentView(R.layout.vota_dialog);
@@ -264,7 +289,7 @@ public class DettaglioFilm extends AppCompatActivity {
         titoloFilmVoto = dialogVotaFilm.findViewById(R.id.textViewtitolovotaFilm);
         titoloFilmVoto.setText(titolo);
 
-        RatingBar ratingBar;
+        final RatingBar ratingBar;
         ratingBar = dialogVotaFilm.findViewById(R.id.ratingBar);
         final TextView votoPersonale;
         votoPersonale = dialogVotaFilm.findViewById(R.id.textViewvotoPersonale);
@@ -272,12 +297,12 @@ public class DettaglioFilm extends AppCompatActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                votoPersonale.setText(String.valueOf("Il tuo voto "+(ratingBar.getRating()*2) +" /10"));
+                votoPersonale.setText(String.valueOf("Il tuo voto " + (ratingBar.getRating() * 2) + " /10"));
             }
         });
 
 
-        ImageView escVota,votaFilm;
+        ImageView escVota, votaFilm;
         escVota = dialogVotaFilm.findViewById(R.id.buttonturnback);
         votaFilm = dialogVotaFilm.findViewById(R.id.imgVotaFilm);
 
@@ -291,7 +316,11 @@ public class DettaglioFilm extends AppCompatActivity {
         votaFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DettaglioFilm.this,"votato",Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(DettaglioFilm.this, "votato", Toast.LENGTH_SHORT).show();
+                if (controlloConnessione()) {
+                    JsonVota j = new JsonVota();
+                    votaFilm(idFilm, j.ApiJsonMap(ratingBar.getRating() * 2));
+                }
             }
         });
 

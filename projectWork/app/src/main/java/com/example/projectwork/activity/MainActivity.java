@@ -7,11 +7,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -25,18 +24,20 @@ import android.widget.Toast;
 
 import com.example.projectwork.R;
 import com.example.projectwork.adapter.RecycleViewAdapter;
+import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.GenresResults;
+import com.example.projectwork.services.GuestSessionResults;
 import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.IWebServiceGenres;
+import com.example.projectwork.services.IWebServiceGuestSession;
 import com.example.projectwork.services.WebService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements IWebService {
 
@@ -64,8 +65,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     String[] tema = {"Chiaro", "Scuro"};
     String temaSelect = "";
+
     String[] lingua = {"Italiano", "Inglese"};
     String linguaSelect = "";
+
+    String idSessionGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,35 +83,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (controlloConnessione()) {
-                    CATEGORY = "popular";
-                    LANGUAGE="it";
-                    PAGE =1;
-                    webService = WebService.getInstance();
-
-                    internetFilm = new ArrayList<>();
-                    searchInternetFilm = new ArrayList<>();
-
-                    adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-                    recyclerView.setAdapter(adapter);
-
-                    internet();
-
-                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                            super.onScrollStateChanged(recyclerView, newState);
-                            if (!recyclerView.canScrollVertically(1)) {
-                                PAGE++;
-                                webService = WebService.getInstance();
-                                internet();
-                            }
-                        }
-                    });
-                } else {
-                    noInternet();
-                }
-                swipeRefreshLayout.setRefreshing(false );
+                adapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -131,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
             internet();
             listGenres();
+            setIdKeySession();
 
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -172,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     }
 
     private void searchFilms(String QUERY) {
-        webService.searchFilms(QUERY, API_KEY, LANGUAGE, MainActivity.this, new IWebService() {
+        webService.searchFilms(QUERY, API_KEY, LANGUAGE, new IWebService() {
             @Override
             public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
                 if (success) {
@@ -189,13 +167,37 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     }
 
     private void listGenres() {
-        webService.listGenres(API_KEY, LANGUAGE, MainActivity.this, new IWebServiceGenres() {
+        webService.listGenres(API_KEY, LANGUAGE, new IWebServiceGenres() {
             @Override
             public void onGenresFetched(boolean success, List<GenresResults.Data> genres, int errorCode, String errorMessage) {
                 if (success) {
-                    for (int i = 0; i < genres.size(); i++){
+                    for (int i = 0; i < genres.size(); i++) {
                         // confronto
                     }
+
+                } else {
+                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void setIdKeySession() {
+        webService.getGuestIdSession(API_KEY, new IWebServiceGuestSession() {
+            @Override
+            public void onGuestFetched(boolean success, GuestSessionResults guest, int errorCode, String errorMessage) {
+                if (success) {
+                    idSessionGuest = guest.getGuest_session_id();
+
+                    Toast.makeText(MainActivity.this, idSessionGuest, Toast.LENGTH_SHORT).show();
+
+                    MainActivity.this.getContentResolver().delete(FilmPreferredProvider.FILMS_URI,
+                            FilmPreferredTableHelper.ID_MOVIE + " = ?", new String[]{("key_session")});
+
+                    ContentValues cv = new ContentValues();
+                    cv.put(FilmPreferredTableHelper.ID_MOVIE, "key_session");
+                    cv.put(FilmPreferredTableHelper.KEY_GUEST_VOTO, idSessionGuest);
+                    MainActivity.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, cv);
 
                 } else {
                     Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
@@ -360,18 +362,4 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
         //films
     }
-
-
-    public  void setLocate(String lang)
-    {
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration configuration= new Configuration();
-        configuration.locale= locale;
-        getBaseContext().getResources().updateConfiguration(configuration,getBaseContext().getResources().getDisplayMetrics());
-        SharedPreferences.Editor editor = getSharedPreferences("settings",MODE_PRIVATE).edit();
-        editor.putString("my_lang",lang);
-        editor.apply();
-    }
-
 }

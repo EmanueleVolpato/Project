@@ -1,7 +1,13 @@
 package com.example.projectwork.services;
 
+import com.google.gson.JsonObject;
+
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -35,6 +41,18 @@ public interface ApiInterface {
     @GET("3/authentication/guest_session/new?")
     Call<GuestSessionResults> guestSsession(
             @Query("api_key") String apiKey);
+
+    //https://api.themoviedb.org/3/movie/419704/rating?api_key=e6de0d8da508a9809d74351ed62affef&guest_session_id=2483ebdadfcfa539a5860976524dbfff
+
+    //@Headers("Content-Type: application/json;charset=utf-8")
+    @POST("3/movie/{movie_id}/rating")
+    Call<VoteFilmResults> votaFilm(
+            @Path("movie_id") String movie_id,
+            @Query("api_key") String apiKey,
+            @Query("guest_session_id") String guest_session_id,
+            //@Header("Content-Type") String contentType,
+            @Body JsonObject jsonBody
+    );
 
     //http://youtube.com/watch?v= k1dFqDhoS9A
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,6 +38,22 @@ public class WebService {
         return instance;
     }
 
+    public void votaFilm(String movie_id, String apiKey, String guest_session_id, JsonObject jsonBody, final IWebServiceVoteFilm iwebservice) {
+        Call<VoteFilmResults> request = apiInterface.votaFilm(movie_id, apiKey, guest_session_id, jsonBody);
+        request.enqueue(new Callback<VoteFilmResults>() {
+            @Override
+            public void onResponse(Call<VoteFilmResults> call, Response<VoteFilmResults> response) {
+                VoteFilmResults results = response.body();
+                iwebservice.onVoteFetched(true, results, -1, null);
+            }
+
+            @Override
+            public void onFailure(Call<VoteFilmResults> call, Throwable t) {
+                iwebservice.onVoteFetched(false, null, -1, t.getLocalizedMessage());
+            }
+        });
+    }
+
     public void getGuestIdSession(String apiKey, final IWebServiceGuestSession iwebservice) {
         Call<GuestSessionResults> request = apiInterface.guestSsession(apiKey);
 
@@ -45,7 +62,6 @@ public class WebService {
             public void onResponse(Call<GuestSessionResults> call, Response<GuestSessionResults> response) {
                 if (response.code() == 200) {
                     GuestSessionResults results = response.body();
-                    //List<GuestSessionResults> listOfGeneres = results.getGenres();
                     iwebservice.onGuestFetched(true, results, -1, null);
                 } else {
                     try {
@@ -60,7 +76,6 @@ public class WebService {
             @Override
             public void onFailure(Call<GuestSessionResults> call, Throwable t) {
                 iwebservice.onGuestFetched(false, null, -1, t.getLocalizedMessage());
-
             }
         });
     }
