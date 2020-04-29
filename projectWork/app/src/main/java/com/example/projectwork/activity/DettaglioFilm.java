@@ -44,10 +44,10 @@ public class DettaglioFilm extends AppCompatActivity {
     Button btnOk, btnCancel, btnInformzioni;
     String voto;
     String data;
+    ProgressBar progressBar;
     String descrizione;
     Dialog myDialoInfromazioniFilm, dialogVotaFilm, myDialogLikeFilm;
     SharedPref sharedPref;
-
     String idSessionGuest;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
@@ -144,7 +144,6 @@ public class DettaglioFilm extends AppCompatActivity {
 
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
-
             }
 
 
@@ -187,10 +186,11 @@ public class DettaglioFilm extends AppCompatActivity {
                     int valore = Math.round(valutazione);
 
 
-                    ProgressBar progressBar;
                     progressBar = myDialoInfromazioniFilm.findViewById(R.id.progressBar);
                     progressBar.setMax(100);
                     progressBar.setProgress(valore);
+
+
 
 
                     TextView votoAggiudicato;
