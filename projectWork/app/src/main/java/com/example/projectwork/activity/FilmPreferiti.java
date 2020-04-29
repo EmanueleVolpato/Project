@@ -31,34 +31,6 @@ public class FilmPreferiti extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerViewAdapterFilmPreferiti adapter;
 
-    public static class A {
-
-        boolean c;
-
-        private A(boolean c) {
-            this.c = c;
-
-        }
-
-        private static A instance;
-
-        public static A getInstance(boolean c) {
-            if (instance == null)
-                instance = new A(c);
-            return instance;
-        }
-
-        public boolean getBool() {
-            return c;
-        }
-
-        public void setBool(boolean c) {
-            this.c = c;
-        }
-    }
-
-    private A aS;
-
     SharedPref sharedPref;
 
     @Override
