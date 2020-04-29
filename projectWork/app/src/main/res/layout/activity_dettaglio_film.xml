@@ -10,7 +10,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="590dp"
         android:layout_marginTop="10dp"
         android:padding="10dp">
 
@@ -28,13 +28,14 @@
                 android:scaleType="centerCrop" />
 
 
-             <TextView
+            <TextView
                 android:id="@+id/titoloFilmDettaglio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:layout_marginTop="10dp"
-                 android:textColor="?attr/textcolor"
                 android:text="Titolo Film"
+                android:textColor="?attr/textcolor"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -46,27 +47,38 @@
                 android:id="@+id/descrizioneFilmDettaglio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/textcolor"
                 android:layout_marginTop="10dp"
-                android:text="descrizione"
+                android:textColor="?attr/textcolor"
                 android:textSize="18dp" />
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="10dp" />
 
-        <Button
-            android:id="@+id/buttonApriDialogInformzioni"
-            android:layout_width="53dp"
-            android:layout_height="wrap_content"
-            android:textColor="?attr/textcolor"
-            android:layout_gravity="right"
-            android:background="@drawable/round_button"
-            android:text="+"
-            android:textSize="20dp" />
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="right|center_vertical">
+
+        <Button
+            android:id="@+id/buttonApriDialogInformzioni"
+            android:layout_width="53dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/round_button"
+            android:text="+"
+            android:textColor="?attr/textcolor"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
 </LinearLayout>
+
+
+

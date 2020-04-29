@@ -16,9 +16,14 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -39,6 +44,9 @@ import com.example.projectwork.services.WebService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER;
 
 public class MainActivity extends AppCompatActivity implements IWebService {
 
@@ -68,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String temaSelect = "";
 
     SharedPref sharedPref;
-
     String idSessionGuest;
 
     boolean inizializzato = false;
@@ -274,9 +281,10 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             public boolean onQueryTextChange(String newText) {
                 if (controlloConnessione()) {
                     if (!newText.isEmpty()) {
-                        PAGE = 1;
                         searchFilms(newText);
                     } else {
+                        PAGE = 1;
+                        adapter.resetFilms();
                         internet();
                     }
                 } else {
