@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     String idSessionGuest;
 
+    boolean inizializzato = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -90,30 +92,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             @Override
             public void onRefresh() {
                 if (controlloConnessione()) {
-                    CATEGORY = "popular";
-                    LANGUAGE="it";
-                    PAGE =1;
-                    webService = WebService.getInstance();
-
-                    internetFilm = new ArrayList<>();
-                    searchInternetFilm = new ArrayList<>();
-
-                    adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-                    recyclerView.setAdapter(adapter);
-
-                    internet();
-
-                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                            super.onScrollStateChanged(recyclerView, newState);
-                            if (!recyclerView.canScrollVertically(1)) {
-                                PAGE++;
-                                webService = WebService.getInstance();
-                                internet();
-                            }
-                        }
-                    });
+                    if(inizializzato){
+                        PAGE = 1;
+                        internet();
+                    }else{
+                        setInizializzazioneInteret();
+                    }
                 } else {
                     noInternet();
                 }
@@ -129,34 +113,40 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         }
 
         if (controlloConnessione()) {
-            CATEGORY = "popular";
-            LANGUAGE = "it";
-            webService = WebService.getInstance();
-
-            internetFilm = new ArrayList<>();
-            searchInternetFilm = new ArrayList<>();
-
-            adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-            recyclerView.setAdapter(adapter);
-
-            internet();
-            listGenres();
-            setIdKeySession();
-
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                    if (!recyclerView.canScrollVertically(1)) {
-                        PAGE++;
-                        webService = WebService.getInstance();
-                        internet();
-                    }
-                }
-            });
+            setInizializzazioneInteret();
         } else {
             noInternet();
         }
+    }
+
+    private  void setInizializzazioneInteret(){
+        CATEGORY = "popular";
+        LANGUAGE = "it";
+        webService = WebService.getInstance();
+
+        internetFilm = new ArrayList<>();
+        searchInternetFilm = new ArrayList<>();
+
+        adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+        recyclerView.setAdapter(adapter);
+
+        internet();
+        listGenres();
+        setIdKeySession();
+
+        inizializzato = true;
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(1)) {
+                    PAGE++;
+                    webService = WebService.getInstance();
+                    internet();
+                }
+            }
+        });
     }
 
     private boolean controlloConnessione() {
@@ -284,10 +274,9 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             public boolean onQueryTextChange(String newText) {
                 if (controlloConnessione()) {
                     if (!newText.isEmpty()) {
+                        PAGE = 1;
                         searchFilms(newText);
                     } else {
-                        PAGE = 1;
-                        adapter.resetFilms();
                         internet();
                     }
                 } else {

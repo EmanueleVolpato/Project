@@ -37,10 +37,9 @@ public class FilmPreferiti extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
 
-        if(sharedPref.loadNightModeState()==true){
+        if (sharedPref.loadNightModeState() == true) {
             setTheme(R.style.darktheme);
-        }
-        else setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film_preferiti);
@@ -69,17 +68,19 @@ public class FilmPreferiti extends AppCompatActivity {
 
         if (movies != null) {
             while (movies.moveToNext()) {
-                FilmResults.Data movie = new FilmResults.Data();
                 String id = movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.ID_MOVIE));
-                movie.setId(Integer.parseInt(id));
-                movie.setTitle(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.TITOLO)));
-                movie.setOverview(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.DESCRIZIONE)));
-                movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.IMG_PRINCIPALE)));
-                movie.setReleaseDate(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.DATA)));
-                movie.setVoteAverage(movies.getInt(movies.getColumnIndex(FilmPreferredTableHelper.VOTO)));
-                movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.IMG_DETTAGLIO)));
+                if (!id.equals("key_session")) {
+                    FilmResults.Data movie = new FilmResults.Data();
+                    movie.setId(Integer.parseInt(id));
+                    movie.setTitle(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.TITOLO)));
+                    movie.setOverview(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.DESCRIZIONE)));
+                    movie.setPosterPath(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.IMG_PRINCIPALE)));
+                    movie.setReleaseDate(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.DATA)));
+                    movie.setVoteAverage(movies.getInt(movies.getColumnIndex(FilmPreferredTableHelper.VOTO)));
+                    movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.IMG_DETTAGLIO)));
 
-                preferredFilm.add(movie);
+                    preferredFilm.add(movie);
+                }
             }
             adapter = new RecyclerViewAdapterFilmPreferiti(FilmPreferiti.this, preferredFilm);
             recyclerView.setAdapter(adapter);
