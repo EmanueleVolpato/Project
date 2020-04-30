@@ -1,8 +1,10 @@
 package com.example.projectwork.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -169,9 +171,34 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
             @Override
             public void onVoteFetched(boolean success, VoteFilmResults voteResult, int errorCode, String errorMessage) {
                 if (success) {
-                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, voteResult.getStatus_message(), Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(InformazioniAggiuntiveFilmPreferito.this);
+                    builder1.setMessage("LA VOTAZIONE E' ANDATA A BUON FINE");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton(
+                            "Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
                 } else {
-                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "errore", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(InformazioniAggiuntiveFilmPreferito.this);
+                    builder1.setMessage("LA VOTAZIONE NON E' ANDATA A BUON FINE");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton(
+                            "Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
                 }
             }
         });
