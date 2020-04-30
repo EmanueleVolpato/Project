@@ -12,8 +12,11 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.FilmPreferiti"></activity>
-        <activity android:name=".activity.LogoActivity"
+        <activity android:name=".activity.InformazioniAggiuntiveFilmPreferito"></activity>
+        <activity android:name=".activity.InformazioniAggiuntiveFilm" />
+        <activity android:name=".activity.FilmPreferiti" />
+        <activity
+            android:name=".activity.LogoActivity"
             android:theme="@style/LogoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +43,6 @@
         <provider
             android:name=".localDatabase.FilmProvider"
             android:authorities="com.example.projectwork.localDatabase.FilmProvider" />
-
         <provider
             android:name=".localDatabase.FilmPreferredProvider"
             android:authorities="com.example.projectwork.localDatabase.FilmPreferredProvider" />

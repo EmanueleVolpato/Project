@@ -1,14 +1,17 @@
 package com.example.projectwork.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,42 +22,58 @@ import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
+import com.example.projectwork.localDatabase.FilmTableHelper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DettaglioFilmPreferiti  extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione;
     ImageView imageViewDettaglio;
     String idFilm, titolo, data;
-    Button btnInformzioniFilmPreferiti;
+    FloatingActionButton btnInformzioniFilmPreferiti;
     Dialog dialogInformzioniPreferiti;
     Dialog dialogVotaFilmPreferiti;
     String immagineDettaglio;
-    String descrizione,voto;
+    String descrizione, voto;
     SharedPref sharedPref;
-
-
+    RatingBar ratingBarpreferiti;
+    private int oldScrollYPostion = 0;
+    ScrollView scrollViewPreferiti;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         sharedPref = new SharedPref(this);
 
-        if(sharedPref.loadNightModeState()==true){
+        if (sharedPref.loadNightModeState() == true) {
             setTheme(R.style.darktheme);
-        }
-        else setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppTheme);
 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film_preferito);
         getSupportActionBar().setTitle("MOVIE DETAILS");
 
-        txtTitolo = findViewById(R.id.titoloFilmDettaglio);
-        txtDecrizione = findViewById(R.id.descrizioneFilmDettaglio);
-        imageViewDettaglio = findViewById(R.id.imageViewDettaglio);
-        btnInformzioniFilmPreferiti = findViewById(R.id.buttonApriDialogInformzioniPreferiti);
-
+        txtTitolo = findViewById(R.id.titoloFilmDettaglioPreferito);
+        txtDecrizione = findViewById(R.id.descrizioneFilmDettaglioPreferito);
+        imageViewDettaglio = findViewById(R.id.imageViewDettaglioPreferito);
+        btnInformzioniFilmPreferiti = findViewById(R.id.buttonApriDialogInformzioniPreferito);
+        ratingBarpreferiti = findViewById(R.id.ratingBarVotoFilmPreferito);
         dialogInformzioniPreferiti = new Dialog(DettaglioFilmPreferiti.this);
         dialogVotaFilmPreferiti = new Dialog(DettaglioFilmPreferiti.this);
+        scrollViewPreferiti = findViewById(R.id.scrollViewPreferiti);
+
+
+        scrollViewPreferiti.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                if (scrollViewPreferiti.getScrollY() > oldScrollYPostion) {
+                    btnInformzioniFilmPreferiti.hide();
+                } else if (scrollViewPreferiti.getScrollY() < oldScrollYPostion || scrollViewPreferiti.getScrollY() <= 0) {
+                    btnInformzioniFilmPreferiti.show();
+                }
+                oldScrollYPostion = scrollViewPreferiti.getScrollY();
+            }
+        });
 
 
         if (getIntent().getExtras() != null) {
@@ -66,136 +85,45 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
             voto = (getIntent().getExtras().getString(FilmPreferredTableHelper.VOTO));
 
 
+            int valore = Math.round(Float.parseFloat(voto)/2);
+            ratingBarpreferiti.setRating((valore));
 
-        Glide.with(DettaglioFilmPreferiti.this)
-                .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                .into(imageViewDettaglio);
 
-        txtTitolo.setText(titolo);
-        txtDecrizione.setText(descrizione);
+            Glide.with(DettaglioFilmPreferiti.this)
+                    .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                    .into(imageViewDettaglio);
+
+            txtTitolo.setText(titolo);
+            txtDecrizione.setText(descrizione);
+        }
+
 
 
         btnInformzioniFilmPreferiti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogInformzioniPreferiti.setContentView(R.layout.dialog_informzioni_preferiti);
-                ImageView imageViewCopertina;
-                imageViewCopertina = dialogInformzioniPreferiti.findViewById(R.id.imageViewfilmLikePreferiti);
-                TextView titoloo;
-                titoloo = dialogInformzioniPreferiti.findViewById(R.id.textViewtitoloLikePreferiti);
-                ImageView esc;
-                esc = dialogInformzioniPreferiti.findViewById(R.id.buttoncancelLikePreferiti);
-                TextView dataUscita;
-                dataUscita = dialogInformzioniPreferiti.findViewById(R.id.textViewDataDiUscitaPreferiti);
-                ImageView imgVota = dialogInformzioniPreferiti.findViewById(R.id.imageViewVotaFilmPreferiti);
-
-
-                dataUscita.setText(data);
-
-                imgVota.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ShowPopupVotaFilm(v);
-                    }
-                });
-
-
-                esc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogInformzioniPreferiti.dismiss();
-                    }
-                });
-
-
-                Glide.with(DettaglioFilmPreferiti.this)
-                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                        .into(imageViewCopertina);
-
-
-                Float valutazione = Float.valueOf(voto)*10;
-                int valore = Math.round(valutazione) ;
-
-
-
-                ProgressBar progressBarPreferiti;
-                progressBarPreferiti = dialogInformzioniPreferiti.findViewById(R.id.progressBarPreferiti);
-                progressBarPreferiti.setMax(100);
-                progressBarPreferiti.setProgress(valore);
-
-                TextView votoAggiudicatoPreferiti;
-                votoAggiudicatoPreferiti = dialogInformzioniPreferiti.findViewById(R.id.textVotoPreferiti);
-                votoAggiudicatoPreferiti.setText(valore +"%");
-
-                titoloo.setText(titolo);
-
-
-                dialogInformzioniPreferiti.show();
-
+                Intent intent = new Intent(DettaglioFilmPreferiti.this, InformazioniAggiuntiveFilmPreferito.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(FilmPreferredTableHelper.ID_MOVIE, idFilm);
+                bundle.putString(FilmPreferredTableHelper.TITOLO,titolo);
+                bundle.putString(FilmPreferredTableHelper.DATA, data);
+                bundle.putString(FilmPreferredTableHelper.DESCRIZIONE, descrizione);
+                bundle.putString(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
 
-}
-
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_BACK))
-        {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             finish();
         }
         return super.onKeyDown(keyCode, event);
     }
+}
 
 
 
-    public void ShowPopupVotaFilm(View v) {
-        dialogVotaFilmPreferiti.setContentView(R.layout.vota_dialog);
-        ImageView imageViewCopertinaVoto;
-        imageViewCopertinaVoto = dialogVotaFilmPreferiti.findViewById(R.id.imageViewCopertinaVotaFilm);
-
-        Glide.with(DettaglioFilmPreferiti.this)
-                .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                .into(imageViewCopertinaVoto);
-        TextView titoloFilmVoto;
-        titoloFilmVoto = dialogVotaFilmPreferiti.findViewById(R.id.textViewtitolovotaFilm);
-        titoloFilmVoto.setText(titolo);
-
-        RatingBar ratingBar;
-        ratingBar = dialogVotaFilmPreferiti.findViewById(R.id.ratingBar);
-        final TextView votoPersonale;
-        votoPersonale = dialogVotaFilmPreferiti.findViewById(R.id.textViewvotoPersonale);
-
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                votoPersonale.setText(String.valueOf("Il tuo voto "+(ratingBar.getRating()*2) +" /10"));
-            }
-        });
-
-
-        ImageView escVota,votaFilm;
-        escVota = dialogVotaFilmPreferiti.findViewById(R.id.buttonturnback);
-        votaFilm = dialogVotaFilmPreferiti.findViewById(R.id.imgVotaFilm);
-
-        escVota.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogVotaFilmPreferiti.dismiss();
-            }
-        });
-
-        votaFilm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(DettaglioFilmPreferiti.this,"votato",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dialogVotaFilmPreferiti.show();
-
-    }
-
- }
 
