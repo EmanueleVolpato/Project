@@ -44,15 +44,20 @@ public interface ApiInterface {
 
     //https://api.themoviedb.org/3/movie/419704/rating?api_key=e6de0d8da508a9809d74351ed62affef&guest_session_id=2483ebdadfcfa539a5860976524dbfff
 
-    //@Headers("Content-Type: application/json;charset=utf-8")
     @POST("3/movie/{movie_id}/rating")
     Call<VoteFilmResults> votaFilm(
             @Path("movie_id") String movie_id,
             @Query("api_key") String apiKey,
             @Query("guest_session_id") String guest_session_id,
-            //@Header("Content-Type") String contentType,
             @Body JsonObject jsonBody
     );
 
-    //http://youtube.com/watch?v= k1dFqDhoS9A
+   // https://api.themoviedb.org/3/movie/419704/videos?api_key=e6de0d8da508a9809d74351ed62affef&language=en-US
+   // http://youtube.com/watch?v= +  k1dFqDhoS9A
+
+    @GET("3/movie/{movie_id}/videos?")
+    Call<VideoResults> getVideoFilm(
+            @Path("movie_id") String movie_id,
+            @Query("api_key") String apiKey,
+            @Query("language") String language);
 }
