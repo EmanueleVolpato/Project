@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         recyclerView.setAdapter(adapter);
 
         internet();
-        listGenres();
         setIdKeySession();
 
         inizializzato = true;
@@ -196,21 +195,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         });
     }
 
-    private void listGenres() {
-        webService.listGenres(API_KEY, LANGUAGE, new IWebServiceGenres() {
-            @Override
-            public void onGenresFetched(boolean success, List<GenresResults.Data> genres, int errorCode, String errorMessage) {
-                if (success) {
-                    for (int i = 0; i < genres.size(); i++) {
-                        // confronto
-                    }
 
-                } else {
-                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 
     private void setIdKeySession() {
         webService.getGuestIdSession(API_KEY, new IWebServiceGuestSession() {

@@ -29,6 +29,8 @@ import com.example.projectwork.SharedPref;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
+import com.example.projectwork.services.GenresResults;
+import com.example.projectwork.services.IWebServiceGenres;
 import com.example.projectwork.services.IWebServiceVideoFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
 import com.example.projectwork.services.JsonVota;
@@ -38,6 +40,8 @@ import com.example.projectwork.services.WebService;
 import com.google.gson.JsonObject;
 
 import java.util.List;
+
+import static android.provider.MediaStore.Video.VideoColumns.LANGUAGE;
 
 public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     ImageView imageView, imageViewAggiungiAiPreferiti;
@@ -199,6 +203,10 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 }
             });
         }
+
+        listGenres();
+
+
     }
 
     private void getVideo(String idFilm, String language) {
@@ -269,5 +277,22 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             }
         });
         myDialogLikeFilm.show();
+    }
+
+
+    private void listGenres() {
+        webService.listGenres(API_KEY, LANGUAGE, new IWebServiceGenres() {
+            @Override
+            public void onGenresFetched(boolean success, List<GenresResults.Data> genres, int errorCode, String errorMessage) {
+                if (success) {
+                    for (int i = 0; i < genres.size(); i++) {
+
+                    }
+
+                } else {
+                    Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

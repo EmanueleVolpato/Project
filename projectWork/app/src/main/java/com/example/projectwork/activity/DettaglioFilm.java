@@ -166,45 +166,6 @@ public class DettaglioFilm extends AppCompatActivity {
                     bundle.putString(FilmTableHelper.IMG_PRINCIPALE, immaginePrincipale);
                     intent.putExtras(bundle);
                     startActivity(intent);
-
-
-       /*                imgStella.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View v) {
-                                String[] selectionArgs = {idFilm};
-
-                                mCursor = DettaglioFilm.this.getContentResolver().query(
-                                        FilmPreferredProvider.FILMS_URI,
-                                        null,
-                                        FilmPreferredTableHelper.ID_MOVIE + " = ?",
-                                        selectionArgs,
-                                        null);
-
-                                int index = mCursor.getColumnIndex(FilmPreferredTableHelper.ID_MOVIE);
-                                String idDB = null;
-                                while (mCursor.moveToNext()) {
-                                    idDB = mCursor.getString(index);
-                                }
-
-                                if (idDB != null) {
-                                    getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferredProvider.FILMS_URI)), FilmPreferredTableHelper.ID_MOVIE + "=" + idFilm, null);
-                                    imgStella.setImageResource(R.drawable.star);
-                                } else {
-                                    imgStella.setImageResource(R.drawable.star_piena);
-                                    ContentValues contentValues = new ContentValues();
-                                    contentValues.put(FilmPreferredTableHelper.ID_MOVIE, idFilm);
-                                    contentValues.put(FilmPreferredTableHelper.TITOLO, titolo);
-                                    contentValues.put(FilmPreferredTableHelper.DATA, String.valueOf(data));
-                                    contentValues.put(FilmPreferredTableHelper.DESCRIZIONE, descrizione);
-                                    contentValues.put(FilmPreferredTableHelper.VOTO, voto);
-                                    contentValues.put(FilmPreferredTableHelper.IMG_PRINCIPALE, immaginePrincipale);
-                                    contentValues.put(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
-                                    DettaglioFilm.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, contentValues);
-                                }
-                            }
-                        });
-                                        */
-
-
                 }
             });
 
