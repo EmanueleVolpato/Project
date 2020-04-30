@@ -14,9 +14,9 @@
         android:id="@+id/imageViewYoutubePreferiti"
         android:layout_width="86dp"
         android:layout_height="46dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintHorizontal_bias="0.302"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewtitoloLikePreferiti"
         app:srcCompat="@drawable/youtube" />
@@ -25,10 +25,7 @@
         android:id="@+id/imageViewfilmLikePreferiti"
         android:layout_width="300dp"
         android:layout_height="222dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="468dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:mipmap/sym_def_app_icon" />
@@ -55,27 +52,14 @@
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
-        android:id="@+id/buttoncancelLikePreferiti"
-        android:layout_width="82dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="312dp"
-        android:layout_marginBottom="37dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.749"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back" />
-
     <TextView
         android:id="@+id/textViewtitoloLikePreferiti"
-        android:layout_width="279dp"
-        android:layout_height="49dp"
+        android:layout_width="221dp"
+        android:layout_height="45dp"
         android:layout_marginStart="19dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="488dp"
-        android:gravity="right"
+        android:gravity="center_horizontal"
         android:text="TextView"
 
         android:textColor="?attr/textcolor"
@@ -101,31 +85,35 @@
         android:id="@+id/textViewgenereFilmPreferiti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginEnd="628dp"
-        android:layout_marginBottom="11dp"
         android:text="GENERE FILM"
         android:textColor="?attr/textcolor"
         android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDataDiUscitaPreferiti"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDataDiUscitaPreferiti" />
 
     <ImageView
         android:id="@+id/imageViewVotaFilmPreferiti"
         android:layout_width="86dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="312dp"
+        android:layout_height="44dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.963"
+        app:layout_constraintHorizontal_bias="0.885"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/like" />
+
+    <ImageView
+        android:id="@+id/buttoncancelLikePreferiti"
+        android:layout_width="82dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="204dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/back" />
 
     <TextView
         android:id="@+id/textVotoPreferiti"
@@ -137,10 +125,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.74"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.358" />
+        app:layout_constraintVertical_bias="0.369" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
