@@ -1,5 +1,6 @@
 package com.example.projectwork.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
 
@@ -7,10 +8,12 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -238,9 +241,34 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             @Override
             public void onVoteFetched(boolean success, VoteFilmResults voteResult, int errorCode, String errorMessage) {
                 if (success) {
-                    Toast.makeText(InformazioniAggiuntiveFilm.this, voteResult.getStatus_message(), Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(InformazioniAggiuntiveFilm.this);
+                    builder1.setMessage("LA VOTAZIONE E' ANDATA A BUON FINE");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton(
+                            "Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
                 } else {
-                    Toast.makeText(InformazioniAggiuntiveFilm.this, "errore", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(InformazioniAggiuntiveFilm.this);
+                    builder1.setMessage("LA VOTAZIONE NON E' ANDATA A BUON FINE");
+                    builder1.setCancelable(true);
+                    builder1.setPositiveButton(
+                            "Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
                 }
             }
         });
