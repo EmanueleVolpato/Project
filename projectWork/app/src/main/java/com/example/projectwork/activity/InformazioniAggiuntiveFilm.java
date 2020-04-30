@@ -207,16 +207,16 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
               */
 
-             Intent intent = new Intent(InformazioniAggiuntiveFilm.this, VideoActivity.class);
-             Bundle bundle = new Bundle();
-             bundle.putString("video", idFilm);
-             intent.putExtras(bundle);
-             startActivity(intent);
+                    Intent intent = new Intent(InformazioniAggiuntiveFilm.this, VideoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("video", idFilm);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             });
         }
 
-      //  listGenres();
+        //  listGenres();
 
 
     }
@@ -226,8 +226,12 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             @Override
             public void onVideoFetched(boolean success, List<VideoResults.Data> videos, int errorCode, String errorMessage) {
                 if (success) {
-                    if (videos != null)
-                        keyVideo = videos.get(0).getKey();
+                    try {
+                        if (videos != null)
+                            keyVideo = videos.get(0).getKey();
+                    } catch (Exception ex) {
+                        Toast.makeText(InformazioniAggiuntiveFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(InformazioniAggiuntiveFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                 }
@@ -283,7 +287,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         });
     }
 
-    public void ShowPopupTogiDaPreferiti (View v){
+    public void ShowPopupTogiDaPreferiti(View v) {
         myDialogLikeFilm.setContentView(R.layout.dialog);
         Button btnOk, btnCancel;
         btnCancel = myDialogLikeFilm.findViewById(R.id.buttoncancel);
