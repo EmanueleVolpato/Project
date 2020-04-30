@@ -85,8 +85,12 @@ public class VideoActivity extends YouTubeBaseActivity {
             @Override
             public void onVideoFetched(boolean success, List<VideoResults.Data> videos, int errorCode, String errorMessage) {
                 if (success) {
-                    if (videos != null)
-                        keyVideo = videos.get(0).getKey();
+                    try {
+                        if (videos != null)
+                            keyVideo = videos.get(0).getKey();
+                    } catch (Exception ex) {
+                        Toast.makeText(VideoActivity.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(VideoActivity.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                 }
