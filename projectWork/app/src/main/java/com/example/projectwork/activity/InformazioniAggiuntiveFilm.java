@@ -3,6 +3,7 @@ package com.example.projectwork.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +38,7 @@ import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
+import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.GenresResults;
 import com.example.projectwork.services.IWebServiceGenres;
 import com.example.projectwork.services.IWebServiceVideoFilm;
@@ -49,6 +51,7 @@ import com.google.gson.JsonObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -70,14 +73,10 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     Dialog myDialogLikeFilm;
     String keyVideo = null;
 
+    RecyclerView recyclerViewFilmSimili;
+    ArrayList<MainModel> models;
+    MainAdapter mainAdapter;
 
-    RecyclerView recyclerView;
-    RecycleViewAdapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
-
-
-    @SuppressLint("WrongViewCast")
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
         if (sharedPref.loadNightModeState() == true) {
@@ -98,10 +97,21 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         imageViewAggiungiAiPreferiti = findViewById(R.id.imageViewAggiungiPreferiti);
         myDialogLikeFilm = new Dialog(InformazioniAggiuntiveFilm.this);
 
+        recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
+        Integer[]logo = {R.drawable.logo,R.drawable.info,R.drawable.star,R.drawable.star_piena};
+        String[] nome = {"logo","info","star","starpiena"};
+        models = new ArrayList<>();
+        for(int i =0;i<logo.length;i++)
+        {
+            MainModel model = new MainModel(logo[i],nome[i]);
+            models.add(model);
+        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this,LinearLayoutManager.HORIZONTAL,false);
+        recyclerViewFilmSimili.setLayoutManager(layoutManager);
+        recyclerViewFilmSimili.setItemAnimator(new DefaultItemAnimator());
+        mainAdapter = new MainAdapter(InformazioniAggiuntiveFilm.this,models);
+        recyclerViewFilmSimili.setAdapter(mainAdapter);
 
-        recyclerView = findViewById(R.id.recyclerviewFilmSimili);
-        mLayoutManager  = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(mLayoutManager);
 
 
 
