@@ -28,7 +28,13 @@
 
     <style name="LogoTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="backgroundcolor">#fcfcfcfc</item>
+    </style>
+
+
+    <style name="DarkLogoTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="backgroundcolor">#303030</item>
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">

@@ -27,9 +27,9 @@ public class LogoActivity extends AppCompatActivity {
         sharedPref = new SharedPref(this);
 
         if(sharedPref.loadNightModeState()==true){
-            setTheme(R.style.darktheme);
+            setTheme(R.style.DarkLogoTheme);
         }
-        else setTheme(R.style.AppTheme);
+        else setTheme(R.style.LogoTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
