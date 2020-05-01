@@ -59,18 +59,15 @@ import java.util.Locale;
 import static android.provider.MediaStore.Video.VideoColumns.LANGUAGE;
 
 public class InformazioniAggiuntiveFilm extends AppCompatActivity {
-    ImageView imageView, imageViewAggiungiAiPreferiti;
+    ImageView imageView;
     TextView titolo, data, genere;
     RatingBar ratingBarVotoPersonale;
     Button buttonVota;
-    ImageView buttonYouTube;
-    Cursor mCursor;
     String dataFilm, idFilm, immagineDettaglioFilm, voto, immaginePrincipale, descrizioneFilm, titoloFilm;
     String idSessionGuest;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     SharedPref sharedPref;
-    Dialog myDialogLikeFilm;
     String keyVideo = null;
 
     RecyclerView recyclerViewFilmSimili;
@@ -93,9 +90,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         genere = findViewById(R.id.genereFilmInformazioni);
         ratingBarVotoPersonale = findViewById(R.id.ratingBarVotoPersonaleFilm);
         buttonVota = findViewById(R.id.buttonVotaFilm);
-        buttonYouTube = findViewById(R.id.imageViewApriYoutube);
-        imageViewAggiungiAiPreferiti = findViewById(R.id.imageViewAggiungiPreferiti);
-        myDialogLikeFilm = new Dialog(InformazioniAggiuntiveFilm.this);
+
         recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
 
 
@@ -142,12 +137,11 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
                 if (controlloConnessione()) {
                     webService = WebService.getInstance();
-                    getVideo(idFilm, "it");
                 }
 
                 titolo.setText(titoloFilm);
 
-                Date dateIniziale= null;
+                Date dateIniziale = null;
                 try {
                     dateIniziale = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALIAN).parse(dataFilm);
                 } catch (ParseException e) {
@@ -162,109 +156,30 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                         .into(imageView);
 
 
-                String[] selectionArgss = {idFilm};
-                mCursor = InformazioniAggiuntiveFilm.this.getContentResolver().query(
-                        FilmPreferredProvider.FILMS_URI,
-                        null,
-                        FilmPreferredTableHelper.ID_MOVIE + " = ?",
-                        selectionArgss,
-                        null);
-
-                while (mCursor.moveToNext()) {
-                    imageViewAggiungiAiPreferiti.setImageResource(R.drawable.star_piena);
-                }
-
-
-                imageViewAggiungiAiPreferiti.setOnClickListener(new View.OnClickListener() {
+                ratingBarVotoPersonale.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override
-                    public void onClick(View v) {
-                        String[] selectionArgs = {idFilm};
-
-                        mCursor = InformazioniAggiuntiveFilm.this.getContentResolver().query(
-                                FilmPreferredProvider.FILMS_URI,
-                                null,
-                                FilmPreferredTableHelper.ID_MOVIE + " = ?",
-                                selectionArgs,
-                                null);
-
-                        int index = mCursor.getColumnIndex(FilmPreferredTableHelper.ID_MOVIE);
-                        String idDB = null;
-                        while (mCursor.moveToNext()) {
-                            idDB = mCursor.getString(index);
-                        }
-
-                        if (idDB != null) {
-                            ShowPopupTogiDaPreferiti(v);
-                        } else {
-                            imageViewAggiungiAiPreferiti.setImageResource(R.drawable.star_piena);
-                            ContentValues contentValues = new ContentValues();
-                            contentValues.put(FilmPreferredTableHelper.ID_MOVIE, idFilm);
-                            contentValues.put(FilmPreferredTableHelper.TITOLO, String.valueOf(titoloFilm));
-                            contentValues.put(FilmPreferredTableHelper.DATA, String.valueOf(dataFilm));
-                            contentValues.put(FilmPreferredTableHelper.DESCRIZIONE, descrizioneFilm);
-                            contentValues.put(FilmPreferredTableHelper.VOTO, voto);
-                            contentValues.put(FilmPreferredTableHelper.IMG_PRINCIPALE, immaginePrincipale);
-                            contentValues.put(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglioFilm);
-                            InformazioniAggiuntiveFilm.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, contentValues);
-                        }
-
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        buttonVota.setVisibility(View.VISIBLE);
                     }
                 });
+
+                buttonVota.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (controlloConnessione()) {
+                            JsonVota j = new JsonVota();
+                            votaFilm(idFilm, j.ApiJsonMap(ratingBarVotoPersonale.getRating() * 2));
+                        }
+                    }
+                });
+
+
             }
 
-
-            ratingBarVotoPersonale.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    buttonVota.setVisibility(View.VISIBLE);
-                }
-            });
-
-            buttonVota.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (controlloConnessione()) {
-                        JsonVota j = new JsonVota();
-                        votaFilm(idFilm, j.ApiJsonMap(ratingBarVotoPersonale.getRating() * 2));
-                    }
-                }
-            });
-
-            buttonYouTube.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(InformazioniAggiuntiveFilm.this, VideoActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("video", idFilm);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-            });
+            //  listGenres();
         }
 
-        //  listGenres();
-
-
     }
-
-    private void getVideo(String idFilm, String language) {
-        webService.getVideoFilm(idFilm, API_KEY, language, new IWebServiceVideoFilm() {
-            @Override
-            public void onVideoFetched(boolean success, List<VideoResults.Data> videos, int errorCode, String errorMessage) {
-                if (success) {
-                    try {
-                        if (videos != null)
-                            keyVideo = videos.get(0).getKey();
-                    } catch (Exception ex) {
-                        Toast.makeText(InformazioniAggiuntiveFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(InformazioniAggiuntiveFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
 
     private boolean controlloConnessione() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -290,38 +205,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         });
     }
 
-    public void ShowPopupTogiDaPreferiti(View v) {
-        myDialogLikeFilm.setContentView(R.layout.dialog);
-        Button btnOk, btnCancel;
-        btnCancel = myDialogLikeFilm.findViewById(R.id.buttoncancel);
-        btnOk = myDialogLikeFilm.findViewById(R.id.buttonok);
-        ImageView imageViewCancel;
-        imageViewCancel = myDialogLikeFilm.findViewById(R.id.imageViewfilm);
-        TextView textViewtitoloo;
-        textViewtitoloo = myDialogLikeFilm.findViewById(R.id.textViewtitolo);
-
-        textViewtitoloo.setText("Vuoi togliere " + titoloFilm + " dai preferiti?");
-        Glide.with(InformazioniAggiuntiveFilm.this)
-                .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilm)
-                .into(imageViewCancel);
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDialogLikeFilm.dismiss();
-            }
-        });
-
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferredProvider.FILMS_URI)), FilmPreferredTableHelper.ID_MOVIE + "=" + idFilm, null);
-                imageViewAggiungiAiPreferiti.setImageResource(R.drawable.star);
-                myDialogLikeFilm.dismiss();
-            }
-        });
-        myDialogLikeFilm.show();
-    }
 
 
     private void listGenres() {

@@ -30,8 +30,8 @@
                 android:id="@+id/titoloFilmInformzioni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_gravity="left"
+                android:layout_marginStart="8dp"                android:layout_marginTop="10dp"
                 android:text="Titolo Film"
                 android:textColor="?attr/textcolor"
                 android:textSize="25dp"
@@ -58,12 +58,6 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/imageViewAggiungiPreferiti"
-                    android:layout_width="337dp"
-                    android:layout_height="54dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/star" />
             </LinearLayout>
 
             <LinearLayout
@@ -82,13 +76,6 @@
                     android:textColor="?attr/textcolor"
                     android:textSize="20dp"
                     android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/imageViewApriYoutube"
-                    android:layout_width="336dp"
-                    android:layout_height="54dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/youtube" />
 
             </LinearLayout>
 
@@ -115,7 +102,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="278dp"
+                android:layout_height="263dp"
                 android:orientation="vertical">
 
 
@@ -129,14 +116,10 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewSimili"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="234dp" />
             </LinearLayout>
 
         </LinearLayout>
