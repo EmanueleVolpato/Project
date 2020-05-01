@@ -115,7 +115,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="278dp"
+                android:layout_height="263dp"
                 android:orientation="vertical">
 
 
@@ -129,14 +129,10 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewSimili"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="234dp" />
             </LinearLayout>
 
         </LinearLayout>
