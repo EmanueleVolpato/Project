@@ -12,7 +12,9 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.VideoActivity"></activity>
+        <activity android:name=".activity.VideoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout">
+        </activity>
         <activity android:name=".activity.InformazioniAggiuntiveFilmPreferito" />
         <activity android:name=".activity.InformazioniAggiuntiveFilm" />
         <activity android:name=".activity.FilmPreferiti" />

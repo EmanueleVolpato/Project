@@ -197,16 +197,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             buttonYouTube.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-             /*       if(keyVideo != null){
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://youtube.com/watch?v=" + keyVideo));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setPackage("com.google.android.youtube");
-                        startActivity(intent);
-                    }else
-                        Toast.makeText(InformazioniAggiuntiveFilm.this, "video non disponibile", Toast.LENGTH_SHORT).show();
-
-              */
-
                     Intent intent = new Intent(InformazioniAggiuntiveFilm.this, VideoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("video", idFilm);

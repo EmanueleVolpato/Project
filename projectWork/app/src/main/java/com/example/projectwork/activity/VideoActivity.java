@@ -31,12 +31,15 @@ public class VideoActivity extends YouTubeBaseActivity {
     YouTubePlayerView youTubePlayerView;
     YouTubePlayer.OnInitializedListener onInitializedListener;
 
+    private YouTubePlayer youTubePlayer;
+    private int seekTime = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         youTubePlayerView = findViewById(R.id.youtubePlayrerview);
-
 
         if (getIntent().getExtras() != null) {
              video = getIntent().getExtras().getString("video");
@@ -69,7 +72,12 @@ public class VideoActivity extends YouTubeBaseActivity {
         };
 
         youTubePlayerView.initialize(PlayerConfig.API_KEY,onInitializedListener);
+
+
     }
+
+
+
 
     private boolean controlloConnessione() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
