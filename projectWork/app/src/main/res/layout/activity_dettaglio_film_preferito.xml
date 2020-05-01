@@ -19,7 +19,7 @@
 
             <ImageView
                 android:id="@+id/imageViewDettaglioPreferito"
-                android:layout_width="392dp"
+                android:layout_width="match_parent"
                 android:layout_height="170dp"
                 android:layout_gravity="center"
                 android:background="#2d2d2d"
