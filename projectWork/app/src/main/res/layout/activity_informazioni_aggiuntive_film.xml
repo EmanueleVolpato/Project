@@ -110,6 +110,11 @@
                 android:text="VOTA"
                 android:textColor="?attr/textcolor"
                 android:visibility="invisible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerviewFilmSimili"
+                android:layout_width="match_parent"
+                android:layout_height="282dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

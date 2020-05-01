@@ -3,6 +3,8 @@ package com.example.projectwork.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -30,6 +32,8 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
+import com.example.projectwork.adapter.RecycleViewAdapter;
+import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
@@ -43,7 +47,11 @@ import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static android.provider.MediaStore.Video.VideoColumns.LANGUAGE;
 
@@ -61,6 +69,11 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     SharedPref sharedPref;
     Dialog myDialogLikeFilm;
     String keyVideo = null;
+
+
+    RecyclerView recyclerView;
+    RecycleViewAdapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
 
 
     @SuppressLint("WrongViewCast")
@@ -84,6 +97,13 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         buttonYouTube = findViewById(R.id.imageViewApriYoutube);
         imageViewAggiungiAiPreferiti = findViewById(R.id.imageViewAggiungiPreferiti);
         myDialogLikeFilm = new Dialog(InformazioniAggiuntiveFilm.this);
+
+
+        recyclerView = findViewById(R.id.recyclerviewFilmSimili);
+        mLayoutManager  = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(mLayoutManager);
+
+
 
         if (getIntent().getExtras() != null) {
 
@@ -119,6 +139,14 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 }
 
                 titolo.setText(titoloFilm);
+                Date dateIniziale= null;
+                try {
+                    dateIniziale = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALIAN).parse(dataFilm);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                dataFilm = new SimpleDateFormat("dd/MM/yyyy", Locale.ITALIAN).format(dateIniziale);
+
                 data.setText(dataFilm);
 
                 Glide.with(InformazioniAggiuntiveFilm.this)
