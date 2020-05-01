@@ -34,7 +34,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Titolo Film"
                 android:textColor="?attr/textcolor"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <Space
@@ -50,6 +50,7 @@
                     android:id="@+id/genereFilmInformazioni"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_gravity="left"
                     android:layout_marginTop="10dp"
                     android:text="Genere Film"
@@ -75,6 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginTop="10dp"
+                    android:layout_marginStart="8dp"
                     android:text="Data Film "
                     android:textColor="?attr/textcolor"
                     android:textSize="20dp" />

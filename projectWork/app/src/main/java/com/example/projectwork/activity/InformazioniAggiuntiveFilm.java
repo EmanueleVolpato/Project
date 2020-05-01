@@ -244,34 +244,11 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             @Override
             public void onVoteFetched(boolean success, VoteFilmResults voteResult, int errorCode, String errorMessage) {
                 if (success) {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(InformazioniAggiuntiveFilm.this);
-                    builder1.setMessage("LA VOTAZIONE E' ANDATA A BUON FINE");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(
-                            "Ok",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
+                    Toast.makeText(InformazioniAggiuntiveFilm.this,"Votazione avvenuta con successo",Toast.LENGTH_SHORT).show();
 
                 } else {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(InformazioniAggiuntiveFilm.this);
-                    builder1.setMessage("LA VOTAZIONE NON E' ANDATA A BUON FINE");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(
-                            "Ok",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
+                    Toast.makeText(InformazioniAggiuntiveFilm.this,"Errore",Toast.LENGTH_SHORT).show();
 
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
                 }
             }
         });
