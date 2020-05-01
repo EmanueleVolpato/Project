@@ -165,6 +165,34 @@ public class WebService {
         });
     }
 
+    public void getSimilarFilms(String idFilm, String apiKey, String language, int page, final IWebService iwebservice) {
+
+        Call<FilmResults> filmsRequest = apiInterface.getSimilarFilm(idFilm, apiKey, language, page);
+
+        filmsRequest.enqueue(new Callback<FilmResults>() {
+            @Override
+            public void onResponse(Call<FilmResults> call, Response<FilmResults> response) {
+                if (response.code() == 200) {
+                    FilmResults results = response.body();
+                    List<FilmResults.Data> listOfMovies = results.getResults();
+                    iwebservice.onFilmsFetched(true, listOfMovies, -1, null);
+                } else {
+                    try {
+                        iwebservice.onFilmsFetched(true, null, response.code(), response.errorBody().string());
+                    } catch (IOException ex) {
+                        Log.e("WebService", ex.toString());
+                        iwebservice.onFilmsFetched(true, null, response.code(), "Generic error message");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FilmResults> call, Throwable t) {
+                iwebservice.onFilmsFetched(false, null, -1, t.getLocalizedMessage());
+            }
+        });
+    }
+
     public void getFilms(String category, String apiKey, String language, int page, final Context context, final IWebService iwebservice) {
 
         Call<FilmResults> filmsRequest = apiInterface.listOfFilm(category, apiKey, language, page);

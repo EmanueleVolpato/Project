@@ -37,30 +37,24 @@ public class VideoActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_video);
         youTubePlayerView = findViewById(R.id.youtubePlayrerview);
 
-
         if (getIntent().getExtras() != null) {
-             video = getIntent().getExtras().getString("video");
+            video = getIntent().getExtras().getString("video");
         }
+
         if (controlloConnessione()) {
             webService = WebService.getInstance();
             getVideo(video, "it");
         }
 
-
-
-        onInitializedListener= new YouTubePlayer.OnInitializedListener() {
+        onInitializedListener = new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-               // youTubePlayer.loadVideo( "Zs-AVod-tsM");
-                if(keyVideo != null){
-                youTubePlayer.loadVideo( keyVideo);
-            }else
-                {
+                // youTubePlayer.loadVideo( "Zs-AVod-tsM");
+                if (keyVideo != null)
+                    youTubePlayer.loadVideo(keyVideo);
+                 else
                     Toast.makeText(VideoActivity.this, "video non disponibile", Toast.LENGTH_SHORT).show();
-
-                }
             }
-
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
@@ -68,7 +62,7 @@ public class VideoActivity extends YouTubeBaseActivity {
             }
         };
 
-        youTubePlayerView.initialize(PlayerConfig.API_KEY,onInitializedListener);
+        youTubePlayerView.initialize(PlayerConfig.API_KEY, onInitializedListener);
     }
 
     private boolean controlloConnessione() {

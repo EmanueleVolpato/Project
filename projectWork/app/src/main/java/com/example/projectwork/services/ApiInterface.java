@@ -52,12 +52,22 @@ public interface ApiInterface {
             @Body JsonObject jsonBody
     );
 
-   // https://api.themoviedb.org/3/movie/419704/videos?api_key=e6de0d8da508a9809d74351ed62affef&language=en-US
-   // http://youtube.com/watch?v= +  k1dFqDhoS9A
+    // https://api.themoviedb.org/3/movie/419704/videos?api_key=e6de0d8da508a9809d74351ed62affef&language=en-US
+    // http://youtube.com/watch?v= +  k1dFqDhoS9A
 
     @GET("3/movie/{movie_id}/videos?")
     Call<VideoResults> getVideoFilm(
             @Path("movie_id") String movie_id,
             @Query("api_key") String apiKey,
             @Query("language") String language);
+
+    //  https://api.themoviedb.org/3/movie/419704/similar?api_key=e6de0d8da508a9809d74351ed62affef&language=it
+
+    @GET("3/movie/{movie_id}/similar?")
+    Call<FilmResults> getSimilarFilm(
+            @Path("movie_id") String movie_id,
+            @Query("api_key") String apiKey,
+            @Query("language") String language,
+            @Query("page") int page);
+
 }

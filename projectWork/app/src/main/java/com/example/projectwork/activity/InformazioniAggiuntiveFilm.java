@@ -30,10 +30,13 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
+import com.example.projectwork.adapter.RecycleViewAdapter;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
+import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.GenresResults;
+import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.IWebServiceGenres;
 import com.example.projectwork.services.IWebServiceVideoFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
@@ -71,7 +74,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             setTheme(R.style.darktheme);
         } else setTheme(R.style.AppTheme);
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informazioni_aggiuntive_film);
 
@@ -84,6 +86,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         buttonYouTube = findViewById(R.id.imageViewApriYoutube);
         imageViewAggiungiAiPreferiti = findViewById(R.id.imageViewAggiungiPreferiti);
         myDialogLikeFilm = new Dialog(InformazioniAggiuntiveFilm.this);
+
 
         if (getIntent().getExtras() != null) {
 
@@ -98,11 +101,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             while (c.moveToNext()) {
                 idSessionGuest = c.getString(c.getColumnIndex(FilmPreferredTableHelper.KEY_GUEST_VOTO));
             }
-
-            if (controlloConnessione()) {
-                webService = WebService.getInstance();
-            }
-
 
             if (getIntent().getExtras() != null) {
                 titoloFilm = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
@@ -330,6 +328,19 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
                     }
 
+                } else {
+                    Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void getSimilarFilms(String idFilm, String language, int page) {
+        webService.getSimilarFilms(idFilm, API_KEY, language, page, new IWebService() {
+            @Override
+            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
+                if (success) {
+                    Toast.makeText(InformazioniAggiuntiveFilm.this, String.valueOf(films.size()), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
                 }

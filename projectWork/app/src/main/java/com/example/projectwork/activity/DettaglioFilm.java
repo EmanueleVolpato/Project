@@ -75,7 +75,6 @@ public class DettaglioFilm extends AppCompatActivity {
         ratingBarVotoFilm = findViewById(R.id.ratingBarVotoFilm);
         scrollView = findViewById(R.id.scrollView);
 
-
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
