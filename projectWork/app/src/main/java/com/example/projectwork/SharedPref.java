@@ -21,5 +21,4 @@ public class SharedPref {
         Boolean state = sharedPreferences.getBoolean("Nightmode",false);
         return state;
     }
-
 }

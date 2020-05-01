@@ -40,6 +40,7 @@ import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.GenresResults;
+import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.IWebServiceGenres;
 import com.example.projectwork.services.IWebServiceVideoFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
