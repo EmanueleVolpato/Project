@@ -22,7 +22,7 @@
             <ImageView
                 android:id="@+id/imageViewInformazioniAggiuntive"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="240dp"
                 android:background="#2d2d2d"
                 android:scaleType="centerCrop" />
 

@@ -1,9 +1,11 @@
 package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -11,6 +13,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -19,6 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,10 +84,10 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     boolean inizializzato = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
-
         if (sharedPref.loadNightModeState() == true) {
             setTheme(R.style.darktheme);
         } else setTheme(R.style.AppTheme);
@@ -91,26 +95,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("MOVIES");
-
         recyclerView = findViewById(R.id.recyclerviewFilm);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (controlloConnessione()) {
-                    if(inizializzato){
-                        PAGE = 1;
-                        internet();
-                    }else{
-                        setInizializzazioneInteret();
-                    }
-                } else {
-                    noInternet();
-                }
-                swipeRefreshLayout.setRefreshing(false );
-            }
-        });
+
+
 
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -119,6 +108,25 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
         }
 
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (controlloConnessione()) {
+                    if (inizializzato) {
+                        PAGE = 1;
+                        internet();
+                    } else {
+                        setInizializzazioneInteret();
+                    }
+                } else {
+                    noInternet();
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+
         if (controlloConnessione()) {
             setInizializzazioneInteret();
         } else {
@@ -126,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         }
     }
 
-    private  void setInizializzazioneInteret(){
+    private void setInizializzazioneInteret() {
         CATEGORY = "popular";
         LANGUAGE = "it";
         webService = WebService.getInstance();
@@ -134,12 +142,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         internetFilm = new ArrayList<>();
         searchInternetFilm = new ArrayList<>();
 
+
         adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
         recyclerView.setAdapter(adapter);
 
         internet();
         setIdKeySession();
-
         inizializzato = true;
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -196,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     }
 
 
-
     private void setIdKeySession() {
         webService.getGuestIdSession(API_KEY, new IWebServiceGuestSession() {
             @Override
@@ -241,11 +248,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -385,4 +387,5 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         startActivity(i);
         finish();
     }
+
 }

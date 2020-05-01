@@ -96,8 +96,10 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         buttonYouTube = findViewById(R.id.imageViewApriYoutube);
         imageViewAggiungiAiPreferiti = findViewById(R.id.imageViewAggiungiPreferiti);
         myDialogLikeFilm = new Dialog(InformazioniAggiuntiveFilm.this);
-
         recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
+
+
+
         Integer[]logo = {R.drawable.logo,R.drawable.info,R.drawable.star,R.drawable.star_piena};
         String[] nome = {"logo","info","star","starpiena"};
         models = new ArrayList<>();
