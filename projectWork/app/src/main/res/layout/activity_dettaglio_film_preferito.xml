@@ -19,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/imageViewDettaglioPreferito"
-                android:layout_width="392dp"
-                android:layout_height="170dp"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
                 android:layout_gravity="center"
                 android:background="#2d2d2d"
                 android:scaleType="centerCrop" />
@@ -29,12 +29,12 @@
                 android:id="@+id/titoloFilmDettaglioPreferito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_gravity="left"
-                android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:text="Titolo Film"
                 android:textColor="?attr/textcolor"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <RatingBar
@@ -52,7 +52,7 @@
                 android:id="@+id/descrizioneFilmDettaglioPreferito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
                 android:textColor="?attr/textcolor"
                 android:textSize="18dp" />

@@ -3,6 +3,9 @@ package com.example.projectwork.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -31,12 +34,12 @@ import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
 import com.example.projectwork.adapter.RecycleViewAdapter;
+import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.GenresResults;
-import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.IWebServiceGenres;
 import com.example.projectwork.services.IWebServiceVideoFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
@@ -46,7 +49,12 @@ import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static android.provider.MediaStore.Video.VideoColumns.LANGUAGE;
 
@@ -65,14 +73,16 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     Dialog myDialogLikeFilm;
     String keyVideo = null;
 
+    RecyclerView recyclerViewFilmSimili;
+    ArrayList<MainModel> models;
+    MainAdapter mainAdapter;
 
-    @SuppressLint("WrongViewCast")
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
         if (sharedPref.loadNightModeState() == true) {
             setTheme(R.style.darktheme);
         } else setTheme(R.style.AppTheme);
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_informazioni_aggiuntive_film);
@@ -86,6 +96,25 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         buttonYouTube = findViewById(R.id.imageViewApriYoutube);
         imageViewAggiungiAiPreferiti = findViewById(R.id.imageViewAggiungiPreferiti);
         myDialogLikeFilm = new Dialog(InformazioniAggiuntiveFilm.this);
+        recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
+
+
+
+        Integer[]logo = {R.drawable.logo,R.drawable.info,R.drawable.star,R.drawable.star_piena};
+        String[] nome = {"logo","info","star","starpiena"};
+        models = new ArrayList<>();
+        for(int i =0;i<logo.length;i++)
+        {
+            MainModel model = new MainModel(logo[i],nome[i]);
+            models.add(model);
+        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this,LinearLayoutManager.HORIZONTAL,false);
+        recyclerViewFilmSimili.setLayoutManager(layoutManager);
+        recyclerViewFilmSimili.setItemAnimator(new DefaultItemAnimator());
+        mainAdapter = new MainAdapter(InformazioniAggiuntiveFilm.this,models);
+        recyclerViewFilmSimili.setAdapter(mainAdapter);
+
+
 
 
         if (getIntent().getExtras() != null) {
@@ -117,6 +146,15 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 }
 
                 titolo.setText(titoloFilm);
+
+                Date dateIniziale= null;
+                try {
+                    dateIniziale = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALIAN).parse(dataFilm);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                dataFilm = new SimpleDateFormat("dd/MM/yyyy", Locale.ITALIAN).format(dateIniziale);
+
                 data.setText(dataFilm);
 
                 Glide.with(InformazioniAggiuntiveFilm.this)
@@ -195,16 +233,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             buttonYouTube.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-             /*       if(keyVideo != null){
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://youtube.com/watch?v=" + keyVideo));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setPackage("com.google.android.youtube");
-                        startActivity(intent);
-                    }else
-                        Toast.makeText(InformazioniAggiuntiveFilm.this, "video non disponibile", Toast.LENGTH_SHORT).show();
-
-              */
-
                     Intent intent = new Intent(InformazioniAggiuntiveFilm.this, VideoActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("video", idFilm);
@@ -252,34 +280,11 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             @Override
             public void onVoteFetched(boolean success, VoteFilmResults voteResult, int errorCode, String errorMessage) {
                 if (success) {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(InformazioniAggiuntiveFilm.this);
-                    builder1.setMessage("LA VOTAZIONE E' ANDATA A BUON FINE");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(
-                            "Ok",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
+                    Toast.makeText(InformazioniAggiuntiveFilm.this,"Votazione avvenuta con successo",Toast.LENGTH_SHORT).show();
 
                 } else {
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(InformazioniAggiuntiveFilm.this);
-                    builder1.setMessage("LA VOTAZIONE NON E' ANDATA A BUON FINE");
-                    builder1.setCancelable(true);
-                    builder1.setPositiveButton(
-                            "Ok",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
+                    Toast.makeText(InformazioniAggiuntiveFilm.this,"Errore",Toast.LENGTH_SHORT).show();
 
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
                 }
             }
         });

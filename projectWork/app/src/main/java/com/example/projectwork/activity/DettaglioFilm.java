@@ -127,20 +127,8 @@ public class DettaglioFilm extends AppCompatActivity {
                 txtDecrizione.setText(descrizione);
             else {
 
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(DettaglioFilm.this);
-                builder1.setMessage("NESSUNA DESCRIZIONE AL MOMENTO.");
-                builder1.setCancelable(true);
+                Toast.makeText(DettaglioFilm.this,"Nessuna descrizione disponibile al momento",Toast.LENGTH_SHORT).show();
 
-                builder1.setPositiveButton(
-                        "Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
             }
 
 

@@ -32,7 +32,11 @@ import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
 
@@ -102,7 +106,20 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
 
 
                 titoloInformazioniPreferiti.setText(titoloFilmPreferito);
+
+
+                Date dateIniziale= null;
+                try {
+                    dateIniziale = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALIAN).parse(dataFilmPreferito);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                dataFilmPreferito = new SimpleDateFormat("dd/MM/yyyy", Locale.ITALIAN).format(dateIniziale);
                 dataInformazioniPreferiti.setText(dataFilmPreferito);
+
+
+
+
                 Glide.with(InformazioniAggiuntiveFilmPreferito.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilmPreferito)
                         .into(imageViewInformazioniPreferiti);
@@ -131,14 +148,11 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
         imageYoutube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(keyVideo != null){
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://youtube.com/watch?v=" + keyVideo));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setPackage("com.google.android.youtube");
-                    startActivity(intent);
-                }else
-                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "video non disponibile", Toast.LENGTH_SHORT).show();
-            }
+                Intent intent = new Intent(InformazioniAggiuntiveFilmPreferito.this, VideoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("video", idFilmPreferito);
+                intent.putExtras(bundle);
+                startActivity(intent);    }
         });
 
     }

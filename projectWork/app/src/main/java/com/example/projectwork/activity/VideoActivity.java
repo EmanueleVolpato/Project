@@ -31,6 +31,10 @@ public class VideoActivity extends YouTubeBaseActivity {
     YouTubePlayerView youTubePlayerView;
     YouTubePlayer.OnInitializedListener onInitializedListener;
 
+    private YouTubePlayer youTubePlayer;
+    private int seekTime = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,23 +42,28 @@ public class VideoActivity extends YouTubeBaseActivity {
         youTubePlayerView = findViewById(R.id.youtubePlayrerview);
 
         if (getIntent().getExtras() != null) {
-            video = getIntent().getExtras().getString("video");
+             video = getIntent().getExtras().getString("video");
         }
-
         if (controlloConnessione()) {
             webService = WebService.getInstance();
             getVideo(video, "it");
         }
 
-        onInitializedListener = new YouTubePlayer.OnInitializedListener() {
+
+
+        onInitializedListener= new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                // youTubePlayer.loadVideo( "Zs-AVod-tsM");
-                if (keyVideo != null)
-                    youTubePlayer.loadVideo(keyVideo);
-                 else
+               // youTubePlayer.loadVideo( "Zs-AVod-tsM");
+                if(keyVideo != null){
+                youTubePlayer.loadVideo( keyVideo);
+            }else
+                {
                     Toast.makeText(VideoActivity.this, "video non disponibile", Toast.LENGTH_SHORT).show();
+
+                }
             }
+
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
@@ -62,7 +71,7 @@ public class VideoActivity extends YouTubeBaseActivity {
             }
         };
 
-        youTubePlayerView.initialize(PlayerConfig.API_KEY, onInitializedListener);
+        youTubePlayerView.initialize(PlayerConfig.API_KEY,onInitializedListener);
     }
 
     private boolean controlloConnessione() {

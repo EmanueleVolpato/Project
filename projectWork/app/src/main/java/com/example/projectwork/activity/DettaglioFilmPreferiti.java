@@ -94,8 +94,13 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
                     .into(imageViewDettaglio);
 
             txtTitolo.setText(titolo);
-            txtDecrizione.setText(descrizione);
-        }
+            if (!descrizione.equals(""))
+                txtDecrizione.setText(descrizione);
+            else {
+
+                Toast.makeText(DettaglioFilmPreferiti.this,"Nessuna descrizione disponibile al momento",Toast.LENGTH_SHORT).show();
+
+            }        }
 
 
 
