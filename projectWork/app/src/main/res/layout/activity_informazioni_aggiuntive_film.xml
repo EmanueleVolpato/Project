@@ -83,7 +83,7 @@
 
                 <ImageView
                     android:id="@+id/imageViewApriYoutube"
-                    android:layout_width="349dp"
+                    android:layout_width="336dp"
                     android:layout_height="54dp"
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/youtube" />

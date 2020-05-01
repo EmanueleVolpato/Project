@@ -139,6 +139,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 }
 
                 titolo.setText(titoloFilm);
+
                 Date dateIniziale= null;
                 try {
                     dateIniziale = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALIAN).parse(dataFilm);

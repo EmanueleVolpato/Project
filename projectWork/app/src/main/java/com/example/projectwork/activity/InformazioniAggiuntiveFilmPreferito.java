@@ -32,7 +32,11 @@ import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.gson.JsonObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
 
@@ -102,7 +106,20 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
 
 
                 titoloInformazioniPreferiti.setText(titoloFilmPreferito);
+
+
+                Date dateIniziale= null;
+                try {
+                    dateIniziale = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALIAN).parse(dataFilmPreferito);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                dataFilmPreferito = new SimpleDateFormat("dd/MM/yyyy", Locale.ITALIAN).format(dateIniziale);
                 dataInformazioniPreferiti.setText(dataFilmPreferito);
+
+
+
+
                 Glide.with(InformazioniAggiuntiveFilmPreferito.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilmPreferito)
                         .into(imageViewInformazioniPreferiti);
