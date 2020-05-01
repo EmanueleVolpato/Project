@@ -40,17 +40,15 @@ import java.util.Locale;
 
 public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
 
-    ImageView imageViewInformazioniPreferiti, imageYoutube;
+    ImageView imageViewInformazioniPreferiti;
     TextView titoloInformazioniPreferiti, dataInformazioniPreferiti, genereInformazioniPreferiti;
     RatingBar ratingBarVotoPersonaleInformazioniPreferiti;
     Button buttonVotaInformazioniPreferiti;
     String dataFilmPreferito, idFilmPreferito, immagineDettaglioFilmPreferito, votoPreferito, descrizioneFilmPreferito, titoloFilmPreferito;
     String idSessionGuest;
+    SharedPref sharedPref;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
-    SharedPref sharedPref;
-    String keyVideo = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +67,6 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
         genereInformazioniPreferiti = findViewById(R.id.genereFilmInformazioniPreferiti);
         ratingBarVotoPersonaleInformazioniPreferiti = findViewById(R.id.ratingBarVotoPersonaleFilmPreferiti);
         buttonVotaInformazioniPreferiti = findViewById(R.id.buttonVotaFilmPreferiti);
-        imageYoutube = findViewById(R.id.imageYouTubePreferiti);
 
         if (getIntent().getExtras() != null) {
 
@@ -99,10 +96,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 votoPreferito = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
 
 
-                if (controlloConnessione()) {
-                    webService = WebService.getInstance();
-                    getVideo(idFilmPreferito, "it");
-                }
+
 
 
                 titoloInformazioniPreferiti.setText(titoloFilmPreferito);
@@ -145,35 +139,10 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
             }
         });
 
-        imageYoutube.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(InformazioniAggiuntiveFilmPreferito.this, VideoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("video", idFilmPreferito);
-                intent.putExtras(bundle);
-                startActivity(intent);    }
-        });
 
     }
 
-    private void getVideo(String idFilm, String language) {
-        webService.getVideoFilm(idFilm, API_KEY, language, new IWebServiceVideoFilm() {
-            @Override
-            public void onVideoFetched(boolean success, List<VideoResults.Data> videos, int errorCode, String errorMessage) {
-                if (success) {
-                    try {
-                        if (videos != null)
-                            keyVideo = videos.get(0).getKey();
-                    } catch (Exception ex) {
-                        Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+
 
     private boolean controlloConnessione() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -30,8 +30,8 @@
                 android:id="@+id/titoloFilmInformzioniPreferiti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_gravity="left"
+                android:layout_marginStart="8dp"                android:layout_marginTop="10dp"
                 android:text="Titolo Film"
                 android:textColor="?attr/textcolor"
                 android:textSize="25dp"
@@ -54,11 +54,6 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/imageYouTubePreferiti"
-                    android:layout_width="340dp"
-                    android:layout_height="54dp"
-                    app:srcCompat="@drawable/youtube" />
             </LinearLayout>
 
             <LinearLayout
