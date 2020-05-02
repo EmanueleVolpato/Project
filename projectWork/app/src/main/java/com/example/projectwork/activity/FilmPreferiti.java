@@ -46,6 +46,9 @@ public class FilmPreferiti extends AppCompatActivity {
         getSupportActionBar().setTitle("PREFERRED MOVIES");
 
         recyclerView = findViewById(R.id.recyclerViewFilmPreferiti);
+        preferredFilm = new ArrayList<>();
+        adapter = new RecyclerViewAdapterFilmPreferiti(FilmPreferiti.this, preferredFilm);
+        recyclerView.setAdapter(adapter);
 
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -53,12 +56,10 @@ public class FilmPreferiti extends AppCompatActivity {
         else
             recyclerView.setLayoutManager(new GridLayoutManager(FilmPreferiti.this, 2));
 
-
         caricaPreferiti();
     }
 
     public void caricaPreferiti() {
-        preferredFilm = new ArrayList<>();
         Cursor movies = FilmPreferiti.this.getContentResolver().query(
                 FilmPreferredProvider.FILMS_URI,
                 null,
@@ -82,8 +83,7 @@ public class FilmPreferiti extends AppCompatActivity {
                     preferredFilm.add(movie);
                 }
             }
-            adapter = new RecyclerViewAdapterFilmPreferiti(FilmPreferiti.this, preferredFilm);
-            recyclerView.setAdapter(adapter);
+            adapter.setFilms(preferredFilm);
             adapter.notifyDataSetChanged();
         }
     }
@@ -116,5 +116,12 @@ public class FilmPreferiti extends AppCompatActivity {
         });
 
         return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.resetFilms();
+        caricaPreferiti();
     }
 }

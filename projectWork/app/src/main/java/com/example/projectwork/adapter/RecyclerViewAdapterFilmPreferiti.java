@@ -42,13 +42,22 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
     private List<FilmResults.Data> mDataSearch;
 
     Dialog myDialog;
-    Button btnOk,btnCancel;
-
+    Button btnOk, btnCancel;
 
     public RecyclerViewAdapterFilmPreferiti(Context context, List<FilmResults.Data> mData) {
         this.context = context;
         this.mData = mData;
         mDataSearch = new ArrayList<>(mData);
+    }
+
+    public void setFilms(List<FilmResults.Data> mData) {
+        this.mData = mData;
+        mDataSearch = new ArrayList<>(mData);
+    }
+
+    public void resetFilms() {
+        this.mData.clear();
+        mDataSearch.clear();
     }
 
     @NonNull
@@ -57,7 +66,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
 
         View view;
         LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.cardview_item_film,parent,false);
+        view = inflater.inflate(R.layout.cardview_item_film, parent, false);
 
         return new RecycleViewAdapter.MyViewHolder(view);
     }
@@ -73,7 +82,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
         //txt.setText(mData.get(position).getTitle());
 
         Glide.with(context)
-                .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getPosterPath())
+                .load("https://image.tmdb.org/t/p/w500/" + mData.get(position).getPosterPath())
                 .into(img);
 
         card.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +120,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                 final int idMovie = mData.get(position).getId();
 
 
-                textViewtitoloo.setText("Vuoi togliere "+titolo +" dai preferiti?");
+                textViewtitoloo.setText("Vuoi togliere " + titolo + " dai preferiti?");
                 Glide.with(context)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                         .into(imageViewCancel);
@@ -147,13 +156,15 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
         return mData.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         View cellView;
+
         MyViewHolder(@NonNull View cellView) {
             super(cellView);
             this.cellView = cellView;
         }
     }
+
     @Override
     public Filter getFilter() {
         return filter;
@@ -163,16 +174,13 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<FilmResults.Data> filtroList = new ArrayList<>();
-            if(constraint == null || constraint.length()==0)
-            {
+            if (constraint == null || constraint.length() == 0) {
                 filtroList.addAll(mDataSearch);
-            }else
-            {
+            } else {
                 String filtroPattern = constraint.toString().toLowerCase().trim();
 
-                for(FilmResults.Data item :mDataSearch)
-                {
-                    if(item.getTitle().toLowerCase().contains(filtroPattern)) {
+                for (FilmResults.Data item : mDataSearch) {
+                    if (item.getTitle().toLowerCase().contains(filtroPattern)) {
                         filtroList.add(item);
                     }
                 }
@@ -186,7 +194,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mData.clear();
-            mData.addAll((List)results.values);
+            mData.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
