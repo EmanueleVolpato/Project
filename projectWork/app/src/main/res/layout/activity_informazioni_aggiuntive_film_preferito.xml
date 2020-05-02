@@ -84,6 +84,10 @@
                 android:isIndicator="false"
                 android:theme="@style/RatingBar" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="4dp" />
+
             <Button
                 android:id="@+id/buttonVotaFilmPreferiti"
                 android:layout_width="match_parent"
