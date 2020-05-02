@@ -90,6 +90,7 @@ public class DettaglioFilm extends AppCompatActivity {
         imageViewAggiungiAiPreferiti = findViewById(R.id.imageViewAggiungiPreferiti);
         myDialogLikeFilm = new Dialog(DettaglioFilm.this);
 
+
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {

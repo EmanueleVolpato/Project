@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:clickable="true"
-    android:id="@+id/cardViewId"
+    android:id="@+id/cardViewIdFilmSimili"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="230dp"
     android:layout_width="180dp"

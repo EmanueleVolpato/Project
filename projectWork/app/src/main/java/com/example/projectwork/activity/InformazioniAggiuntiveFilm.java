@@ -1,26 +1,14 @@
 package com.example.projectwork.activity;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,13 +16,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
-import com.example.projectwork.adapter.RecycleViewAdapter;
-import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
+import com.example.projectwork.adapter.FilmSimiliAdapter;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
@@ -42,10 +28,8 @@ import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.GenresResults;
 import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.IWebServiceGenres;
-import com.example.projectwork.services.IWebServiceVideoFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
 import com.example.projectwork.services.JsonVota;
-import com.example.projectwork.services.VideoResults;
 import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.gson.JsonObject;
@@ -57,9 +41,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.provider.MediaStore.Video.VideoColumns.LANGUAGE;
-
 public class InformazioniAggiuntiveFilm extends AppCompatActivity {
+
     ImageView imageView;
     TextView titolo, data, genere;
     RatingBar ratingBarVotoPersonale;
@@ -69,11 +52,15 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     SharedPref sharedPref;
-    String keyVideo = null;
+
+
+    int PAGE = 1;
+    String LANGUAGE = "it";
+
 
     RecyclerView recyclerViewFilmSimili;
-    ArrayList<MainModel> models;
-    MainAdapter mainAdapter;
+    List<FilmResults.Data> internetFilmSimili;
+    FilmSimiliAdapter adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -93,25 +80,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         buttonVota = findViewById(R.id.buttonVotaFilm);
 
         recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
-
-
-
-        Integer[]logo = {R.drawable.logo,R.drawable.info,R.drawable.star,R.drawable.star_piena};
-        String[] nome = {"logo","info","star","starpiena"};
-        models = new ArrayList<>();
-        for(int i =0;i<logo.length;i++)
-        {
-            MainModel model = new MainModel(logo[i],nome[i]);
-            models.add(model);
-        }
-        LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this,LinearLayoutManager.HORIZONTAL,false);
-        recyclerViewFilmSimili.setLayoutManager(layoutManager);
-        recyclerViewFilmSimili.setItemAnimator(new DefaultItemAnimator());
-        mainAdapter = new MainAdapter(InformazioniAggiuntiveFilm.this,models);
-        recyclerViewFilmSimili.setAdapter(mainAdapter);
-
-
-
 
         if (getIntent().getExtras() != null) {
 
@@ -136,9 +104,21 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 voto = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
                 immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
 
+
                 if (controlloConnessione()) {
                     webService = WebService.getInstance();
+                    PAGE=1;
+                    LANGUAGE="it";
+                    internetFilmSimili = new ArrayList<>();
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this, LinearLayoutManager.HORIZONTAL,false);
+                    recyclerViewFilmSimili.setLayoutManager(layoutManager);
+                    recyclerViewFilmSimili.setItemAnimator(new DefaultItemAnimator());
+                    adapter = new FilmSimiliAdapter(InformazioniAggiuntiveFilm.this, internetFilmSimili);
+                    recyclerViewFilmSimili.setAdapter(adapter);
+                    getSimilarFilms();
                 }
+
+
 
                 titolo.setText(titoloFilm);
 
@@ -177,10 +157,29 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
             }
 
-            //  listGenres();
         }
 
+
+
     }
+
+    private void getSimilarFilms() {
+        webService.getSimilarFilms(idFilm, API_KEY, LANGUAGE, PAGE, new IWebService() {
+            @Override
+            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
+                if (success) {
+                    //Toast.makeText(InformazioniAggiuntiveFilm.this, String.valueOf(films.size()), Toast.LENGTH_SHORT).show();
+                    internetFilmSimili.addAll(films);
+                    adapter.setFilms(internetFilmSimili);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
 
     private boolean controlloConnessione() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -224,16 +223,5 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         });
     }
 
-    private void getSimilarFilms(String idFilm, String language, int page) {
-        webService.getSimilarFilms(idFilm, API_KEY, language, page, new IWebService() {
-            @Override
-            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
-                if (success) {
-                    Toast.makeText(InformazioniAggiuntiveFilm.this, String.valueOf(films.size()), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+
 }
