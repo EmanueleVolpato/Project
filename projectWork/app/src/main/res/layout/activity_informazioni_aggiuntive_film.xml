@@ -47,10 +47,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginStart="8dp"
-                    android:text="Genere Film:"
+                    android:layout_marginStart="3dp"
                     android:textColor="?attr/textcolor"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -68,7 +67,7 @@
                     android:layout_marginStart="8dp"
                     android:text="Data Film "
                     android:textColor="?attr/textcolor"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -110,7 +109,7 @@
                     android:layout_marginStart="8dp"
                     android:text="Film correlati"
                     android:textColor="?attr/textcolor"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
