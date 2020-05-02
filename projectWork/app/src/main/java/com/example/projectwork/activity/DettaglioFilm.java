@@ -64,9 +64,10 @@ public class DettaglioFilm extends AppCompatActivity {
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
 
 
-    ImageView buttonYouTube,imageViewAggiungiAiPreferiti;
+    ImageView buttonYouTube, imageViewAggiungiAiPreferiti;
     Dialog myDialogLikeFilm;
 
+    int[] generiFilm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +114,7 @@ public class DettaglioFilm extends AppCompatActivity {
             immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
             voto = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
 
+           generiFilm = (getIntent().getExtras().getIntArray("generiID"));
 
             if (controlloConnessione()) {
                 webService = WebService.getInstance();
@@ -195,39 +197,36 @@ public class DettaglioFilm extends AppCompatActivity {
         }
 
 
+        if (!descrizione.equals(""))
+            txtDecrizione.setText(descrizione);
+        else {
 
-            if (!descrizione.equals(""))
-                txtDecrizione.setText(descrizione);
-            else {
+            Toast.makeText(DettaglioFilm.this, "Nessuna descrizione disponibile al momento", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(DettaglioFilm.this,"Nessuna descrizione disponibile al momento",Toast.LENGTH_SHORT).show();
+        }
 
+
+        int valore = Math.round(Float.parseFloat(voto) / 2);
+        ratingBarVotoFilm.setRating((valore));
+
+
+        btnInformzioni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DettaglioFilm.this, InformazioniAggiuntiveFilm.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(FilmTableHelper.ID_MOVIE, idFilm);
+                bundle.putString(FilmTableHelper.TITOLO, titolo);
+                bundle.putString(FilmTableHelper.VOTO, voto);
+                bundle.putString(FilmTableHelper.DATA, data);
+                bundle.putString(FilmTableHelper.DESCRIZIONE, descrizione);
+                bundle.putString(FilmTableHelper.IMG_DETTAGLIO, immagineDettaglio);
+                bundle.putString(FilmTableHelper.IMG_PRINCIPALE, immaginePrincipale);
+                bundle.putIntArray("generiID", generiFilm);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
-
-
-            int valore = Math.round(Float.parseFloat(voto)/2);
-            ratingBarVotoFilm.setRating((valore));
-
-
-
-            btnInformzioni.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    Intent intent = new Intent(DettaglioFilm.this, InformazioniAggiuntiveFilm.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FilmTableHelper.ID_MOVIE, idFilm);
-                    bundle.putString(FilmTableHelper.TITOLO,titolo);
-                    bundle.putString(FilmTableHelper.VOTO,voto);
-                    bundle.putString(FilmTableHelper.DATA, data);
-                    bundle.putString(FilmTableHelper.DESCRIZIONE, descrizione);
-                    bundle.putString(FilmTableHelper.IMG_DETTAGLIO, immagineDettaglio);
-                    bundle.putString(FilmTableHelper.IMG_PRINCIPALE, immaginePrincipale);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-            });
+        });
 
         buttonYouTube.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,10 +239,10 @@ public class DettaglioFilm extends AppCompatActivity {
             }
         });
 
-        }
+    }
 
     @Override
-    public boolean onKeyDown ( int keyCode, KeyEvent event){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             finish();
         }

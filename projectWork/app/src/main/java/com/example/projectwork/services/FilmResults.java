@@ -244,5 +244,6 @@ public class FilmResults {
         public void setReleaseDate(String releaseDate) {
             this.releaseDate = releaseDate;
         }
+
     }
 }

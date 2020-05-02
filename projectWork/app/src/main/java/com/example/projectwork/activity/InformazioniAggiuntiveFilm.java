@@ -35,6 +35,7 @@ import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.gson.JsonObject;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,15 +54,12 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     SharedPref sharedPref;
-
-
     int PAGE = 1;
     String LANGUAGE = "it";
-
-
     RecyclerView recyclerViewFilmSimili;
     List<FilmResults.Data> internetFilmSimili;
     FilmSimiliAdapter adapter;
+    int[] generiFilm;
 
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -104,21 +102,21 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 voto = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
                 immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
 
+                generiFilm = (getIntent().getExtras().getIntArray("generiID"));
 
                 if (controlloConnessione()) {
                     webService = WebService.getInstance();
-                    PAGE=1;
-                    LANGUAGE="it";
+                    PAGE = 1;
+                    LANGUAGE = "it";
                     internetFilmSimili = new ArrayList<>();
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this, LinearLayoutManager.HORIZONTAL,false);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this, LinearLayoutManager.HORIZONTAL, false);
                     recyclerViewFilmSimili.setLayoutManager(layoutManager);
                     recyclerViewFilmSimili.setItemAnimator(new DefaultItemAnimator());
                     adapter = new FilmSimiliAdapter(InformazioniAggiuntiveFilm.this, internetFilmSimili);
                     recyclerViewFilmSimili.setAdapter(adapter);
                     getSimilarFilms();
+                    listGenres(generiFilm);
                 }
-
-
 
                 titolo.setText(titoloFilm);
 
@@ -160,7 +158,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         }
 
 
-
     }
 
     private void getSimilarFilms() {
@@ -180,7 +177,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     }
 
 
-
     private boolean controlloConnessione() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null)
@@ -195,10 +191,10 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             @Override
             public void onVoteFetched(boolean success, VoteFilmResults voteResult, int errorCode, String errorMessage) {
                 if (success) {
-                    Toast.makeText(InformazioniAggiuntiveFilm.this,"Votazione avvenuta con successo",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InformazioniAggiuntiveFilm.this, "Votazione avvenuta con successo", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(InformazioniAggiuntiveFilm.this,"Errore",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InformazioniAggiuntiveFilm.this, "Errore", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -206,24 +202,30 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     }
 
 
-
-    private void listGenres() {
+    private void listGenres(final int[] idGeneriFilm) {
         webService.listGenres(API_KEY, LANGUAGE, new IWebServiceGenres() {
             @Override
             public void onGenresFetched(boolean success, List<GenresResults.Data> genres, int errorCode, String errorMessage) {
                 if (success) {
-                    for (int i = 0; i < genres.size(); i++) {
-
+                    for (int i = 0; i < idGeneriFilm.length; i++) {
+                        for (int j = 0; j < genres.size(); j++) {
+                            if (idGeneriFilm[i] == genres.get(j).getId()) {
+                                if (i == 0)
+                                    genere.setText(genere.getText() + " " + genres.get(i).getName());
+                                else
+                                    genere.setText(genere.getText() + ", " + genres.get(i).getName());
+                            }
+                        }
                     }
-
                 } else {
                     Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
     @Override
-    public boolean onKeyDown ( int keyCode, KeyEvent event){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             finish();
         }

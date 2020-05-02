@@ -28,6 +28,7 @@ import com.example.projectwork.services.FilmResults;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -43,17 +44,17 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     Dialog myDialogLike;
 
-    public RecycleViewAdapter(Context context,  List<FilmResults.Data> mData) {
+    public RecycleViewAdapter(Context context, List<FilmResults.Data> mData) {
         this.context = context;
         this.mData = mData;
         mDataSearch = new ArrayList<>(mData);
     }
 
-    public void setFilms(List<FilmResults.Data> mData){
+    public void setFilms(List<FilmResults.Data> mData) {
         this.mData = mData;
     }
 
-    public void resetFilms(){
+    public void resetFilms() {
         this.mData.clear();
     }
 
@@ -63,7 +64,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         View view;
         LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.cardview_item_film,parent,false);
+        view = inflater.inflate(R.layout.cardview_item_film, parent, false);
 
         return new MyViewHolder(view);
     }
@@ -77,10 +78,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         myDialogLike = new Dialog(context);
 
 
-
-
         Glide.with(context)
-                .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getPosterPath())
+                .load("https://image.tmdb.org/t/p/w500/" + mData.get(position).getPosterPath())
                 .into(img);
 
 
@@ -90,6 +89,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 Intent intent = new Intent(context, DettaglioFilm.class);
                 Bundle bundle = new Bundle();
                 int id = mData.get(position).getId();
+                List<Integer> genresFilmInput;
                 bundle.putString(FilmTableHelper.ID_MOVIE, Integer.toString(id));
                 bundle.putString(FilmTableHelper.TITOLO, mData.get(position).getTitle());
                 bundle.putString(FilmTableHelper.DATA, mData.get(position).getReleaseDate());
@@ -97,12 +97,21 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 bundle.putString(FilmTableHelper.IMG_PRINCIPALE, mData.get(position).getPosterPath());
                 bundle.putString(FilmTableHelper.IMG_DETTAGLIO, mData.get(position).getBackdropPath());
                 bundle.putString(FilmTableHelper.VOTO, String.valueOf(mData.get(position).getVoteAverage()));
+
+                genresFilmInput = mData.get(position).getGenreIds();
+                if (genresFilmInput != null) {
+                    int[] genresFilmOutput = new int[genresFilmInput.size()];
+                    for (int i = 0; i < genresFilmInput.size(); i++) {
+                        genresFilmOutput[i] = genresFilmInput.get(i);
+                    }
+                    bundle.putIntArray("generiID", genresFilmOutput);
+                }
+
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });
     }
-
 
 
     @Override
@@ -119,16 +128,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<FilmResults.Data> filtroList = new ArrayList<>();
-            if(constraint == null || constraint.length()==0)
-            {
+            if (constraint == null || constraint.length() == 0) {
                 filtroList.addAll(mDataSearch);
-            }else
-            {
+            } else {
                 String filtroPattern = constraint.toString().toLowerCase().trim();
 
-                for(FilmResults.Data item :mDataSearch)
-                {
-                    if(item.getTitle().toLowerCase().contains(filtroPattern)) {
+                for (FilmResults.Data item : mDataSearch) {
+                    if (item.getTitle().toLowerCase().contains(filtroPattern)) {
                         filtroList.add(item);
                     }
                 }
@@ -142,20 +148,20 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mData.clear();
-            mData.addAll((List)results.values);
+            mData.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         View cellView;
+
         MyViewHolder(@NonNull View cellView) {
             super(cellView);
             this.cellView = cellView;
         }
     }
-
 
 
 }
