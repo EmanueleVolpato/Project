@@ -2,6 +2,9 @@ package com.example.projectwork.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,9 +25,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
+import com.example.projectwork.adapter.FilmSimiliAdapter;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
+import com.example.projectwork.services.FilmResults;
+import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.IWebServiceVideoFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
 import com.example.projectwork.services.JsonVota;
@@ -34,6 +41,7 @@ import com.google.gson.JsonObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -49,6 +57,15 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
     SharedPref sharedPref;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
+
+    int PAGE = 1;
+    String LANGUAGE = "it";
+
+
+    RecyclerView recyclerViewFilmSimiliPreferiti;
+    List<FilmResults.Data> internetFilmSimili;
+    FilmSimiliAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +84,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
         genereInformazioniPreferiti = findViewById(R.id.genereFilmInformazioniPreferiti);
         ratingBarVotoPersonaleInformazioniPreferiti = findViewById(R.id.ratingBarVotoPersonaleFilmPreferiti);
         buttonVotaInformazioniPreferiti = findViewById(R.id.buttonVotaFilmPreferiti);
+        recyclerViewFilmSimiliPreferiti = findViewById(R.id.recyclerViewSimiliPreferiti);
 
         if (getIntent().getExtras() != null) {
 
@@ -96,7 +114,18 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 votoPreferito = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
 
 
-
+                if (controlloConnessione()) {
+                    webService = WebService.getInstance();
+                    PAGE=1;
+                    LANGUAGE="it";
+                    internetFilmSimili = new ArrayList<>();
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilmPreferito.this, LinearLayoutManager.HORIZONTAL,false);
+                    recyclerViewFilmSimiliPreferiti.setLayoutManager(layoutManager);
+                    recyclerViewFilmSimiliPreferiti.setItemAnimator(new DefaultItemAnimator());
+                    adapter = new FilmSimiliAdapter(InformazioniAggiuntiveFilmPreferito.this, internetFilmSimili);
+                    recyclerViewFilmSimiliPreferiti.setAdapter(adapter);
+                    getSimilarFilms();
+                }
 
 
                 titoloInformazioniPreferiti.setText(titoloFilmPreferito);
@@ -141,6 +170,23 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
 
 
     }
+
+    private void getSimilarFilms() {
+        webService.getSimilarFilms(idFilmPreferito, API_KEY, LANGUAGE, PAGE, new IWebService() {
+            @Override
+            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
+                if (success) {
+                    //Toast.makeText(InformazioniAggiuntiveFilm.this, String.valueOf(films.size()), Toast.LENGTH_SHORT).show();
+                    internetFilmSimili.addAll(films);
+                    adapter.setFilms(internetFilmSimili);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 
 
 
@@ -190,4 +236,13 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onKeyDown ( int keyCode, KeyEvent event){
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

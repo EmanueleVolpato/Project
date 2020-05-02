@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginStart="8dp"                android:layout_marginTop="10dp"
+                android:layout_marginStart="8dp"
                 android:text="Titolo Film"
                 android:textColor="?attr/textcolor"
                 android:textSize="25dp"
@@ -39,7 +39,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -48,7 +48,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="10dp"
                     android:text="Genere Film"
                     android:textColor="?attr/textcolor"
                     android:textSize="20dp"
@@ -58,7 +57,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -67,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="10dp"
                     android:text="Data Film"
                     android:textColor="?attr/textcolor"
                     android:textSize="20dp"
@@ -78,14 +76,13 @@
             <RatingBar
                 android:id="@+id/ratingBarVotoPersonaleFilmPreferiti"
                 android:layout_width="240dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="79dp"
-                android:layout_marginTop="10dp"
-                android:theme="@style/RatingBar"
                 android:layout_marginEnd="79dp"
                 android:clickable="false"
-                android:isIndicator="false"/>
+                android:isIndicator="false"
+                android:theme="@style/RatingBar" />
 
             <Button
                 android:id="@+id/buttonVotaFilmPreferiti"
@@ -94,6 +91,28 @@
                 android:background="?attr/buttoncolor"
                 android:text="VOTA"
                 android:visibility="invisible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Film correlati"
+                    android:textColor="?attr/textcolor"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewSimiliPreferiti"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

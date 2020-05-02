@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -78,7 +79,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         genere = findViewById(R.id.genereFilmInformazioni);
         ratingBarVotoPersonale = findViewById(R.id.ratingBarVotoPersonaleFilm);
         buttonVota = findViewById(R.id.buttonVotaFilm);
-
         recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
 
         if (getIntent().getExtras() != null) {
@@ -221,6 +221,13 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    public boolean onKeyDown ( int keyCode, KeyEvent event){
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 
