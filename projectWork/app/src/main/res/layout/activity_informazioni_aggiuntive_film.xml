@@ -31,19 +31,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginStart="8dp"                android:layout_marginTop="10dp"
+                android:layout_marginStart="8dp"
                 android:text="Titolo Film"
                 android:textColor="?attr/textcolor"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -52,7 +48,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="10dp"
                     android:text="Genere Film"
                     android:textColor="?attr/textcolor"
                     android:textSize="20dp"
@@ -62,7 +57,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -71,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="10dp"
                     android:text="Data Film "
                     android:textColor="?attr/textcolor"
                     android:textSize="20dp"
@@ -82,10 +76,9 @@
             <RatingBar
                 android:id="@+id/ratingBarVotoPersonaleFilm"
                 android:layout_width="240dp"
-                android:layout_height="wrap_content"
+                android:layout_height="39dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="79dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="79dp"
                 android:numStars="5"
                 android:stepSize="0.5"
@@ -102,7 +95,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="263dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
 
@@ -119,7 +112,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewSimili"
                     android:layout_width="match_parent"
-                    android:layout_height="234dp" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
         </LinearLayout>
