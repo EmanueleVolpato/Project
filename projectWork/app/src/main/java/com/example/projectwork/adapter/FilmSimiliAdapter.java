@@ -72,6 +72,16 @@ public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.Vi
                 bundle.putString(FilmTableHelper.IMG_DETTAGLIO, mData.get(position).getBackdropPath());
                 bundle.putString(FilmTableHelper.DATA, mData.get(position).getReleaseDate());
                 bundle.putString(FilmTableHelper.VOTO, String.valueOf(mData.get(position).getVoteAverage()));
+
+                List<Integer> genresFilmInput = mData.get(position).getGenreIds();
+                if (genresFilmInput != null) {
+                    int[] genresFilmOutput = new int[genresFilmInput.size()];
+                    for (int i = 0; i < genresFilmInput.size(); i++) {
+                        genresFilmOutput[i] = genresFilmInput.get(i);
+                    }
+                    bundle.putIntArray("generiID", genresFilmOutput);
+                }
+
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
