@@ -88,8 +88,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String idSessionGuest;
 
     boolean inizializzato = false;
-
-
+    int firstVisiblePosition;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -100,12 +99,19 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("MOVIES");
+
+
+        if(savedInstanceState!=null) {
+            firstVisiblePosition = savedInstanceState.getInt("lastPosition");
+            recyclerView.smoothScrollToPosition(firstVisiblePosition);
+            Toast.makeText(MainActivity.this, firstVisiblePosition + "", Toast.LENGTH_SHORT).show();
+        }
+
         recyclerView = findViewById(R.id.recyclerviewFilm);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         btnGoOnTop = findViewById(R.id.buttonGoOnTop);
 
         btnGoOnTop.hide();
-
 
 
         int orientation = getResources().getConfiguration().orientation;
@@ -138,7 +144,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-               if (!recyclerView.canScrollVertically(-1))
+
+                if (!recyclerView.canScrollVertically(-1))
                 {
                     btnGoOnTop.hide();
                 }
@@ -154,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             public void onClick(View v) {
                 recyclerView.smoothScrollToPosition(0);
                 btnGoOnTop.hide();
+
             }
         });
 
@@ -162,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         } else {
             noInternet();
         }
+
+
     }
 
     private void setInizializzazioneInteret() {
@@ -417,5 +427,32 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         startActivity(i);
         finish();
     }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        View firstChild = recyclerView.getChildAt(0);
+         firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
+        int offset = firstChild.getTop();
+
+        Toast.makeText(MainActivity.this,firstVisiblePosition+"",Toast.LENGTH_SHORT).show();
+        preferences.edit()
+                .putInt("position", firstVisiblePosition)
+                .putInt("offset", offset)
+                .apply();
+    }
+
+
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("lastPosition",firstVisiblePosition);
+    }
+
 
 }
