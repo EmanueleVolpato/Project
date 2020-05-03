@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         btnGoOnTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerView.scrollToPosition(0);
+                recyclerView.smoothScrollToPosition(0);
                 btnGoOnTop.hide();
             }
         });

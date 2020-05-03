@@ -85,7 +85,7 @@ public class FilmPreferiti extends AppCompatActivity {
         btnGoOnTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recyclerView.scrollToPosition(0);
+                recyclerView.smoothScrollToPosition(0);
                 btnGoOnTop.hide();
             }
         });
