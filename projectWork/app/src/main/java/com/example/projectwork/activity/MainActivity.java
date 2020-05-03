@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -45,6 +47,7 @@ import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.IWebServiceGenres;
 import com.example.projectwork.services.IWebServiceGuestSession;
 import com.example.projectwork.services.WebService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     private String LANGUAGE = "";
     private int PAGE = 1;
     private WebService webService;
+    FloatingActionButton btnGoOnTop;
+    private int oldScrollYPostion = 0;
+
 
     List<FilmResults.Data> noInternetFilm;
     List<FilmResults.Data> internetFilm;
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         getSupportActionBar().setTitle("MOVIES");
         recyclerView = findViewById(R.id.recyclerviewFilm);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
+        btnGoOnTop = findViewById(R.id.buttonGoOnTop);
 
 
 
@@ -126,6 +133,29 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             }
         });
 
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+               if (!recyclerView.canScrollVertically(-1))
+                {
+                    btnGoOnTop.hide();
+                }
+
+                if(recyclerView.computeVerticalScrollOffset() > 1000)
+                    btnGoOnTop.show();
+            }
+        });
+
+
+        btnGoOnTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.scrollToPosition(0);
+                btnGoOnTop.hide();
+            }
+        });
 
         if (controlloConnessione()) {
             setInizializzazioneInteret();
