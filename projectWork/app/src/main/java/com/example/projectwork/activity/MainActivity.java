@@ -110,6 +110,14 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         btnGoOnTop.hide();
 
 
+        if(savedInstanceState!=null) {
+            firstVisiblePosition = savedInstanceState.getInt("lastPosition");
+            recyclerView.smoothScrollToPosition(firstVisiblePosition);
+            //Toast.makeText(MainActivity.this, firstVisiblePosition + "", Toast.LENGTH_SHORT).show();
+        }
+
+
+
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
@@ -140,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
                 if (!recyclerView.canScrollVertically(-1))
                 {
                     btnGoOnTop.hide();
@@ -167,11 +174,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             noInternet();
         }
 
-        if(savedInstanceState!=null) {
-            firstVisiblePosition = savedInstanceState.getInt("lastPosition");
-            recyclerView.smoothScrollToPosition(firstVisiblePosition);
-            //Toast.makeText(MainActivity.this, firstVisiblePosition + "", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void setInizializzazioneInteret() {
@@ -447,6 +449,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
 
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recyclerView.smoothScrollToPosition(firstVisiblePosition);
+    }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
