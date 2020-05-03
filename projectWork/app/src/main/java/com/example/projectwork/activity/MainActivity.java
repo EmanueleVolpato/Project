@@ -101,11 +101,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         getSupportActionBar().setTitle("MOVIES");
 
 
-        if(savedInstanceState!=null) {
-            firstVisiblePosition = savedInstanceState.getInt("lastPosition");
-            recyclerView.smoothScrollToPosition(firstVisiblePosition);
-            Toast.makeText(MainActivity.this, firstVisiblePosition + "", Toast.LENGTH_SHORT).show();
-        }
+
 
         recyclerView = findViewById(R.id.recyclerviewFilm);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
@@ -171,7 +167,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             noInternet();
         }
 
-
+        if(savedInstanceState!=null) {
+            firstVisiblePosition = savedInstanceState.getInt("lastPosition");
+            recyclerView.smoothScrollToPosition(firstVisiblePosition);
+            //Toast.makeText(MainActivity.this, firstVisiblePosition + "", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setInizializzazioneInteret() {
