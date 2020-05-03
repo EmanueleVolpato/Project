@@ -54,8 +54,8 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     SharedPref sharedPref;
-    int PAGE = 1;
-    String LANGUAGE = "it";
+    int PAGE;
+    String LANGUAGE;
     RecyclerView recyclerViewFilmSimili;
     List<FilmResults.Data> internetFilmSimili;
     FilmSimiliAdapter adapter;
@@ -80,7 +80,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
         correlati = findViewById(R.id.aaaa);
 
-        correlati.setText("ydtfouo");
         if (getIntent().getExtras() != null) {
 
             String[] selectionArgs = {"key_session"};
@@ -107,9 +106,9 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 generiFilm = (getIntent().getExtras().getIntArray("generiID"));
 
                 if (controlloConnessione()) {
-                    webService = WebService.getInstance();
                     PAGE = 1;
                     LANGUAGE = "it";
+                    webService = WebService.getInstance();
                     internetFilmSimili = new ArrayList<>();
                     LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this, LinearLayoutManager.HORIZONTAL, false);
                     recyclerViewFilmSimili.setLayoutManager(layoutManager);
@@ -130,13 +129,13 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                         }
                     });
 
-                    /*correlati.setOnClickListener(new View.OnClickListener() {
+                    correlati.setClickable(true);
+                    correlati.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                            recyclerViewFilmSimili.smoothScrollToPosition(0);
                         }
-                    });*/
-
+                    });
                     listGenres(generiFilm);
                 }
 
@@ -173,19 +172,8 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                         }
                     }
                 });
-
-
             }
-
         }
-
-
-    }
-
-    public void perform_action() {
-        PAGE = 1;
-        webService = WebService.getInstance();
-        getSimilarFilms();
     }
 
     private void getSimilarFilms() {
@@ -193,7 +181,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             @Override
             public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
                 if (success) {
-                    //Toast.makeText(InformazioniAggiuntiveFilm.this, String.valueOf(films.size()), Toast.LENGTH_SHORT).show();
                     internetFilmSimili.addAll(films);
                     adapter.setFilms(internetFilmSimili);
                     adapter.notifyDataSetChanged();

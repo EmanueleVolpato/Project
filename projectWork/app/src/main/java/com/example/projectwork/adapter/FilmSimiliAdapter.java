@@ -20,6 +20,7 @@ import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.ViewHolder> {
@@ -27,21 +28,24 @@ public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.Vi
     private List<FilmResults.Data> mData;
     Context context;
 
-    public FilmSimiliAdapter(Context context, List<FilmResults.Data> mData)
-    {
+    public FilmSimiliAdapter(Context context, List<FilmResults.Data> mData) {
         this.context = context;
         this.mData = mData;
     }
-    public void setFilms(List<FilmResults.Data> mData){
+
+    public void setFilms(List<FilmResults.Data> mData) {
         this.mData = mData;
     }
 
+    public void resetFilms() {
+        this.mData.clear();
+    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_film_simili,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_film_simili, parent, false);
         return new ViewHolder(view);
     }
 
@@ -52,7 +56,7 @@ public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.Vi
         ImageView imageView = holder.cellView.findViewById(R.id.imageFilmSimile);
 
         Glide.with(context)
-                .load("https://image.tmdb.org/t/p/w500/"+ mData.get(position).getPosterPath())
+                .load("https://image.tmdb.org/t/p/w500/" + mData.get(position).getPosterPath())
                 .into(imageView);
 
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -80,9 +84,10 @@ public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.Vi
         return mData.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         View cellView;
+
         ViewHolder(@NonNull View cellView) {
             super(cellView);
             this.cellView = cellView;
