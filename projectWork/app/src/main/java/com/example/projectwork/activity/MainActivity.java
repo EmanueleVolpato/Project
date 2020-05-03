@@ -316,6 +316,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 } else {
                     if (!newText.isEmpty()) {
                         adapter.getFilter().filter(newText);
+                    }else
+                    {
+                        adapter.resetSearchFilm();
+                        noInternet();
+                        adapter.notifyDataSetChanged();
                     }
                 }
                 return false;

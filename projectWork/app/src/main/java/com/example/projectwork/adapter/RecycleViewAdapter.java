@@ -44,6 +44,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private List<FilmResults.Data> mDataSearch;
 
 
+
     Dialog myDialogLike;
 
     public RecycleViewAdapter(Context context, List<FilmResults.Data> mData) {
@@ -58,6 +59,11 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     public void resetFilms() {
         this.mData.clear();
+    }
+
+    public void resetSearchFilm()
+    {
+        this.mDataSearch.clear();
     }
 
     @NonNull
