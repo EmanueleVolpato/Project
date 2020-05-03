@@ -49,7 +49,7 @@ import java.util.Locale;
 public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
 
     ImageView imageViewInformazioniPreferiti;
-    TextView titoloInformazioniPreferiti, dataInformazioniPreferiti, genereInformazioniPreferiti;
+    TextView titoloInformazioniPreferiti, dataInformazioniPreferiti, genereInformazioniPreferiti, correlati;
     RatingBar ratingBarVotoPersonaleInformazioniPreferiti;
     Button buttonVotaInformazioniPreferiti;
     String dataFilmPreferito, idFilmPreferito, immagineDettaglioFilmPreferito, votoPreferito, descrizioneFilmPreferito, titoloFilmPreferito;
@@ -85,6 +85,8 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
         ratingBarVotoPersonaleInformazioniPreferiti = findViewById(R.id.ratingBarVotoPersonaleFilmPreferiti);
         buttonVotaInformazioniPreferiti = findViewById(R.id.buttonVotaFilmPreferiti);
         recyclerViewFilmSimiliPreferiti = findViewById(R.id.recyclerViewSimiliPreferiti);
+        correlati = findViewById(R.id.txtCorrelati);
+
 
         if (getIntent().getExtras() != null) {
 
@@ -104,7 +106,6 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 webService = WebService.getInstance();
             }
 
-
             if (getIntent().getExtras() != null) {
                 titoloFilmPreferito = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
                 descrizioneFilmPreferito = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
@@ -113,25 +114,43 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 immagineDettaglioFilmPreferito = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
                 votoPreferito = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
 
-
                 if (controlloConnessione()) {
                     webService = WebService.getInstance();
-                    PAGE=1;
-                    LANGUAGE="it";
+                    PAGE = 1;
+                    LANGUAGE = "it";
                     internetFilmSimili = new ArrayList<>();
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilmPreferito.this, LinearLayoutManager.HORIZONTAL,false);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilmPreferito.this, LinearLayoutManager.HORIZONTAL, false);
                     recyclerViewFilmSimiliPreferiti.setLayoutManager(layoutManager);
                     recyclerViewFilmSimiliPreferiti.setItemAnimator(new DefaultItemAnimator());
                     adapter = new FilmSimiliAdapter(InformazioniAggiuntiveFilmPreferito.this, internetFilmSimili);
                     recyclerViewFilmSimiliPreferiti.setAdapter(adapter);
                     getSimilarFilms();
-                }
 
+                    recyclerViewFilmSimiliPreferiti.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                            super.onScrollStateChanged(recyclerView, newState);
+                            if (!recyclerView.canScrollVertically(1)) {
+                                PAGE++;
+                                webService = WebService.getInstance();
+                                getSimilarFilms();
+                            }
+                        }
+                    });
+
+                    correlati.setClickable(true);
+                    correlati.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            recyclerViewFilmSimiliPreferiti.smoothScrollToPosition(0);
+                        }
+                    });
+
+                }
 
                 titoloInformazioniPreferiti.setText(titoloFilmPreferito);
 
-
-                Date dateIniziale= null;
+                Date dateIniziale = null;
                 try {
                     dateIniziale = new SimpleDateFormat("yyyy-MM-dd", Locale.ITALIAN).parse(dataFilmPreferito);
                 } catch (ParseException e) {
@@ -139,8 +158,6 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 }
                 dataFilmPreferito = new SimpleDateFormat("dd/MM/yyyy", Locale.ITALIAN).format(dateIniziale);
                 dataInformazioniPreferiti.setText(dataFilmPreferito);
-
-
 
 
                 Glide.with(InformazioniAggiuntiveFilmPreferito.this)
@@ -188,8 +205,6 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
     }
 
 
-
-
     private boolean controlloConnessione() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null)
@@ -204,9 +219,9 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
             @Override
             public void onVoteFetched(boolean success, VoteFilmResults voteResult, int errorCode, String errorMessage) {
                 if (success) {
-                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this,"Votazione avvenuta con successo",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "Votazione avvenuta con successo", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this,"Errore",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "Errore", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -214,7 +229,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown ( int keyCode, KeyEvent event){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             finish();
         }

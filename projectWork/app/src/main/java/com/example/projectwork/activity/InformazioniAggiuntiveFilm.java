@@ -78,7 +78,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         ratingBarVotoPersonale = findViewById(R.id.ratingBarVotoPersonaleFilm);
         buttonVota = findViewById(R.id.buttonVotaFilm);
         recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
-        correlati = findViewById(R.id.aaaa);
+        correlati = findViewById(R.id.txtCorrelati);
 
         if (getIntent().getExtras() != null) {
 
