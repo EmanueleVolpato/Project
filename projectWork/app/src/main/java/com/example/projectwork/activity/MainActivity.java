@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     private int PAGE = 1;
     private WebService webService;
     FloatingActionButton btnGoOnTop;
-    private int oldScrollYPostion = 0;
 
 
     List<FilmResults.Data> noInternetFilm;
@@ -105,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         btnGoOnTop = findViewById(R.id.buttonGoOnTop);
 
+        btnGoOnTop.hide();
 
 
 

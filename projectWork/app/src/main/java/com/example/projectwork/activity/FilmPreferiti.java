@@ -1,5 +1,6 @@
 package com.example.projectwork.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.WebService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ public class FilmPreferiti extends AppCompatActivity {
     List<FilmResults.Data> preferredFilm;
     RecyclerView recyclerView;
     RecyclerViewAdapterFilmPreferiti adapter;
+    FloatingActionButton btnGoOnTop;
 
     SharedPref sharedPref;
 
@@ -46,9 +50,13 @@ public class FilmPreferiti extends AppCompatActivity {
         getSupportActionBar().setTitle("PREFERRED MOVIES");
 
         recyclerView = findViewById(R.id.recyclerViewFilmPreferiti);
+        btnGoOnTop = findViewById(R.id.buttonGoOnTopPreferiti);
+
         preferredFilm = new ArrayList<>();
         adapter = new RecyclerViewAdapterFilmPreferiti(FilmPreferiti.this, preferredFilm);
         recyclerView.setAdapter(adapter);
+
+        btnGoOnTop.hide();
 
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -57,6 +65,31 @@ public class FilmPreferiti extends AppCompatActivity {
             recyclerView.setLayoutManager(new GridLayoutManager(FilmPreferiti.this, 2));
 
         caricaPreferiti();
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(-1))
+                {
+                    btnGoOnTop.hide();
+                }
+
+                if(recyclerView.computeVerticalScrollOffset() > 1000)
+                    btnGoOnTop.show();
+            }
+        });
+
+
+        btnGoOnTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.scrollToPosition(0);
+                btnGoOnTop.hide();
+            }
+        });
+
     }
 
     public void caricaPreferiti() {
