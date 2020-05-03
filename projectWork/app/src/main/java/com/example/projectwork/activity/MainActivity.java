@@ -88,7 +88,10 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String idSessionGuest;
 
     boolean inizializzato = false;
+
     int firstVisiblePosition;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -100,9 +103,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("MOVIES");
 
-
-
-
         recyclerView = findViewById(R.id.recyclerviewFilm);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         btnGoOnTop = findViewById(R.id.buttonGoOnTop);
@@ -110,11 +110,10 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         btnGoOnTop.hide();
 
 
-        if(savedInstanceState!=null) {
+       if(savedInstanceState!=null) {
             firstVisiblePosition = savedInstanceState.getInt("lastPosition");
-            recyclerView.smoothScrollToPosition(firstVisiblePosition);
-            //Toast.makeText(MainActivity.this, firstVisiblePosition + "", Toast.LENGTH_SHORT).show();
         }
+
 
 
 
@@ -434,17 +433,9 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     @Override
     protected void onPause() {
         super.onPause();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         View firstChild = recyclerView.getChildAt(0);
-         firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
-        int offset = firstChild.getTop();
-
-        Toast.makeText(MainActivity.this,firstVisiblePosition+"",Toast.LENGTH_SHORT).show();
-        preferences.edit()
-                .putInt("position", firstVisiblePosition)
-                .putInt("offset", offset)
-                .apply();
+        firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
+        //Toast.makeText(MainActivity.this,firstVisiblePosition+"",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -455,6 +446,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         super.onResume();
         recyclerView.smoothScrollToPosition(firstVisiblePosition);
     }
+
+
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {

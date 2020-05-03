@@ -216,6 +216,17 @@ public class WebService {
                         cv.put(FilmTableHelper.DATA, movie.getReleaseDate());
                         cv.put(FilmTableHelper.VOTO, movie.getVoteAverage());
                         cv.put(FilmTableHelper.IMG_DETTAGLIO, movie.getBackdropPath());
+
+                        List<Integer> genresFilmInput = movie.getGenreIds();
+                        if (genresFilmInput != null) {
+                            int[] genresFilmOutput = new int[genresFilmInput.size()];
+                            for (int i = 0; i < genresFilmInput.size(); i++) {
+                                genresFilmOutput[i] = genresFilmInput.get(i);
+                            }
+                            bundle.putIntArray("generiID", genresFilmOutput);
+                        }
+
+                        cv.put(FilmTableHelper.GENERI, String.valueOf(movie.getGenreIds()));
                         context.getContentResolver().insert(FilmProvider.FILMS_URI, cv);
                     }
 

@@ -12,6 +12,8 @@ public class FilmTableHelper implements BaseColumns {
     public static final String DESCRIZIONE = "descrizione";
     public static final String IMG_PRINCIPALE = "img_principale";
     public static final String IMG_DETTAGLIO = "img_decrizione";
+    public static final String GENERI = "generi";
+
 
 
     public static final String CREATE = "CREATE TABLE " + TABLE_NAME + " ( " +
@@ -20,6 +22,7 @@ public class FilmTableHelper implements BaseColumns {
             DATA + " TEXT, " +
             IMG_PRINCIPALE + " TEXT, " +
             VOTO + " INTEGER, " +
+            GENERI + " TEXT, " +
             IMG_DETTAGLIO + " TEXT, " +
             TITOLO + " TEXT );";
 }
