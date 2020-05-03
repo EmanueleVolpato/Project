@@ -170,6 +170,10 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                             JsonVota j = new JsonVota();
                             votaFilm(idFilm, j.ApiJsonMap(ratingBarVotoPersonale.getRating() * 2));
                         }
+                        else
+                        {
+                            Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -207,7 +211,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             public void onVoteFetched(boolean success, VoteFilmResults voteResult, int errorCode, String errorMessage) {
                 if (success) {
                     Toast.makeText(InformazioniAggiuntiveFilm.this, "Votazione avvenuta con successo", Toast.LENGTH_SHORT).show();
-
                 } else {
                     Toast.makeText(InformazioniAggiuntiveFilm.this, "Errore", Toast.LENGTH_SHORT).show();
 

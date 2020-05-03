@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -112,12 +114,26 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                         genresFilmOutput[i] = genresFilmInput.get(i);
                     }
                     bundle.putIntArray("generiID", genresFilmOutput);
+                }else
+                {
+                    int[] genresFilmOutputNoInternet = new int[3];
+                    genresFilmOutputNoInternet[0]=0;
+                    genresFilmOutputNoInternet[1]=0;
+                    genresFilmOutputNoInternet[2]=0;
+                    bundle.putIntArray("generiID",genresFilmOutputNoInternet);
                 }
 
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });
+    }
+
+    public static String strSeparator = "__,__";
+
+    public static String[] convertStringToArray(String str) {
+        String[] arr = str.split(strSeparator);
+        return arr;
     }
 
 
