@@ -33,10 +33,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class DettaglioFilmPreferiti  extends AppCompatActivity {
+public class DettaglioFilmPreferiti extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione;
-    ImageView imageViewDettaglio,imageYoutube;
+    ImageView imageViewDettaglio, imageYoutube;
     String idFilm, titolo, data;
     FloatingActionButton btnInformzioniFilmPreferiti;
     Dialog dialogInformzioniPreferiti;
@@ -51,6 +51,7 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
 
+    int[] generiFilm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,6 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
         imageYoutube = findViewById(R.id.imageViewApriYoutubePreferiti);
 
 
-
         scrollViewPreferiti.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
@@ -99,8 +99,9 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
             idFilm = getIntent().getExtras().getString(FilmPreferredTableHelper.ID_MOVIE);
             voto = (getIntent().getExtras().getString(FilmPreferredTableHelper.VOTO));
 
+            generiFilm = (getIntent().getExtras().getIntArray(FilmPreferredTableHelper.GENERI));
 
-            int valore = Math.round(Float.parseFloat(voto)/2);
+            int valore = Math.round(Float.parseFloat(voto) / 2);
             ratingBarpreferiti.setRating((valore));
 
 
@@ -118,10 +119,10 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
                 txtDecrizione.setText(descrizione);
             else {
 
-                Toast.makeText(DettaglioFilmPreferiti.this,"Nessuna descrizione disponibile al momento",Toast.LENGTH_SHORT).show();
+                Toast.makeText(DettaglioFilmPreferiti.this, "Nessuna descrizione disponibile al momento", Toast.LENGTH_SHORT).show();
 
-            }        }
-
+            }
+        }
 
 
         btnInformzioniFilmPreferiti.setOnClickListener(new View.OnClickListener() {
@@ -130,10 +131,11 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
                 Intent intent = new Intent(DettaglioFilmPreferiti.this, InformazioniAggiuntiveFilmPreferito.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(FilmPreferredTableHelper.ID_MOVIE, idFilm);
-                bundle.putString(FilmPreferredTableHelper.TITOLO,titolo);
+                bundle.putString(FilmPreferredTableHelper.TITOLO, titolo);
                 bundle.putString(FilmPreferredTableHelper.DATA, data);
                 bundle.putString(FilmPreferredTableHelper.DESCRIZIONE, descrizione);
                 bundle.putString(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
+                bundle.putIntArray(FilmPreferredTableHelper.GENERI, generiFilm);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -147,7 +149,8 @@ public class DettaglioFilmPreferiti  extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("video", idFilm);
                 intent.putExtras(bundle);
-                startActivity(intent);    }
+                startActivity(intent);
+            }
         });
 
     }

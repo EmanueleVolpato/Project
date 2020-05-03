@@ -30,7 +30,9 @@ import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
+import com.example.projectwork.services.GenresResults;
 import com.example.projectwork.services.IWebService;
+import com.example.projectwork.services.IWebServiceGenres;
 import com.example.projectwork.services.IWebServiceVideoFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
 import com.example.projectwork.services.JsonVota;
@@ -49,7 +51,7 @@ import java.util.Locale;
 public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
 
     ImageView imageViewInformazioniPreferiti;
-    TextView titoloInformazioniPreferiti, dataInformazioniPreferiti, genereInformazioniPreferiti, correlati;
+    TextView titoloInformazioniPreferiti, dataInformazioniPreferiti, correlati, genere;
     RatingBar ratingBarVotoPersonaleInformazioniPreferiti;
     Button buttonVotaInformazioniPreferiti;
     String dataFilmPreferito, idFilmPreferito, immagineDettaglioFilmPreferito, votoPreferito, descrizioneFilmPreferito, titoloFilmPreferito;
@@ -66,6 +68,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
     List<FilmResults.Data> internetFilmSimili;
     FilmSimiliAdapter adapter;
 
+    int[] generiFilm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
         imageViewInformazioniPreferiti = findViewById(R.id.imageViewInformazioniAggiuntivePreferiti);
         titoloInformazioniPreferiti = findViewById(R.id.titoloFilmInformzioniPreferiti);
         dataInformazioniPreferiti = findViewById(R.id.DataFilmPreferiti);
-        genereInformazioniPreferiti = findViewById(R.id.genereFilmInformazioniPreferiti);
+        genere = findViewById(R.id.genere);
         ratingBarVotoPersonaleInformazioniPreferiti = findViewById(R.id.ratingBarVotoPersonaleFilmPreferiti);
         buttonVotaInformazioniPreferiti = findViewById(R.id.buttonVotaFilmPreferiti);
         recyclerViewFilmSimiliPreferiti = findViewById(R.id.recyclerViewSimiliPreferiti);
@@ -113,6 +116,8 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 idFilmPreferito = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
                 immagineDettaglioFilmPreferito = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
                 votoPreferito = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
+
+                generiFilm = (getIntent().getExtras().getIntArray(FilmPreferredTableHelper.GENERI));
 
                 if (controlloConnessione()) {
                     webService = WebService.getInstance();
@@ -146,6 +151,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                         }
                     });
 
+                    listGenres(generiFilm);
                 }
 
                 titoloInformazioniPreferiti.setText(titoloFilmPreferito);
@@ -163,8 +169,6 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 Glide.with(InformazioniAggiuntiveFilmPreferito.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilmPreferito)
                         .into(imageViewInformazioniPreferiti);
-
-
             }
         }
 
@@ -228,6 +232,29 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
         });
     }
 
+
+    private void listGenres(final int[] idGeneriFilm) {
+        webService.listGenres(API_KEY, LANGUAGE, new IWebServiceGenres() {
+            @Override
+            public void onGenresFetched(boolean success, List<GenresResults.Data> genres, int errorCode, String errorMessage) {
+                if (success) {
+                    for (int i = 0; i < idGeneriFilm.length; i++) {
+                        for (int j = 0; j < genres.size(); j++) {
+                            if (idGeneriFilm[i] == genres.get(j).getId()) {
+                                if (i == 0)
+                                    genere.setText(genere.getText() + " " + genres.get(i).getName());
+                                else
+                                    genere.setText(genere.getText() + ", " + genres.get(i).getName());
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
@@ -235,5 +262,4 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }

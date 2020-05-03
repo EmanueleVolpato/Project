@@ -91,7 +91,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 Intent intent = new Intent(context, DettaglioFilm.class);
                 Bundle bundle = new Bundle();
                 int id = mData.get(position).getId();
-                List<Integer> genresFilmInput;
                 bundle.putString(FilmTableHelper.ID_MOVIE, Integer.toString(id));
                 bundle.putString(FilmTableHelper.TITOLO, mData.get(position).getTitle());
                 bundle.putString(FilmTableHelper.DATA, mData.get(position).getReleaseDate());
@@ -100,7 +99,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 bundle.putString(FilmTableHelper.IMG_DETTAGLIO, mData.get(position).getBackdropPath());
                 bundle.putString(FilmTableHelper.VOTO, String.valueOf(mData.get(position).getVoteAverage()));
 
-                genresFilmInput = mData.get(position).getGenreIds();
+                List<Integer> genresFilmInput = mData.get(position).getGenreIds();
                 if (genresFilmInput != null) {
                     int[] genresFilmOutput = new int[genresFilmInput.size()];
                     for (int i = 0; i < genresFilmInput.size(); i++) {

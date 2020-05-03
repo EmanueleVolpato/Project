@@ -114,7 +114,7 @@ public class DettaglioFilm extends AppCompatActivity {
             immagineDettaglio = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
             voto = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
 
-           generiFilm = (getIntent().getExtras().getIntArray("generiID"));
+            generiFilm = (getIntent().getExtras().getIntArray("generiID"));
 
             if (controlloConnessione()) {
                 webService = WebService.getInstance();
@@ -189,6 +189,7 @@ public class DettaglioFilm extends AppCompatActivity {
                         contentValues.put(FilmPreferredTableHelper.VOTO, voto);
                         contentValues.put(FilmPreferredTableHelper.IMG_PRINCIPALE, immaginePrincipale);
                         contentValues.put(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
+                        contentValues.put(FilmPreferredTableHelper.GENERI, convertArrayToString(generiFilm));
                         DettaglioFilm.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, contentValues);
                     }
 
@@ -309,5 +310,18 @@ public class DettaglioFilm extends AppCompatActivity {
             return false;
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    public static String strSeparator = "__,__";
+
+    public static String convertArrayToString(int[] array) {
+        String str = "";
+        for (int i = 0; i < array.length; i++) {
+            str = str + Integer.toString(array[i]);
+            if (i < array.length - 1) {
+                str = str + strSeparator;
+            }
+        }
+        return str;
     }
 }

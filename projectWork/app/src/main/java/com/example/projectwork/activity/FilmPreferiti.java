@@ -26,6 +26,7 @@ import com.example.projectwork.services.WebService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FilmPreferiti extends AppCompatActivity {
@@ -71,12 +72,11 @@ public class FilmPreferiti extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(-1))
-                {
+                if (!recyclerView.canScrollVertically(-1)) {
                     btnGoOnTop.hide();
                 }
 
-                if(recyclerView.computeVerticalScrollOffset() > 1000)
+                if (recyclerView.computeVerticalScrollOffset() > 1000)
                     btnGoOnTop.show();
             }
         });
@@ -112,13 +112,25 @@ public class FilmPreferiti extends AppCompatActivity {
                     movie.setReleaseDate(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.DATA)));
                     movie.setVoteAverage(movies.getInt(movies.getColumnIndex(FilmPreferredTableHelper.VOTO)));
                     movie.setBackdropPath(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.IMG_DETTAGLIO)));
-
+                    String[] generiArrayString = convertStringToArray(movies.getString(movies.getColumnIndex(FilmPreferredTableHelper.GENERI)));
+                    List<Integer> genreIds = new ArrayList<Integer>();
+                    for (int i = 0; i < generiArrayString.length; i++) {
+                        genreIds.add(Integer.parseInt(generiArrayString[i]));
+                    }
+                    movie.setGenreIds(genreIds);
                     preferredFilm.add(movie);
                 }
             }
             adapter.setFilms(preferredFilm);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public static String strSeparator = "__,__";
+
+    public static String[] convertStringToArray(String str) {
+        String[] arr = str.split(strSeparator);
+        return arr;
     }
 
     @Override

@@ -98,6 +98,16 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                 bundle.putString(FilmPreferredTableHelper.IMG_DETTAGLIO, mData.get(position).getBackdropPath());
                 bundle.putString(FilmPreferredTableHelper.DATA, mData.get(position).getReleaseDate());
                 bundle.putString(FilmPreferredTableHelper.VOTO, String.valueOf(mData.get(position).getVoteAverage()));
+
+                List<Integer> genresFilmInput = mData.get(position).getGenreIds();
+                if (genresFilmInput != null) {
+                    int[] genresFilmOutput = new int[genresFilmInput.size()];
+                    for (int i = 0; i < genresFilmInput.size(); i++) {
+                        genresFilmOutput[i] = genresFilmInput.get(i);
+                    }
+                    bundle.putIntArray(FilmPreferredTableHelper.GENERI, genresFilmOutput);
+                }
+
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
