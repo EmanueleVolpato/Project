@@ -46,7 +46,7 @@ import java.util.Locale;
 public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
     ImageView imageView;
-    TextView titolo, data, genere;
+    TextView titolo, data, genere, correlati;
     RatingBar ratingBarVotoPersonale;
     Button buttonVota;
     String dataFilm, idFilm, immagineDettaglioFilm, voto, immaginePrincipale, descrizioneFilm, titoloFilm;
@@ -78,7 +78,9 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         ratingBarVotoPersonale = findViewById(R.id.ratingBarVotoPersonaleFilm);
         buttonVota = findViewById(R.id.buttonVotaFilm);
         recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
+        correlati = findViewById(R.id.aaaa);
 
+        correlati.setText("ydtfouo");
         if (getIntent().getExtras() != null) {
 
             String[] selectionArgs = {"key_session"};
@@ -115,6 +117,26 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                     adapter = new FilmSimiliAdapter(InformazioniAggiuntiveFilm.this, internetFilmSimili);
                     recyclerViewFilmSimili.setAdapter(adapter);
                     getSimilarFilms();
+
+                    recyclerViewFilmSimili.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                            super.onScrollStateChanged(recyclerView, newState);
+                            if (!recyclerView.canScrollVertically(1)) {
+                                PAGE++;
+                                webService = WebService.getInstance();
+                                getSimilarFilms();
+                            }
+                        }
+                    });
+
+                    /*correlati.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                        }
+                    });*/
+
                     listGenres(generiFilm);
                 }
 
@@ -160,6 +182,12 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
     }
 
+    public void perform_action() {
+        PAGE = 1;
+        webService = WebService.getInstance();
+        getSimilarFilms();
+    }
+
     private void getSimilarFilms() {
         webService.getSimilarFilms(idFilm, API_KEY, LANGUAGE, PAGE, new IWebService() {
             @Override
@@ -200,7 +228,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             }
         });
     }
-
 
     private void listGenres(final int[] idGeneriFilm) {
         webService.listGenres(API_KEY, LANGUAGE, new IWebServiceGenres() {
