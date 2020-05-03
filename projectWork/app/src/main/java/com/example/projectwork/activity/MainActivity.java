@@ -180,14 +180,18 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         LANGUAGE = "it";
         webService = WebService.getInstance();
 
-        internetFilm = new ArrayList<>();
+
         searchInternetFilm = new ArrayList<>();
 
+        if(firstVisiblePosition<=0)
+        {
+            internetFilm = new ArrayList<>();
+            adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+            recyclerView.setAdapter(adapter);
+            internet();
+        }
 
-        adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-        recyclerView.setAdapter(adapter);
 
-        internet();
         setIdKeySession();
         inizializzato = true;
 
@@ -440,7 +444,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         super.onPause();
         View firstChild = recyclerView.getChildAt(0);
         firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
-        //Toast.makeText(MainActivity.this,firstVisiblePosition+"",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this,"pippo",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -450,6 +454,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     protected void onResume() {
         super.onResume();
         recyclerView.smoothScrollToPosition(firstVisiblePosition);
+        //Toast.makeText(MainActivity.this,"ciao",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -458,6 +463,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("lastPosition",firstVisiblePosition);
+        //Toast.makeText(MainActivity.this,"coma va",Toast.LENGTH_SHORT).show();
+
     }
 
 

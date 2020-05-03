@@ -186,6 +186,10 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                     JsonVota j = new JsonVota();
                     votaFilm(idFilmPreferito, j.ApiJsonMap(ratingBarVotoPersonaleInformazioniPreferiti.getRating() * 2));
                 }
+                else
+                {
+                    Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
