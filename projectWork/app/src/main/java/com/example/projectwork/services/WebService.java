@@ -223,10 +223,8 @@ public class WebService {
                             for (int i = 0; i < genresFilmInput.size(); i++) {
                                 genresFilmOutput[i] = genresFilmInput.get(i);
                             }
-                            bundle.putIntArray("generiID", genresFilmOutput);
+                            cv.put(FilmTableHelper.GENERI, convertArrayToString(genresFilmOutput));
                         }
-
-                        cv.put(FilmTableHelper.GENERI, String.valueOf(movie.getGenreIds()));
                         context.getContentResolver().insert(FilmProvider.FILMS_URI, cv);
                     }
 
@@ -245,5 +243,18 @@ public class WebService {
                 iwebservice.onFilmsFetched(false, null, -1, t.getLocalizedMessage());
             }
         });
+    }
+
+    public static String strSeparator = "__,__";
+
+    public static String convertArrayToString(int[] array) {
+        String str = "";
+        for (int i = 0; i < array.length; i++) {
+            str = str + Integer.toString(array[i]);
+            if (i < array.length - 1) {
+                str = str + strSeparator;
+            }
+        }
+        return str;
     }
 }
