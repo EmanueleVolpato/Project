@@ -5,13 +5,15 @@
     android:id="@+id/cardViewId"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="230dp"
-    android:layout_width="180dp"
+    android:layout_width="match_parent"
+    android:numColumns="auto_fit"
     cardview:cardElevation="20dp"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="8.5dp"
+    android:layout_marginLeft="8.5dp"
     android:layout_marginTop="8.5dp"
-    android:layout_marginEnd="8.5dp"
+    android:layout_marginRight="8.5dp"
     android:layout_marginBottom="8.5dp"
+    cardview:cardPreventCornerOverlap="false"
     cardview:cardCornerRadius="10dp">
 
     <LinearLayout
@@ -26,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#2d2d2d"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 
