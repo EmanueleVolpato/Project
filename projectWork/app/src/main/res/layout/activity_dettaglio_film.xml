@@ -59,16 +59,16 @@
                 <ImageView
                     android:id="@+id/imageViewAggiungiPreferiti"
                     android:layout_width="68dp"
-                    android:layout_height="54dp"
-                    android:layout_gravity="right"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
                     app:srcCompat="@drawable/star" />
 
                 <ImageView
                     android:id="@+id/imageViewApriYoutube"
                     android:layout_width="68dp"
-                    android:layout_height="54dp"
-                    android:layout_gravity="right"
                     android:layout_marginEnd="10dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
                     app:srcCompat="@drawable/youtube" />
 
             </LinearLayout>

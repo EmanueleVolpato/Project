@@ -190,7 +190,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             recyclerView.setAdapter(adapter);
             internet();
         }
-
+      
+        recyclerView.smoothScrollToPosition(firstVisiblePosition);
 
         setIdKeySession();
         inizializzato = true;
@@ -453,7 +454,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     @Override
     protected void onResume() {
         super.onResume();
-        recyclerView.smoothScrollToPosition(firstVisiblePosition);
         //Toast.makeText(MainActivity.this,"ciao",Toast.LENGTH_SHORT).show();
     }
 

@@ -57,13 +57,11 @@
                     android:theme="@style/RatingBar" />
 
 
-
-
                 <ImageView
                     android:id="@+id/imageViewApriYoutubePreferiti"
                     android:layout_width="68dp"
-                    android:layout_height="54dp"
-                    android:layout_gravity="right"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
                     android:layout_marginEnd="10dp"
                     app:srcCompat="@drawable/youtube" />
 
