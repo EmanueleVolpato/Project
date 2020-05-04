@@ -183,15 +183,13 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
         searchInternetFilm = new ArrayList<>();
 
-        if(firstVisiblePosition<=0)
-        {
+
             internetFilm = new ArrayList<>();
             adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
             recyclerView.setAdapter(adapter);
             internet();
-        }
+
       
-        recyclerView.smoothScrollToPosition(firstVisiblePosition);
 
         setIdKeySession();
         inizializzato = true;
