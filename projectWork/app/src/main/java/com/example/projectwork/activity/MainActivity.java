@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     int firstVisiblePosition;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -108,9 +109,13 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
         btnGoOnTop.hide();
 
+
        if(savedInstanceState!=null) {
             firstVisiblePosition = savedInstanceState.getInt("lastPosition");
         }
+
+
+
 
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -118,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
         }
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -136,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             }
         });
 
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -150,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             }
         });
 
+
         btnGoOnTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,22 +168,29 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         });
 
         if (controlloConnessione()) {
-          //  setInizializzazioneInteret();
+            setInizializzazioneInteret();
         } else {
             noInternet();
         }
+        recyclerView.smoothScrollToPosition(firstVisiblePosition);
+
     }
 
     private void setInizializzazioneInteret() {
         CATEGORY = "popular";
         LANGUAGE = "it";
         webService = WebService.getInstance();
+
+
         searchInternetFilm = new ArrayList<>();
 
-        internetFilm = new ArrayList<>();
-        adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-        recyclerView.setAdapter(adapter);
-        internet();
+
+            internetFilm = new ArrayList<>();
+            adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+            recyclerView.setAdapter(adapter);
+            internet();
+
+      
 
         setIdKeySession();
         inizializzato = true;
@@ -207,14 +222,55 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
                 if (success) {
                     internetFilm.addAll(films);
-                    //adapter.setFilms(internetFilm);
-                    //adapter.notifyDataSetChanged();
+                    adapter.setFilms(internetFilm);
+                    adapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
+    private void searchFilms(String QUERY) {
+        webService.searchFilms(QUERY, API_KEY, LANGUAGE, new IWebService() {
+            @Override
+            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
+                if (success) {
+                    adapter.resetFilms();
+                    searchInternetFilm.clear();
+                    searchInternetFilm.addAll(films);
+                    adapter.setFilms(searchInternetFilm);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+    private void setIdKeySession() {
+        webService.getGuestIdSession(API_KEY, new IWebServiceGuestSession() {
+            @Override
+            public void onGuestFetched(boolean success, GuestSessionResults guest, int errorCode, String errorMessage) {
+                if (success) {
+                    idSessionGuest = guest.getGuest_session_id();
+
+                    MainActivity.this.getContentResolver().delete(FilmPreferredProvider.FILMS_URI,
+                            FilmPreferredTableHelper.ID_MOVIE + " = ?", new String[]{("key_session")});
+
+                    ContentValues cv = new ContentValues();
+                    cv.put(FilmPreferredTableHelper.ID_MOVIE, "key_session");
+                    cv.put(FilmPreferredTableHelper.KEY_GUEST_VOTO, idSessionGuest);
+                    MainActivity.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, cv);
+
+                } else {
+                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 
     private void noInternet() {
         noInternetFilm = new ArrayList<>();
@@ -237,46 +293,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
-    }
-
-
-    private void searchFilms(String QUERY) {
-        webService.searchFilms(QUERY, API_KEY, LANGUAGE, new IWebService() {
-            @Override
-            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
-                if (success) {
-                    adapter.resetFilms();
-                    searchInternetFilm.clear();
-                    searchInternetFilm.addAll(films);
-                    adapter.setFilms(searchInternetFilm);
-                    adapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void setIdKeySession() {
-        webService.getGuestIdSession(API_KEY, new IWebServiceGuestSession() {
-            @Override
-            public void onGuestFetched(boolean success, GuestSessionResults guest, int errorCode, String errorMessage) {
-                if (success) {
-                    idSessionGuest = guest.getGuest_session_id();
-
-                    MainActivity.this.getContentResolver().delete(FilmPreferredProvider.FILMS_URI,
-                            FilmPreferredTableHelper.ID_MOVIE + " = ?", new String[]{("key_session")});
-
-                    ContentValues cv = new ContentValues();
-                    cv.put(FilmPreferredTableHelper.ID_MOVIE, "key_session");
-                    cv.put(FilmPreferredTableHelper.KEY_GUEST_VOTO, idSessionGuest);
-                    MainActivity.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, cv);
-
-                } else {
-                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     @Override
@@ -428,7 +444,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         super.onPause();
         View firstChild = recyclerView.getChildAt(0);
         firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
-        //Toast.makeText(MainActivity.this,"pippo",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -437,7 +452,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     @Override
     protected void onResume() {
         super.onResume();
-        recyclerView.smoothScrollToPosition(firstVisiblePosition);
         //Toast.makeText(MainActivity.this,"ciao",Toast.LENGTH_SHORT).show();
     }
 
@@ -447,8 +461,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("lastPosition",firstVisiblePosition);
-        //Toast.makeText(MainActivity.this,"coma va",Toast.LENGTH_SHORT).show();
-
     }
 
 
