@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         recyclerView.smoothScrollToPosition(posizione + 2);
                     }
                     recyclerView.smoothScrollToPosition(posizione + 2);*/
-                    recyclerView.smoothScrollToPosition(firstVisiblePosition-4);
+                    recyclerView.smoothScrollToPosition(0);
                 }
             }, 500);
         }
