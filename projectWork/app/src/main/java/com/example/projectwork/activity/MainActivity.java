@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     int firstVisiblePosition;
 
+    int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,9 +126,20 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 webService = WebService.getInstance();
                 internet();
             } else {
+                searchInternetFilm.clear();
+                internetFilm.clear();
+                adapter.resetFilms();
+                adapter.notifyDataSetChanged();
+
+                searchInternetFilm = new ArrayList<>();
+                internetFilm = new ArrayList<>();
+                adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+                recyclerView.setAdapter(adapter);
+
                 webService = WebService.getInstance();
-                for (int i = 1; i <= PAGE; i++)
+                for (int i = 1; i <= PAGE; i++) {
                     internetPage(i);
+                }
             }
         } else {
             noInternetFilm = new ArrayList<>();
@@ -140,28 +152,19 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 4);
             recyclerView.setLayoutManager(gridLayoutManager);
-
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    int pos = firstVisiblePosition;
-                    recyclerView.smoothScrollToPosition(pos);
-                }
-            }, 500);
         } else {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
             recyclerView.setLayoutManager(gridLayoutManager);
-
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    int pos = firstVisiblePosition;
-                    recyclerView.smoothScrollToPosition(pos);
-                }
-            }, 500);
         }
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int pos = firstVisiblePosition;
+                recyclerView.smoothScrollToPosition(pos);
+            }
+        }, 500);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -181,6 +184,21 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    View firstChild = recyclerView.getChildAt(0);
+                    firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
+                    Toast.makeText(MainActivity.this, Integer.toString(firstVisiblePosition), Toast.LENGTH_SHORT).show();
+                } else {
+                    View firstChild = recyclerView.getChildAt(0);
+                    firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
+                    Toast.makeText(MainActivity.this, Integer.toString(firstVisiblePosition), Toast.LENGTH_SHORT).show();
+                }
+            }
+
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
