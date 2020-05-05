@@ -121,21 +121,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             internetFilm = new ArrayList<>();
             adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
             recyclerView.setAdapter(adapter);
-
+            inizializzato = true;
             if (PAGE <= 1) {
                 webService = WebService.getInstance();
                 internet();
             } else {
-                searchInternetFilm.clear();
-                internetFilm.clear();
-                adapter.resetFilms();
-                adapter.notifyDataSetChanged();
-
-                searchInternetFilm = new ArrayList<>();
-                internetFilm = new ArrayList<>();
-                adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-                recyclerView.setAdapter(adapter);
-
                 webService = WebService.getInstance();
                 for (int i = 1; i <= PAGE; i++) {
                     internetPage(i);
@@ -152,53 +142,69 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 4);
             recyclerView.setLayoutManager(gridLayoutManager);
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int posizione = firstVisiblePosition;
+                    if (posizione % 4 == 0) {
+                        recyclerView.smoothScrollToPosition(posizione);
+                    } else {
+                        recyclerView.smoothScrollToPosition(posizione - 2);
+                    }
+                }
+            }, 500);
         } else {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
             recyclerView.setLayoutManager(gridLayoutManager);
-        }
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int pos = firstVisiblePosition;
-                recyclerView.smoothScrollToPosition(pos);
-            }
-        }, 500);
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                   /* int posizione = firstVisiblePosition;
+                    if (posizione % 4 == 0) {
+                        recyclerView.smoothScrollToPosition(posizione);
+                    } else {
+                        recyclerView.smoothScrollToPosition(posizione + 2);
+                    }
+                    recyclerView.smoothScrollToPosition(posizione + 2);*/
+                    recyclerView.smoothScrollToPosition(0);
+                }
+            }, 500);
+        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                /*if (controlloConnessione()) {
+                if (controlloConnessione()) {
                     if (inizializzato) {
+                        searchInternetFilm = new ArrayList<>();
+                        internetFilm = new ArrayList<>();
+                        adapter.resetFilms();
                         PAGE = 1;
                         internet();
                     } else {
-                        setInizializzazioneInteret();
+                        searchInternetFilm = new ArrayList<>();
+                        internetFilm = new ArrayList<>();
+                        adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+                        recyclerView.setAdapter(adapter);
+                        inizializzato = true;
+                        webService = WebService.getInstance();
+                        internet();
                     }
                 } else {
+                    noInternetFilm = new ArrayList<>();
+                    adapter = new RecycleViewAdapter(MainActivity.this, noInternetFilm);
+                    recyclerView.setAdapter(adapter);
                     noInternet();
                 }
-                swipeRefreshLayout.setRefreshing(false);*/
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
-                    View firstChild = recyclerView.getChildAt(0);
-                    firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
-                    Toast.makeText(MainActivity.this, Integer.toString(firstVisiblePosition), Toast.LENGTH_SHORT).show();
-                } else {
-                    View firstChild = recyclerView.getChildAt(0);
-                    firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
-                    Toast.makeText(MainActivity.this, Integer.toString(firstVisiblePosition), Toast.LENGTH_SHORT).show();
-                }
-            }
-
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -212,9 +218,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 if (controlloConnessione()) {
                     if (!recyclerView.canScrollVertically(1)) {
                         PAGE++;
-                        View firstChild = recyclerView.getChildAt(0);
-                        firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
-                        webService = WebService.getInstance();
+                        //  webService = WebService.getInstance();
                         internet();
                     }
                 }
@@ -226,32 +230,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             public void onClick(View v) {
                 recyclerView.smoothScrollToPosition(0);
                 btnGoOnTop.hide();
-            }
-        });
-    }
-
-    private void setInizializzazioneInteret() {
-        CATEGORY = "popular";
-        LANGUAGE = "it";
-        webService = WebService.getInstance();
-
-        searchInternetFilm = new ArrayList<>();
-        internetFilm = new ArrayList<>();
-        adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-        recyclerView.setAdapter(adapter);
-        internet();
-
-        inizializzato = true;
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(1)) {
-                    PAGE++;
-                    webService = WebService.getInstance();
-                    internet();
-                }
             }
         });
     }
