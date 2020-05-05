@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         } else {
             noInternet();
         }
+        recyclerView.smoothScrollToPosition(firstVisiblePosition);
 
     }
 
@@ -443,7 +444,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         super.onPause();
         View firstChild = recyclerView.getChildAt(0);
         firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
-        //Toast.makeText(MainActivity.this,"pippo",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -461,8 +461,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("lastPosition",firstVisiblePosition);
-        //Toast.makeText(MainActivity.this,"coma va",Toast.LENGTH_SHORT).show();
-
     }
 
 
