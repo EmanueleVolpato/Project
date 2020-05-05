@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         btnGoOnTop.hide();
 
         if (savedInstanceState != null) {
-            firstVisiblePosition = savedInstanceState.getInt("lastPosition");
+          //  firstVisiblePosition = savedInstanceState.getInt("lastPosition");
             CATEGORY = savedInstanceState.getString("categoria");
             PAGE = savedInstanceState.getInt("page");
         } else {
@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 4);
             recyclerView.setLayoutManager(gridLayoutManager);
-
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -150,10 +149,11 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 }
             }, 500);
         } else {
+
             GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
             recyclerView.setLayoutManager(gridLayoutManager);
 
-            final Handler handler = new Handler();
+           final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
