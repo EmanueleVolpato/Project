@@ -48,7 +48,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginStart="8dp"
-                    android:text="Genere Film:"
                     android:textColor="?attr/textcolor"
                     android:textSize="15dp"
                     android:textStyle="bold" />

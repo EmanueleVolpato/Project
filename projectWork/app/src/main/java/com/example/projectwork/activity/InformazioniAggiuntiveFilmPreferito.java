@@ -246,7 +246,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                         for (int j = 0; j < genres.size(); j++) {
                             if (idGeneriFilm[i] == genres.get(j).getId()) {
                                 if (i == 0)
-                                    genere.setText(genere.getText() + " " + genres.get(i).getName());
+                                    genere.setText(genere.getText() + "" + genres.get(i).getName());
                                 else
                                     genere.setText(genere.getText() + ", " + genres.get(i).getName());
                             }

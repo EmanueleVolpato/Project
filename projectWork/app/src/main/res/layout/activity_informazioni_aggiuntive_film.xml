@@ -62,7 +62,7 @@
                 <TextView
                     android:id="@+id/DataFilm"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_gravity="left"
                     android:layout_marginStart="8dp"
                     android:text="Data Film "
