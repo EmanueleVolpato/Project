@@ -115,16 +115,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         }
 
 
-
-
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-        }
-
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -172,7 +162,15 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         } else {
             noInternet();
         }
-        recyclerView.smoothScrollToPosition(firstVisiblePosition);
+
+
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        }
     }
 
     private void setInizializzazioneInteret() {
