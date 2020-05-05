@@ -92,10 +92,10 @@ public class VideoActivity extends YouTubeBaseActivity {
                         if (videos != null)
                             keyVideo = videos.get(0).getKey();
                     } catch (Exception ex) {
-                        Toast.makeText(VideoActivity.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(VideoActivity.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(VideoActivity.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(VideoActivity.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                 }
             }
         });

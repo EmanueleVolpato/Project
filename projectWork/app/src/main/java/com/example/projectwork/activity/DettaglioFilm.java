@@ -294,10 +294,10 @@ public class DettaglioFilm extends AppCompatActivity {
                         if (videos != null)
                             keyVideo = videos.get(0).getKey();
                     } catch (Exception ex) {
-                        Toast.makeText(DettaglioFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(DettaglioFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(DettaglioFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(DettaglioFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -172,10 +172,10 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
                         if (videos != null)
                             keyVideo = videos.get(0).getKey();
                     } catch (Exception ex) {
-                        Toast.makeText(DettaglioFilmPreferiti.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(DettaglioFilmPreferiti.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(DettaglioFilmPreferiti.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(DettaglioFilmPreferiti.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                 }
             }
         });
