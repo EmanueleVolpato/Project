@@ -122,11 +122,10 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
             recyclerView.setAdapter(adapter);
             inizializzato = true;
+            webService = WebService.getInstance();
             if (PAGE <= 1) {
-                webService = WebService.getInstance();
                 internet();
             } else {
-                webService = WebService.getInstance();
                 for (int i = 1; i <= PAGE; i++) {
                     internetPage(i);
                 }
@@ -170,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         recyclerView.smoothScrollToPosition(posizione + 2);
                     }
                     recyclerView.smoothScrollToPosition(posizione + 2);*/
-                    recyclerView.smoothScrollToPosition(0);
+                    recyclerView.smoothScrollToPosition(firstVisiblePosition-4);
                 }
             }, 500);
         }
