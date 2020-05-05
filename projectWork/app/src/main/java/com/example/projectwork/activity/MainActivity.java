@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     RecyclerView recyclerView;
     RecycleViewAdapter adapter;
-
     AlertDialog alertDialog;
     AlertDialog.Builder builder;
 
@@ -139,11 +138,29 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
-            recyclerView.smoothScrollToPosition(firstVisiblePosition);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 4);
+            recyclerView.setLayoutManager(gridLayoutManager);
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int pos = firstVisiblePosition;
+                    recyclerView.smoothScrollToPosition(pos);
+                }
+            }, 500);
         } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-            recyclerView.smoothScrollToPosition(firstVisiblePosition);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+            recyclerView.setLayoutManager(gridLayoutManager);
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int pos = firstVisiblePosition;
+                    recyclerView.smoothScrollToPosition(pos);
+                }
+            }, 500);
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
