@@ -24,7 +24,7 @@
                 android:id="@+id/imageViewDettaglioPreferito"
                 android:layout_width="384dp"
                 android:layout_height="240dp"
-                android:layout_gravity="left"
+                android:layout_gravity="center"
                 android:background="#2d2d2d"
                 android:scaleType="fitXY" />
 
