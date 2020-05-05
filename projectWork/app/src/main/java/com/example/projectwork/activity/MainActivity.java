@@ -173,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             noInternet();
         }
         recyclerView.smoothScrollToPosition(firstVisiblePosition);
-
     }
 
     private void setInizializzazioneInteret() {
