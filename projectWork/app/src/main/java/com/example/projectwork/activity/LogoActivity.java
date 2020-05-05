@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.animation.ObjectAnimator;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,13 +14,22 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
+import com.example.projectwork.localDatabase.FilmPreferredProvider;
+import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
+import com.example.projectwork.services.GuestSessionResults;
+import com.example.projectwork.services.IWebServiceGuestSession;
+import com.example.projectwork.services.WebService;
 
 public class LogoActivity extends AppCompatActivity {
 
     SharedPref sharedPref;
+    private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
+    private WebService webService;
+    String idSessionGuest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +75,8 @@ public class LogoActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 imageView.startAnimation(animation_3);
                 finish();
+                webService = WebService.getInstance();
+                setIdKeySession();
                 Intent i = new Intent(getBaseContext(),MainActivity.class);
                 startActivity(i);
             }
@@ -72,6 +84,28 @@ public class LogoActivity extends AppCompatActivity {
             @Override
             public void onAnimationRepeat(Animation animation) {
 
+            }
+        });
+    }
+
+    private void setIdKeySession() {
+        webService.getGuestIdSession(API_KEY, new IWebServiceGuestSession() {
+            @Override
+            public void onGuestFetched(boolean success, GuestSessionResults guest, int errorCode, String errorMessage) {
+                if (success) {
+                    idSessionGuest = guest.getGuest_session_id();
+
+                    LogoActivity.this.getContentResolver().delete(FilmPreferredProvider.FILMS_URI,
+                            FilmPreferredTableHelper.ID_MOVIE + " = ?", new String[]{("key_session")});
+
+                    ContentValues cv = new ContentValues();
+                    cv.put(FilmPreferredTableHelper.ID_MOVIE, "key_session");
+                    cv.put(FilmPreferredTableHelper.KEY_GUEST_VOTO, idSessionGuest);
+                    LogoActivity.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, cv);
+
+                } else {
+                    Toast.makeText(LogoActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

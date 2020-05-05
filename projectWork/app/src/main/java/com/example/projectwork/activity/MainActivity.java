@@ -57,13 +57,12 @@ import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER;
 
 public class MainActivity extends AppCompatActivity implements IWebService {
 
-    private String CATEGORY = "";
+    private String CATEGORY;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
-    private String LANGUAGE = "";
-    private int PAGE = 1;
+    private String LANGUAGE = "it";
+    private int PAGE;
     private WebService webService;
     FloatingActionButton btnGoOnTop;
-
 
     List<FilmResults.Data> noInternetFilm;
     List<FilmResults.Data> internetFilm;
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     String temaSelect = "";
 
     SharedPref sharedPref;
-    String idSessionGuest;
 
     boolean inizializzato = false;
 
@@ -106,19 +104,52 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         recyclerView = findViewById(R.id.recyclerviewFilm);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         btnGoOnTop = findViewById(R.id.buttonGoOnTop);
-
         btnGoOnTop.hide();
 
-
-       if(savedInstanceState!=null) {
+        if (savedInstanceState != null) {
             firstVisiblePosition = savedInstanceState.getInt("lastPosition");
+            CATEGORY = savedInstanceState.getString("categoria");
+            PAGE = savedInstanceState.getInt("page");
+        } else {
+            CATEGORY = "popular";
+            PAGE = 1;
         }
 
+        if (controlloConnessione()) {
+            // setInizializzazioneInteret();
+            searchInternetFilm = new ArrayList<>();
+            internetFilm = new ArrayList<>();
+            adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+            recyclerView.setAdapter(adapter);
+
+            if (PAGE <= 1) {
+                webService = WebService.getInstance();
+                internet();
+            } else {
+                webService = WebService.getInstance();
+                for (int i = 1; i <= PAGE; i++)
+                    internetPage(i);
+            }
+        } else {
+            noInternetFilm = new ArrayList<>();
+            adapter = new RecycleViewAdapter(MainActivity.this, noInternetFilm);
+            recyclerView.setAdapter(adapter);
+            noInternet();
+        }
+
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+            recyclerView.smoothScrollToPosition(firstVisiblePosition);
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+            recyclerView.smoothScrollToPosition(firstVisiblePosition);
+        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (controlloConnessione()) {
+                /*if (controlloConnessione()) {
                     if (inizializzato) {
                         PAGE = 1;
                         internet();
@@ -128,49 +159,40 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 } else {
                     noInternet();
                 }
-                swipeRefreshLayout.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(false);*/
             }
         });
-
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(-1))
-                {
+                if (!recyclerView.canScrollVertically(-1)) {
                     btnGoOnTop.hide();
                 }
 
-                if(recyclerView.computeVerticalScrollOffset() > 1000)
+                if (recyclerView.computeVerticalScrollOffset() > 1000)
                     btnGoOnTop.show();
+
+                if (controlloConnessione()) {
+                    if (!recyclerView.canScrollVertically(1)) {
+                        PAGE++;
+                        View firstChild = recyclerView.getChildAt(0);
+                        firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
+                        webService = WebService.getInstance();
+                        internet();
+                    }
+                }
             }
         });
-
 
         btnGoOnTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recyclerView.smoothScrollToPosition(0);
                 btnGoOnTop.hide();
-
             }
         });
-
-        if (controlloConnessione()) {
-            setInizializzazioneInteret();
-        } else {
-            noInternet();
-        }
-
-
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
-
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-        }
     }
 
     private void setInizializzazioneInteret() {
@@ -178,18 +200,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         LANGUAGE = "it";
         webService = WebService.getInstance();
 
-
         searchInternetFilm = new ArrayList<>();
+        internetFilm = new ArrayList<>();
+        adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+        recyclerView.setAdapter(adapter);
+        internet();
 
-
-            internetFilm = new ArrayList<>();
-            adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-            recyclerView.setAdapter(adapter);
-            internet();
-
-      
-
-        setIdKeySession();
         inizializzato = true;
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -228,6 +244,21 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         });
     }
 
+    private void internetPage(int page) {
+        webService.getFilms(CATEGORY, API_KEY, LANGUAGE, page, MainActivity.this, new IWebService() {
+            @Override
+            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
+                if (success) {
+                    internetFilm.addAll(films);
+                    adapter.setFilms(internetFilm);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private void searchFilms(String QUERY) {
         webService.searchFilms(QUERY, API_KEY, LANGUAGE, new IWebService() {
             @Override
@@ -245,32 +276,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         });
     }
 
-
-    private void setIdKeySession() {
-        webService.getGuestIdSession(API_KEY, new IWebServiceGuestSession() {
-            @Override
-            public void onGuestFetched(boolean success, GuestSessionResults guest, int errorCode, String errorMessage) {
-                if (success) {
-                    idSessionGuest = guest.getGuest_session_id();
-
-                    MainActivity.this.getContentResolver().delete(FilmPreferredProvider.FILMS_URI,
-                            FilmPreferredTableHelper.ID_MOVIE + " = ?", new String[]{("key_session")});
-
-                    ContentValues cv = new ContentValues();
-                    cv.put(FilmPreferredTableHelper.ID_MOVIE, "key_session");
-                    cv.put(FilmPreferredTableHelper.KEY_GUEST_VOTO, idSessionGuest);
-                    MainActivity.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, cv);
-
-                } else {
-                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-
     private void noInternet() {
-        noInternetFilm = new ArrayList<>();
         Cursor cFilms = MainActivity.this.getContentResolver().query(FilmProvider.FILMS_URI, null, null, null, null);
 
         if (cFilms != null) {
@@ -286,8 +292,9 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 film.setBackdropPath(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.IMG_DETTAGLIO)));
                 noInternetFilm.add(film);
             }
-            adapter = new RecycleViewAdapter(MainActivity.this, noInternetFilm);
-            recyclerView.setAdapter(adapter);
+            //   adapter.resetFilms();
+            //  noInternetFilm.clear();
+            adapter.setFilms(noInternetFilm);
             adapter.notifyDataSetChanged();
         }
     }
@@ -317,8 +324,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 } else {
                     if (!newText.isEmpty()) {
                         adapter.getFilter().filter(newText);
-                    }else
-                    {
+                    } else {
                         adapter.resetSearchFilm();
                         noInternet();
                         adapter.notifyDataSetChanged();
@@ -435,7 +441,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         finish();
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -443,22 +448,17 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
     }
 
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
         //Toast.makeText(MainActivity.this,"ciao",Toast.LENGTH_SHORT).show();
     }
 
-
-
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("lastPosition",firstVisiblePosition);
+        outState.putInt("lastPosition", firstVisiblePosition);
+        outState.putString("categoria", CATEGORY);
+        outState.putInt("page", PAGE);
     }
-
-
 }
