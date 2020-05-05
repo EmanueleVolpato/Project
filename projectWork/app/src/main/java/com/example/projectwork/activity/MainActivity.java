@@ -148,9 +148,9 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 public void run() {
                     int posizione = firstVisiblePosition;
                     if (posizione % 4 == 0) {
-                        recyclerView.smoothScrollToPosition(posizione);
+                        recyclerView.scrollToPosition(posizione);
                     } else {
-                        recyclerView.smoothScrollToPosition(posizione - 2);
+                        recyclerView.scrollToPosition(posizione - 2);
                     }
                 }
             }, 500);
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         recyclerView.smoothScrollToPosition(posizione + 2);
                     }
                     recyclerView.smoothScrollToPosition(posizione + 2);*/
-                    recyclerView.smoothScrollToPosition(0);
+                    recyclerView.scrollToPosition(0);
                 }
             }, 500);
         }
@@ -304,8 +304,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 film.setBackdropPath(cFilms.getString(cFilms.getColumnIndex(FilmTableHelper.IMG_DETTAGLIO)));
                 noInternetFilm.add(film);
             }
-            //   adapter.resetFilms();
-            //  noInternetFilm.clear();
             adapter.setFilms(noInternetFilm);
             adapter.notifyDataSetChanged();
         }
@@ -464,6 +462,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     protected void onResume() {
         super.onResume();
         //Toast.makeText(MainActivity.this,"ciao",Toast.LENGTH_SHORT).show();
+        recyclerView.smoothScrollToPosition(firstVisiblePosition);
     }
 
     @Override
