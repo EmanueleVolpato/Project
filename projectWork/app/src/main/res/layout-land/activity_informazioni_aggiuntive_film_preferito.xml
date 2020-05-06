@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="?attr/backgroundcolor"
+    android:orientation="horizontal"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
     tools:context=".activity.InformazioniAggiuntiveFilm">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="260dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewInformazioniAggiuntivePreferiti"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="#2d2d2d"
+            android:scaleType="fitXY" />
+    </FrameLayout>
 
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="471dp"
+        android:id="@+id/scrollViewPreferiti"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/imageViewInformazioniAggiuntivePreferiti"
-                android:layout_width="384dp"
-                android:layout_height="240dp"
-                android:layout_gravity="center"
-                android:background="#2d2d2d"
-                android:scaleType="fitXY" />
 
             <TextView
                 android:id="@+id/titoloFilmInformzioniPreferiti"
@@ -38,55 +52,48 @@
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
+
+            <TextView
+                android:id="@+id/genere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="8dp"
+                android:textColor="?attr/textcolor"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/DataFilmPreferiti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="8dp"
+                android:text="Data Film"
+                android:textColor="?attr/textcolor"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/genere"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                <RatingBar
+                    android:id="@+id/ratingBarVotoPersonaleFilmPreferiti"
+                    android:layout_width="240dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:layout_marginStart="8dp"
-                    android:textColor="?attr/textcolor"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-
+                    android:clickable="false"
+                    android:isIndicator="false"
+                    android:theme="@style/RatingBar" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/DataFilmPreferiti"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginStart="8dp"
-                    android:text="Data Film"
-                    android:textColor="?attr/textcolor"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <RatingBar
-                android:id="@+id/ratingBarVotoPersonaleFilmPreferiti"
-                android:layout_width="240dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="79dp"
-                android:layout_marginEnd="79dp"
-                android:clickable="false"
-                android:isIndicator="false"
-                android:theme="@style/RatingBar" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="4dp" />
+                android:layout_height="26dp" />
 
             <Button
                 android:id="@+id/buttonVotaFilmPreferiti"
@@ -95,6 +102,7 @@
                 android:background="?attr/buttoncolor"
                 android:text="VOTA"
                 android:visibility="invisible" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,8 +125,11 @@
                     android:id="@+id/recyclerViewSimiliPreferiti"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
             </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -151,9 +152,20 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
                 data.setText(dataFilm);
 
-                Glide.with(InformazioniAggiuntiveFilm.this)
-                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilm)
-                        .into(imageView);
+
+                int orientation = getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+                {
+                    Glide.with(InformazioniAggiuntiveFilm.this)
+                            .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
+                            .into(imageView);
+                }else
+                {
+                    Glide.with(InformazioniAggiuntiveFilm.this)
+                            .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilm)
+                            .into(imageView);
+                }
+                
 
 
                 ratingBarVotoPersonale.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {

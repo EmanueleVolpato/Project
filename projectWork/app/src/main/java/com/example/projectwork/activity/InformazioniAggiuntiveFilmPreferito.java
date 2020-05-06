@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -57,6 +58,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
     String dataFilmPreferito, idFilmPreferito, immagineDettaglioFilmPreferito, votoPreferito, descrizioneFilmPreferito, titoloFilmPreferito;
     String idSessionGuest;
     SharedPref sharedPref;
+    String immaginePrincipaleFilmPreferito;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
 
@@ -115,6 +117,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 dataFilmPreferito = getIntent().getExtras().getString(FilmTableHelper.DATA);
                 idFilmPreferito = getIntent().getExtras().getString(FilmTableHelper.ID_MOVIE);
                 immagineDettaglioFilmPreferito = getIntent().getExtras().getString(FilmTableHelper.IMG_DETTAGLIO);
+                immaginePrincipaleFilmPreferito = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
                 votoPreferito = (getIntent().getExtras().getString(FilmTableHelper.VOTO));
 
                 generiFilm = (getIntent().getExtras().getIntArray(FilmPreferredTableHelper.GENERI));
@@ -166,9 +169,21 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 dataInformazioniPreferiti.setText(dataFilmPreferito);
 
 
-                Glide.with(InformazioniAggiuntiveFilmPreferito.this)
-                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilmPreferito)
-                        .into(imageViewInformazioniPreferiti);
+
+
+                int orientation = getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+                {
+                    Glide.with(InformazioniAggiuntiveFilmPreferito.this)
+                            .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipaleFilmPreferito)
+                            .into(imageViewInformazioniPreferiti);
+                }else
+                {
+                    Glide.with(InformazioniAggiuntiveFilmPreferito.this)
+                            .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilmPreferito)
+                            .into(imageViewInformazioniPreferiti);
+                }
+
             }
         }
 

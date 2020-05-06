@@ -148,6 +148,7 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
                 bundle.putString(FilmPreferredTableHelper.DATA, data);
                 bundle.putString(FilmPreferredTableHelper.DESCRIZIONE, descrizione);
                 bundle.putString(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
+                bundle.putString(FilmPreferredTableHelper.IMG_PRINCIPALE, immaginePrincipale);
                 bundle.putIntArray(FilmPreferredTableHelper.GENERI, generiFilm);
                 intent.putExtras(bundle);
                 startActivity(intent);
