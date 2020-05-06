@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     AlertDialog alertDialog;
     AlertDialog.Builder builder;
 
-
     SwipeRefreshLayout swipeRefreshLayout;
 
     String[] categorie = {"Novità", "Prossime Uscite", "Più votati", "Popolari"};
@@ -84,10 +83,9 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     SharedPref sharedPref;
 
-    boolean inizializzato = false;
+    boolean inizializzato = false, searchAttivo = false;
 
     int firstVisiblePosition;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                   /* int posizione = firstVisiblePosition;
+                   /*int posizione = firstVisiblePosition;
                     if (posizione % 4 == 0) {
                         recyclerView.smoothScrollToPosition(posizione);
                     } else {
@@ -213,10 +211,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 if (recyclerView.computeVerticalScrollOffset() > 1000)
                     btnGoOnTop.show();
 
-                if (controlloConnessione()) {
-                    if (!recyclerView.canScrollVertically(1)) {
-                        PAGE++;
-                        internet();
+                if (!searchAttivo) {
+                    if (controlloConnessione()) {
+                        if (!recyclerView.canScrollVertically(1)) {
+                            PAGE++;
+                            internet();
+                        }
                     }
                 }
             }
@@ -321,6 +321,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                searchAttivo = true;
                 if (controlloConnessione()) {
                     if (!newText.isEmpty()) {
                         searchFilms(newText);
@@ -328,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         PAGE = 1;
                         adapter.resetFilms();
                         internet();
+                        searchAttivo = false;
                     }
                 } else {
                     if (!newText.isEmpty()) {
@@ -336,6 +338,7 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         adapter.resetSearchFilm();
                         noInternet();
                         adapter.notifyDataSetChanged();
+                        searchAttivo = false;
                     }
                 }
                 return false;
@@ -424,12 +427,12 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                         }
                     } else
                         Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
-
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
                 }
             });
             alertDialog = builder.create();
