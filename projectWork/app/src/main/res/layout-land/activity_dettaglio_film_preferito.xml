@@ -11,7 +11,7 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="260dp"
+        android:layout_width="220dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,8 +28,8 @@
 
 
     <ScrollView
-        android:layout_width="471dp"
         android:id="@+id/scrollViewPreferiti"
+        android:layout_width="511dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,19 +39,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/titoloFilmDettaglioPreferito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_gravity="left"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
                 android:text="Titolo Film"
                 android:textColor="?attr/textcolor"
                 android:textSize="25dp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -62,10 +63,10 @@
                     android:id="@+id/ratingBarVotoFilmPreferito"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:layout_marginStart="3dp"
                     android:layout_marginEnd="50dp"
                     android:clickable="false"
-                    android:layout_gravity="right"
                     android:isIndicator="true"
                     android:theme="@style/RatingBar" />
 

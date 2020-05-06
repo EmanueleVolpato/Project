@@ -11,7 +11,7 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="260dp"
+        android:layout_width="220dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="471dp"
+        android:layout_width="511dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
