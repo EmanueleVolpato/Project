@@ -3,6 +3,7 @@ package com.example.projectwork.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -43,6 +44,7 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
     Dialog dialogVotaFilmPreferiti;
     String immagineDettaglio;
     String descrizione, voto;
+    String immaginePrincipale;
     SharedPref sharedPref;
     RatingBar ratingBarpreferiti;
     private int oldScrollYPostion = 0;
@@ -72,6 +74,7 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
         imageViewDettaglio = findViewById(R.id.imageViewDettaglioPreferito);
         btnInformzioniFilmPreferiti = findViewById(R.id.buttonApriDialogInformzioniPreferito);
         ratingBarpreferiti = findViewById(R.id.ratingBarVotoFilmPreferito);
+        immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
         dialogInformzioniPreferiti = new Dialog(DettaglioFilmPreferiti.this);
         dialogVotaFilmPreferiti = new Dialog(DettaglioFilmPreferiti.this);
         scrollViewPreferiti = findViewById(R.id.scrollViewPreferiti);
@@ -98,6 +101,7 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
             data = getIntent().getExtras().getString(FilmPreferredTableHelper.DATA);
             idFilm = getIntent().getExtras().getString(FilmPreferredTableHelper.ID_MOVIE);
             voto = (getIntent().getExtras().getString(FilmPreferredTableHelper.VOTO));
+            immaginePrincipale = (getIntent().getExtras().getString(FilmPreferredTableHelper.IMG_PRINCIPALE));
 
             generiFilm = (getIntent().getExtras().getIntArray(FilmPreferredTableHelper.GENERI));
 
@@ -110,9 +114,18 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
                 getVideo(idFilm, "it");
             }
 
-            Glide.with(DettaglioFilmPreferiti.this)
-                    .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                    .into(imageViewDettaglio);
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+            {
+                Glide.with(DettaglioFilmPreferiti.this)
+                        .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
+                        .into(imageViewDettaglio);
+            }else
+            {
+                Glide.with(DettaglioFilmPreferiti.this)
+                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                        .into(imageViewDettaglio);
+            }
 
             txtTitolo.setText(titolo);
             if (!descrizione.equals(""))
