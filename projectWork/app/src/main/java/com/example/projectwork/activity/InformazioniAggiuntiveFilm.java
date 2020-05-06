@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -28,10 +29,14 @@ import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.GenresResults;
+import com.example.projectwork.services.GuestSessionResults;
 import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.IWebServiceGenres;
+import com.example.projectwork.services.IWebServiceGuestSession;
+import com.example.projectwork.services.IWebServiceSingleFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
 import com.example.projectwork.services.JsonVota;
+import com.example.projectwork.services.SingleFilmResults;
 import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.gson.JsonObject;
@@ -136,6 +141,8 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                         }
                     });
                     listGenres(generiFilm);
+
+                    singleFilm();
                 }
 
                 titolo.setText(titoloFilm);
@@ -179,9 +186,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                         if (controlloConnessione()) {
                             JsonVota j = new JsonVota();
                             votaFilm(idFilm, j.ApiJsonMap(ratingBarVotoPersonale.getRating() * 2));
-                        }
-                        else
-                        {
+                        } else {
                             Toast.makeText(InformazioniAggiuntiveFilm.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -229,6 +234,19 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         });
     }
 
+    private void singleFilm() {
+        webService.getSingleFilm(idFilm, API_KEY, LANGUAGE, new IWebServiceSingleFilm() {
+            @Override
+            public void onSingleFilmFetched(boolean success, SingleFilmResults film, int errorCode, String errorMessage) {
+                if (success) {
+                    Toast.makeText(InformazioniAggiuntiveFilm.this, "" + film.getRuntime(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(InformazioniAggiuntiveFilm.this, "Errore", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private void listGenres(final int[] idGeneriFilm) {
         webService.listGenres(API_KEY, LANGUAGE, new IWebServiceGenres() {
             @Override
@@ -258,6 +276,4 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 }

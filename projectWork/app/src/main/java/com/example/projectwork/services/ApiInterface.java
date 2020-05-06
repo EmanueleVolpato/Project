@@ -70,4 +70,12 @@ public interface ApiInterface {
             @Query("language") String language,
             @Query("page") int page);
 
+  //  https://api.themoviedb.org/3/movie/419704?api_key=e6de0d8da508a9809d74351ed62affef&language=en-US&page=1
+
+    @GET("/3/movie/{movie_id}")
+    Call<SingleFilmResults> getSingleFilm(
+            @Path("movie_id") String movie_id,
+            @Query("api_key") String apiKey,
+            @Query("language") String language
+    );
 }

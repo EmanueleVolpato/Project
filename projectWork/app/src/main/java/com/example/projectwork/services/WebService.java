@@ -257,4 +257,32 @@ public class WebService {
         }
         return str;
     }
+
+    public void getSingleFilm(String idMovie, String apiKey, String language, final IWebServiceSingleFilm iwebservice) {
+
+        Call<SingleFilmResults> filmsRequest = apiInterface.getSingleFilm(idMovie, apiKey, language);
+
+        filmsRequest.enqueue(new Callback<SingleFilmResults>() {
+            @Override
+            public void onResponse(Call<SingleFilmResults> call, Response<SingleFilmResults> response) {
+                if (response.code() == 200) {
+                    SingleFilmResults results = response.body();
+                    iwebservice.onSingleFilmFetched(true, results, -1, null);
+                } else {
+                    try {
+                        iwebservice.onSingleFilmFetched(true, null, response.code(), response.errorBody().string());
+                    } catch (IOException ex) {
+                        Log.e("WebService", ex.toString());
+                        iwebservice.onSingleFilmFetched(true, null, response.code(), "Generic error message");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SingleFilmResults> call, Throwable t) {
+                iwebservice.onSingleFilmFetched(false, null, -1, t.getLocalizedMessage());
+            }
+        });
+    }
+
 }
