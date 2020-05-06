@@ -31,10 +31,6 @@ public class VideoActivity extends YouTubeBaseActivity {
     YouTubePlayerView youTubePlayerView;
     YouTubePlayer.OnInitializedListener onInitializedListener;
 
-    private YouTubePlayer youTubePlayer;
-    private int seekTime = 0;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +50,6 @@ public class VideoActivity extends YouTubeBaseActivity {
         onInitializedListener= new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-               // youTubePlayer.loadVideo( "Zs-AVod-tsM");
                 if(keyVideo != null){
                 youTubePlayer.loadVideo( keyVideo);
             }else
@@ -92,10 +87,8 @@ public class VideoActivity extends YouTubeBaseActivity {
                         if (videos != null)
                             keyVideo = videos.get(0).getKey();
                     } catch (Exception ex) {
-                       // Toast.makeText(VideoActivity.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                   // Toast.makeText(VideoActivity.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                 }
             }
         });

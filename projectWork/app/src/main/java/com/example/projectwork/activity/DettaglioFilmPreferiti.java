@@ -38,21 +38,16 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione;
     ImageView imageViewDettaglio, imageYoutube;
-    String idFilm, titolo, data;
+    String idFilm, titolo, data,immagineDettaglio,descrizione, voto,immaginePrincipale;
+    String keyVideo = null;
     FloatingActionButton btnInformzioniFilmPreferiti;
-    Dialog dialogInformzioniPreferiti;
-    Dialog dialogVotaFilmPreferiti;
-    String immagineDettaglio;
-    String descrizione, voto;
-    String immaginePrincipale;
+    Dialog dialogVotaFilmPreferiti,dialogInformzioniPreferiti;
     SharedPref sharedPref;
     RatingBar ratingBarpreferiti;
     private int oldScrollYPostion = 0;
     ScrollView scrollViewPreferiti;
-    String keyVideo = null;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
-
     int[] generiFilm;
 
     @Override
@@ -186,10 +181,8 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
                         if (videos != null)
                             keyVideo = videos.get(0).getKey();
                     } catch (Exception ex) {
-                        //Toast.makeText(DettaglioFilmPreferiti.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    //Toast.makeText(DettaglioFilmPreferiti.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                 }
             }
         });

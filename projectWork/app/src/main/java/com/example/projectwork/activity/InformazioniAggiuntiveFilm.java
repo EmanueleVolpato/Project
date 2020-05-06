@@ -50,13 +50,11 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
     TextView titolo, data, genere, correlati;
     RatingBar ratingBarVotoPersonale;
     Button buttonVota;
-    String dataFilm, idFilm, immagineDettaglioFilm, voto, immaginePrincipale, descrizioneFilm, titoloFilm;
-    String idSessionGuest;
+    String dataFilm, idFilm, immagineDettaglioFilm, voto, immaginePrincipale, descrizioneFilm, titoloFilm,idSessionGuest,LANGUAGE;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     SharedPref sharedPref;
     int PAGE;
-    String LANGUAGE;
     RecyclerView recyclerViewFilmSimili;
     List<FilmResults.Data> internetFilmSimili;
     FilmSimiliAdapter adapter;
@@ -165,7 +163,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                             .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilm)
                             .into(imageView);
                 }
-                
+
 
 
                 ratingBarVotoPersonale.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {

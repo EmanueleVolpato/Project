@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     int firstVisiblePosition;
 
-    int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 if (controlloConnessione()) {
                     if (!recyclerView.canScrollVertically(1)) {
                         PAGE++;
-                        //  webService = WebService.getInstance();
                         internet();
                     }
                 }

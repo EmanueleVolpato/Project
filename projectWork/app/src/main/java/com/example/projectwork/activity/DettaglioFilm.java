@@ -46,29 +46,18 @@ import java.util.List;
 public class DettaglioFilm extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione;
-    ImageView imgDettaglio;
+    ImageView imgDettaglio,buttonYouTube, imageViewAggiungiAiPreferiti;;
     Cursor mCursor;
-    String idFilm;
-    String immagineDettaglio;
-    String titolo;
+    String idFilm,immagineDettaglio,titolo,voto,data,descrizione,immaginePrincipale;
     FloatingActionButton btnInformzioni;
-    String voto;
-    String data;
-    String descrizione;
     SharedPref sharedPref;
-    String idSessionGuest;
     RatingBar ratingBarVotoFilm;
-    String immaginePrincipale;
     ScrollView scrollView;
     private int oldScrollYPostion = 0;
     String keyVideo = null;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
-
-
-    ImageView buttonYouTube, imageViewAggiungiAiPreferiti;
     Dialog myDialogLikeFilm;
-
     int[] generiFilm;
 
     @Override
@@ -308,10 +297,8 @@ public class DettaglioFilm extends AppCompatActivity {
                         if (videos != null)
                             keyVideo = videos.get(0).getKey();
                     } catch (Exception ex) {
-                       // Toast.makeText(DettaglioFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                   // Toast.makeText(DettaglioFilm.this, "errore link video youtube", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -37,9 +37,6 @@ public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.Vi
         this.mData = mData;
     }
 
-    public void resetFilms() {
-        this.mData.clear();
-    }
 
     @NonNull
     @Override

@@ -55,10 +55,8 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
     TextView titoloInformazioniPreferiti, dataInformazioniPreferiti, correlati, genere;
     RatingBar ratingBarVotoPersonaleInformazioniPreferiti;
     Button buttonVotaInformazioniPreferiti;
-    String dataFilmPreferito, idFilmPreferito, immagineDettaglioFilmPreferito, votoPreferito, descrizioneFilmPreferito, titoloFilmPreferito;
-    String idSessionGuest;
+    String dataFilmPreferito, idFilmPreferito, immagineDettaglioFilmPreferito, votoPreferito, descrizioneFilmPreferito, titoloFilmPreferito,immaginePrincipaleFilmPreferito,idSessionGuest;
     SharedPref sharedPref;
-    String immaginePrincipaleFilmPreferito;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
 
