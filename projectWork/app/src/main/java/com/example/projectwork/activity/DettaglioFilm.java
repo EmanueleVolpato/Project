@@ -2,12 +2,14 @@ package com.example.projectwork.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -121,9 +123,21 @@ public class DettaglioFilm extends AppCompatActivity {
                 getVideo(idFilm, "it");
             }
 
-            Glide.with(DettaglioFilm.this)
-                    .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
-                    .into(imgDettaglio);
+
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+            {
+                Glide.with(DettaglioFilm.this)
+                        .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
+                        .into(imgDettaglio);
+            }else
+            {
+                Glide.with(DettaglioFilm.this)
+                        .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                        .into(imgDettaglio);
+            }
+
+
 
 
             if (!titolo.equals("")) {
