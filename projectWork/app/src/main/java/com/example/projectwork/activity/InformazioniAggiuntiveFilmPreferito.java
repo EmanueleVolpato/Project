@@ -34,9 +34,11 @@ import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.GenresResults;
 import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.IWebServiceGenres;
+import com.example.projectwork.services.IWebServiceSingleFilm;
 import com.example.projectwork.services.IWebServiceVideoFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
 import com.example.projectwork.services.JsonVota;
+import com.example.projectwork.services.SingleFilmResults;
 import com.example.projectwork.services.VideoResults;
 import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
@@ -52,7 +54,7 @@ import java.util.Locale;
 public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
 
     ImageView imageViewInformazioniPreferiti;
-    TextView titoloInformazioniPreferiti, dataInformazioniPreferiti, correlati, genere;
+    TextView titoloInformazioniPreferiti, dataInformazioniPreferiti, correlati, genere,textViewdurataPreferito;
     RatingBar ratingBarVotoPersonaleInformazioniPreferiti;
     Button buttonVotaInformazioniPreferiti;
     String dataFilmPreferito, idFilmPreferito, immagineDettaglioFilmPreferito, votoPreferito, descrizioneFilmPreferito, titoloFilmPreferito,immaginePrincipaleFilmPreferito,idSessionGuest;
@@ -89,6 +91,7 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
         buttonVotaInformazioniPreferiti = findViewById(R.id.buttonVotaFilmPreferiti);
         recyclerViewFilmSimiliPreferiti = findViewById(R.id.recyclerViewSimiliPreferiti);
         correlati = findViewById(R.id.txtCorrelati);
+        textViewdurataPreferito = findViewById(R.id.textViewDurataFilmPreferito);
 
 
         if (getIntent().getExtras() != null) {
@@ -153,6 +156,8 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                     });
 
                     listGenres(generiFilm);
+                    singleFilm();
+
                 }
 
                 titoloInformazioniPreferiti.setText(titoloFilmPreferito);
@@ -267,6 +272,23 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(InformazioniAggiuntiveFilmPreferito.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void singleFilm() {
+        webService.getSingleFilm(idFilmPreferito, API_KEY, LANGUAGE, new IWebServiceSingleFilm() {
+            @Override
+            public void onSingleFilmFetched(boolean success, SingleFilmResults film, int errorCode, String errorMessage) {
+                if (success) {
+                    int durata = film.getRuntime();
+                    double minuto = Double.parseDouble(String.valueOf(durata));
+                    double ore = minuto / 60;
+                    double minuti = minuto % 60;
+                    textViewdurataPreferito.setText((int) ore +"h "+(int)minuti+"min");
+                } else {
+                    textViewdurataPreferito.setText("Durata disponibile al momento.");
                 }
             }
         });

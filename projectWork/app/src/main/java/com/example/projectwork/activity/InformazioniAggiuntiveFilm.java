@@ -52,7 +52,7 @@ import java.util.Locale;
 public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
     ImageView imageView;
-    TextView titolo, data, genere, correlati;
+    TextView titolo, data, genere, correlati,textViewdurata;
     RatingBar ratingBarVotoPersonale;
     Button buttonVota;
     String dataFilm, idFilm, immagineDettaglioFilm, voto, immaginePrincipale, descrizioneFilm, titoloFilm,idSessionGuest,LANGUAGE;
@@ -83,6 +83,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         buttonVota = findViewById(R.id.buttonVotaFilm);
         recyclerViewFilmSimili = findViewById(R.id.recyclerViewSimili);
         correlati = findViewById(R.id.txtCorrelati);
+        textViewdurata = findViewById(R.id.textViewDurataFilm);
 
         if (getIntent().getExtras() != null) {
 
@@ -239,9 +240,13 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             @Override
             public void onSingleFilmFetched(boolean success, SingleFilmResults film, int errorCode, String errorMessage) {
                 if (success) {
-                    Toast.makeText(InformazioniAggiuntiveFilm.this, "" + film.getRuntime(), Toast.LENGTH_SHORT).show();
+                    int durata = film.getRuntime();
+                    double minuto = Double.parseDouble(String.valueOf(durata));
+                    double ore = minuto / 60;
+                    double minuti = minuto % 60;
+                    textViewdurata.setText((int) ore +"h "+(int)minuti+"min");
                 } else {
-                    Toast.makeText(InformazioniAggiuntiveFilm.this, "Errore", Toast.LENGTH_SHORT).show();
+                    textViewdurata.setText("Durata disponibile al momento.");
                 }
             }
         });
