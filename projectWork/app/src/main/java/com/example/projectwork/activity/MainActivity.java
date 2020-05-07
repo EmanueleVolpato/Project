@@ -1,66 +1,47 @@
 package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
-import android.os.PersistableBundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
+import com.example.projectwork.adapter.SalvataggioRecycleViewAdapter;
 import com.example.projectwork.adapter.RecycleViewAdapter;
-import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
-import com.example.projectwork.services.GenresResults;
-import com.example.projectwork.services.GuestSessionResults;
 import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.FilmResults;
-import com.example.projectwork.services.IWebServiceGenres;
-import com.example.projectwork.services.IWebServiceGuestSession;
 import com.example.projectwork.services.WebService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_USER;
-
 public class MainActivity extends AppCompatActivity implements IWebService {
 
-    private String CATEGORY;
+    private String CATEGORY = "popular";
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     private String LANGUAGE = "it";
-    private int PAGE;
+    private int PAGE = 1;
     private WebService webService;
     FloatingActionButton btnGoOnTop;
 
@@ -87,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     int firstVisiblePosition;
 
+    boolean girato = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -103,93 +86,43 @@ public class MainActivity extends AppCompatActivity implements IWebService {
         btnGoOnTop = findViewById(R.id.buttonGoOnTop);
         btnGoOnTop.hide();
 
+        searchInternetFilm = new ArrayList<>();
+
         if (savedInstanceState != null) {
-            firstVisiblePosition = savedInstanceState.getInt("lastPosition");
+            //firstVisiblePosition = savedInstanceState.getInt("lastPosition");
             CATEGORY = savedInstanceState.getString("categoria");
             PAGE = savedInstanceState.getInt("page");
-        } else {
-            CATEGORY = "popular";
-            PAGE = 1;
-        }
-
-        if (controlloConnessione()) {
-            // setInizializzazioneInteret();
-            searchInternetFilm = new ArrayList<>();
-            internetFilm = new ArrayList<>();
-            adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
-            recyclerView.setAdapter(adapter);
-            inizializzato = true;
-            webService = WebService.getInstance();
-            if (PAGE <= 1) {
-                internet();
-            } else {
-                for (int i = 1; i <= PAGE; i++) {
-                    internetPage(i);
-                }
-            }
-        } else {
-            noInternetFilm = new ArrayList<>();
-            adapter = new RecycleViewAdapter(MainActivity.this, noInternetFilm);
-            recyclerView.setAdapter(adapter);
-            noInternet();
+            girato = savedInstanceState.getBoolean("girato");
         }
 
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 4);
             recyclerView.setLayoutManager(gridLayoutManager);
-
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    int posizione = firstVisiblePosition;
-                    if (posizione % 4 == 0) {
-                        recyclerView.scrollToPosition(posizione);
-                    } else {
-                        recyclerView.scrollToPosition(posizione - 2);
-                    }
-                }
-            }, 500);
         } else {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
             recyclerView.setLayoutManager(gridLayoutManager);
-
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                   /*int posizione = firstVisiblePosition;
-                    if (posizione % 4 == 0) {
-                        recyclerView.smoothScrollToPosition(posizione);
-                    } else {
-                        recyclerView.smoothScrollToPosition(posizione + 2);
-                    }
-                    recyclerView.smoothScrollToPosition(posizione + 2);*/
-                    recyclerView.scrollToPosition(0);
-                }
-            }, 500);
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if (controlloConnessione()) {
-                    if (inizializzato) {
-                        searchInternetFilm = new ArrayList<>();
-                        internetFilm = new ArrayList<>();
+                    /*if (inizializzato) {
+                        adapter = SalvataggioRecycleViewAdapter.getInstance().getmAdapter();
+                        webService = WebService.getInstance();
                         adapter.resetFilms();
+                        internetFilm = SalvataggioRecycleViewAdapter.getInstance().getListFilms();
                         PAGE = 1;
                         internet();
                     } else {
-                        searchInternetFilm = new ArrayList<>();
                         internetFilm = new ArrayList<>();
                         adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
                         recyclerView.setAdapter(adapter);
                         inizializzato = true;
                         webService = WebService.getInstance();
                         internet();
-                    }
+                    }*/
                 } else {
                     noInternetFilm = new ArrayList<>();
                     adapter = new RecycleViewAdapter(MainActivity.this, noInternetFilm);
@@ -229,6 +162,38 @@ public class MainActivity extends AppCompatActivity implements IWebService {
                 btnGoOnTop.hide();
             }
         });
+
+        iniziazlizza();
+    }
+
+    private void iniziazlizza() {
+        if (girato) {
+            SalvataggioRecycleViewAdapter.getInstance().getmAdapter().setContext(MainActivity.this);
+            recyclerView.setAdapter(SalvataggioRecycleViewAdapter.getInstance().getmAdapter());
+
+            adapter = SalvataggioRecycleViewAdapter.getInstance().getmAdapter();
+            webService = WebService.getInstance();
+            internetFilm = SalvataggioRecycleViewAdapter.getInstance().getListFilms();
+
+            girato = false;
+            return;
+        }
+
+        if (controlloConnessione()) {
+            internetFilm = new ArrayList<>();
+            adapter = new RecycleViewAdapter(MainActivity.this, internetFilm);
+            recyclerView.setAdapter(adapter);
+            inizializzato = true;
+            webService = WebService.getInstance();
+            internet();
+            SalvataggioRecycleViewAdapter.getInstance().setmAdapter(adapter);
+            SalvataggioRecycleViewAdapter.getInstance().setListFilms(internetFilm);
+        } else {
+            noInternetFilm = new ArrayList<>();
+            adapter = new RecycleViewAdapter(MainActivity.this, noInternetFilm);
+            recyclerView.setAdapter(adapter);
+            noInternet();
+        }
     }
 
     private boolean controlloConnessione() {
@@ -241,21 +206,6 @@ public class MainActivity extends AppCompatActivity implements IWebService {
 
     private void internet() {
         webService.getFilms(CATEGORY, API_KEY, LANGUAGE, PAGE, MainActivity.this, new IWebService() {
-            @Override
-            public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
-                if (success) {
-                    internetFilm.addAll(films);
-                    adapter.setFilms(internetFilm);
-                    adapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(MainActivity.this, "CONNESSIONE INTERNET ASSENTE", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void internetPage(int page) {
-        webService.getFilms(CATEGORY, API_KEY, LANGUAGE, page, MainActivity.this, new IWebService() {
             @Override
             public void onFilmsFetched(boolean success, List<FilmResults.Data> films, int errorCode, String errorMessage) {
                 if (success) {
@@ -455,22 +405,25 @@ public class MainActivity extends AppCompatActivity implements IWebService {
     @Override
     protected void onPause() {
         super.onPause();
-        View firstChild = recyclerView.getChildAt(0);
-        firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
+        //View firstChild = recyclerView.getChildAt(0);
+        //firstVisiblePosition = recyclerView.getChildAdapterPosition(firstChild);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //Toast.makeText(MainActivity.this,"ciao",Toast.LENGTH_SHORT).show();
-        recyclerView.smoothScrollToPosition(firstVisiblePosition);
+        //recyclerView.smoothScrollToPosition(firstVisiblePosition);
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("lastPosition", firstVisiblePosition);
+        outState.putBoolean("girato", true);
         outState.putString("categoria", CATEGORY);
         outState.putInt("page", PAGE);
+        super.onSaveInstanceState(outState);
+        /*outState.putInt("lastPosition", firstVisiblePosition);
+        outState.putString("categoria", CATEGORY);
+        outState.putInt("page", PAGE);*/
     }
 }
