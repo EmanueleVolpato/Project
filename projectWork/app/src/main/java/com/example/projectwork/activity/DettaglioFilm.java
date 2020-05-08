@@ -229,6 +229,7 @@ public class DettaglioFilm extends AppCompatActivity {
 
         Glide.with(DettaglioFilm.this)
                 .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                .placeholder(R.drawable.loading)
                 .into(imageViewCancel);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
