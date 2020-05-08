@@ -73,6 +73,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + mData.get(position).getPosterPath())
+                .placeholder(R.drawable.loading)
                 .into(img);
 
 

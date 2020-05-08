@@ -73,6 +73,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
 
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + mData.get(position).getPosterPath())
+                .placeholder(R.drawable.loading)
                 .into(img);
 
         card.setOnClickListener(new View.OnClickListener() {

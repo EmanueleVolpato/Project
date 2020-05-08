@@ -106,10 +106,12 @@ public class DettaglioFilm extends AppCompatActivity {
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 Glide.with(DettaglioFilm.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
+                        .placeholder(R.drawable.loading)
                         .into(imgDettaglio);
             } else {
                 Glide.with(DettaglioFilm.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                        .placeholder(R.drawable.loading)
                         .into(imgDettaglio);
             }
 

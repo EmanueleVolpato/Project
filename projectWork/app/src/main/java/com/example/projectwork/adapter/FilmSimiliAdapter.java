@@ -48,6 +48,7 @@ public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.Vi
 
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + mData.get(position).getPosterPath())
+                .placeholder(R.drawable.loading)
                 .into(imageView);
 
         cardView.setOnClickListener(new View.OnClickListener() {

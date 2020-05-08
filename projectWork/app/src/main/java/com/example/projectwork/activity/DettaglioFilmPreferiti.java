@@ -101,10 +101,12 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 Glide.with(DettaglioFilmPreferiti.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
+                        .placeholder(R.drawable.loading)
                         .into(imageViewDettaglio);
             } else {
                 Glide.with(DettaglioFilmPreferiti.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
+                        .placeholder(R.drawable.loading)
                         .into(imageViewDettaglio);
             }
 
