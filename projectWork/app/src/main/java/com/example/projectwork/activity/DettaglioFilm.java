@@ -2,6 +2,7 @@ package com.example.projectwork.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,6 +23,7 @@ import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
@@ -40,18 +42,16 @@ public class DettaglioFilm extends AppCompatActivity {
     TextView txtTitolo, txtDecrizione;
     ImageView imgDettaglio, buttonYouTube, imageViewAggiungiAiPreferiti;
     Cursor mCursor;
-    String idFilm, immagineDettaglio, titolo, voto, data, descrizione, immaginePrincipale;
+    String idFilm, immagineDettaglio, titolo, voto, data, descrizione, immaginePrincipale, API_KEY = "e6de0d8da508a9809d74351ed62affef", keyVideo;
     FloatingActionButton btnInformzioni;
     SharedPref sharedPref;
     RatingBar ratingBarVotoFilm;
     ScrollView scrollView;
-    private int oldScrollYPostion = 0;
-    String keyVideo = null;
-    private WebService webService;
-    private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
+    int oldScrollYPostion = 0;
+    WebService webService;
     Dialog myDialogLikeFilm;
     int[] generiFilm;
-    public static String strSeparator = "__,__";
+    static String strSeparator = "__,__";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,18 +116,7 @@ public class DettaglioFilm extends AppCompatActivity {
             if (!titolo.equals("")) {
                 txtTitolo.setText(titolo);
             } else {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(DettaglioFilm.this);
-                builder1.setMessage("NESSUN TITOLO DISPONIBILE AL MOMENTO.");
-                builder1.setCancelable(true);
-                builder1.setPositiveButton(
-                        "Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+                Toast.makeText(DettaglioFilm.this, "nessuna descrizione disponibile al momento", Toast.LENGTH_SHORT).show();
             }
 
             String[] selectionArgss = {idFilm};
@@ -173,8 +162,8 @@ public class DettaglioFilm extends AppCompatActivity {
                         contentValues.put(FilmPreferredTableHelper.IMG_DETTAGLIO, immagineDettaglio);
                         contentValues.put(FilmPreferredTableHelper.GENERI, convertArrayToString(generiFilm));
                         DettaglioFilm.this.getContentResolver().insert(FilmPreferredProvider.FILMS_URI, contentValues);
+                        Toast.makeText(DettaglioFilm.this, "aggiunto ai preferiti", Toast.LENGTH_SHORT).show();
                     }
-
                 }
             });
         }
@@ -225,7 +214,6 @@ public class DettaglioFilm extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
     public void ShowPopupTogiDaPreferiti(View v) {
         myDialogLikeFilm.setContentView(R.layout.dialog);
         Button btnOk, btnCancel;
@@ -245,6 +233,7 @@ public class DettaglioFilm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 myDialogLikeFilm.dismiss();
+                Toast.makeText(DettaglioFilm.this, "annullato", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -254,11 +243,11 @@ public class DettaglioFilm extends AppCompatActivity {
                 getContentResolver().delete(Uri.parse(String.valueOf(FilmPreferredProvider.FILMS_URI)), FilmPreferredTableHelper.ID_MOVIE + "=" + idFilm, null);
                 imageViewAggiungiAiPreferiti.setImageResource(R.drawable.star);
                 myDialogLikeFilm.dismiss();
+                Toast.makeText(DettaglioFilm.this, "tolto dai preferiti", Toast.LENGTH_SHORT).show();
             }
         });
         myDialogLikeFilm.show();
     }
-
 
     private void getVideo(String idFilm, String language) {
         webService.getVideoFilm(idFilm, API_KEY, language, new IWebServiceVideoFilm() {

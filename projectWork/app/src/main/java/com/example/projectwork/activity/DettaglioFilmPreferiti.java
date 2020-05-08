@@ -113,7 +113,7 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
                 txtDecrizione.setText(descrizione);
             else {
 
-                Toast.makeText(DettaglioFilmPreferiti.this, "Nessuna descrizione disponibile al momento", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DettaglioFilmPreferiti.this, "nessuna descrizione disponibile al momento", Toast.LENGTH_SHORT).show();
 
             }
         }

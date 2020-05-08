@@ -13,15 +13,20 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilmPreferiti;
+import com.example.projectwork.activity.MainActivity;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.services.FilmResults;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,6 +127,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                     @Override
                     public void onClick(View v) {
                         myDialog.dismiss();
+                        Toast.makeText(context, "annullato", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -133,6 +139,7 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                         mDataSearch.remove(position);
                         notifyDataSetChanged();
                         myDialog.dismiss();
+                        Toast.makeText(context, "tolto dai preferiti", Toast.LENGTH_SHORT).show();
                     }
                 });
                 myDialog.show();
