@@ -155,10 +155,12 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Glide.with(InformazioniAggiuntiveFilm.this)
                             .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
+                            .placeholder(R.drawable.loading)
                             .into(imageView);
                 } else {
                     Glide.with(InformazioniAggiuntiveFilm.this)
                             .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilm)
+                            .placeholder(R.drawable.loading)
                             .into(imageView);
                 }
 

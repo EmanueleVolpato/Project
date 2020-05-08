@@ -157,10 +157,12 @@ public class InformazioniAggiuntiveFilmPreferito extends AppCompatActivity {
                 if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Glide.with(InformazioniAggiuntiveFilmPreferito.this)
                             .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipaleFilmPreferito)
+                            .placeholder(R.drawable.loading)
                             .into(imageViewInformazioniPreferiti);
                 } else {
                     Glide.with(InformazioniAggiuntiveFilmPreferito.this)
                             .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilmPreferito)
+                            .placeholder(R.drawable.loading)
                             .into(imageViewInformazioniPreferiti);
                 }
             }
