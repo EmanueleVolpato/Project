@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilm;
@@ -68,9 +70,11 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         myDialogLike = new Dialog(context);
 
+
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + mData.get(position).getPosterPath())
                 .into(img);
+
 
         card.setOnClickListener(new View.OnClickListener() {
             @Override

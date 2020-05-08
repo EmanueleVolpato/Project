@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     SharedPref sharedPref;
     boolean searchAttivo = false, girato = false, inizializzato = false;
 
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerviewFilm);
         swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         btnGoOnTop = findViewById(R.id.buttonGoOnTop);
+        progressBar = findViewById(R.id.progressBar);
         btnGoOnTop.hide();
 
         if (savedInstanceState != null) {
@@ -122,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                progressBar.setVisibility(View.VISIBLE);
                 if (!recyclerView.canScrollVertically(-1)) {
                     btnGoOnTop.hide();
                 }
@@ -193,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     internetFilm.addAll(films);
                     adapter.setFilms(internetFilm);
                     adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.INVISIBLE);
                 } else {
                     Toast.makeText(MainActivity.this, "connessione internet assente", Toast.LENGTH_SHORT).show();
                 }
