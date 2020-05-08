@@ -15,7 +15,6 @@ public class FilmPreferredTableHelper implements BaseColumns {
     public static final String KEY_GUEST_VOTO = "key_guest_voto";
     public static final String GENERI = "generi";
 
-
     public static final String CREATE = "CREATE TABLE " + TABLE_NAME + " ( " +
             ID_MOVIE + " TEXT PRIMARY KEY, " +
             DESCRIZIONE + " TEXT, " +

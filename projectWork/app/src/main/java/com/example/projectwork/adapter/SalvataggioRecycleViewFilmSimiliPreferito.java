@@ -3,27 +3,27 @@ package com.example.projectwork.adapter;
 import com.example.projectwork.services.FilmResults;
 import java.util.List;
 
-public class SalvataggioRecycleViewAdapter {
+public class SalvataggioRecycleViewFilmSimiliPreferito {
 
-    private RecycleViewAdapter mAdapter;
-    private static SalvataggioRecycleViewAdapter adapterSave;
+    private FilmSimiliAdapter mAdapter;
+    private static SalvataggioRecycleViewFilmSimiliPreferito adapterSave;
     private List<FilmResults.Data> listaFilms;
 
-    private SalvataggioRecycleViewAdapter() {
+    private SalvataggioRecycleViewFilmSimiliPreferito() {
 
     }
 
-    public static SalvataggioRecycleViewAdapter getInstance() {
+    public static SalvataggioRecycleViewFilmSimiliPreferito getInstance() {
         if (adapterSave == null)
-            adapterSave = new SalvataggioRecycleViewAdapter();
+            adapterSave = new SalvataggioRecycleViewFilmSimiliPreferito();
         return adapterSave;
     }
 
-    public RecycleViewAdapter getmAdapter() {
+    public FilmSimiliAdapter getmAdapter() {
         return mAdapter;
     }
 
-    public void setmAdapter(RecycleViewAdapter mAdapter) {
+    public void setmAdapter(FilmSimiliAdapter mAdapter) {
         this.mAdapter = mAdapter;
     }
 

@@ -2,10 +2,8 @@ package com.example.projectwork.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,19 +12,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
-import android.widget.Toast;
-
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
 import com.example.projectwork.adapter.RecyclerViewAdapterFilmPreferiti;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.services.FilmResults;
-import com.example.projectwork.services.WebService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FilmPreferiti extends AppCompatActivity {
@@ -35,8 +28,8 @@ public class FilmPreferiti extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerViewAdapterFilmPreferiti adapter;
     FloatingActionButton btnGoOnTop;
-
     SharedPref sharedPref;
+    public static String strSeparator = "__,__";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +60,6 @@ public class FilmPreferiti extends AppCompatActivity {
 
         caricaPreferiti();
 
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -80,7 +72,6 @@ public class FilmPreferiti extends AppCompatActivity {
                     btnGoOnTop.show();
             }
         });
-
 
         btnGoOnTop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,8 +116,6 @@ public class FilmPreferiti extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
-
-    public static String strSeparator = "__,__";
 
     public static String[] convertStringToArray(String str) {
         String[] arr = str.split(strSeparator);

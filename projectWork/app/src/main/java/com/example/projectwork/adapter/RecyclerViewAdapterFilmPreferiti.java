@@ -2,7 +2,6 @@ package com.example.projectwork.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,24 +13,15 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
-import com.example.projectwork.activity.DettaglioFilm;
 import com.example.projectwork.activity.DettaglioFilmPreferiti;
-
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
-import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +30,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
     private Context context;
     private List<FilmResults.Data> mData;
     private List<FilmResults.Data> mDataSearch;
-
     Dialog myDialog;
     Button btnOk, btnCancel;
 
@@ -74,12 +63,8 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
     @Override
     public void onBindViewHolder(@NonNull final RecycleViewAdapter.MyViewHolder holder, final int position) {
         final ImageView img = holder.cellView.findViewById(R.id.imageFilm);
-        //final TextView txt = holder.cellView.findViewById(R.id.titoloFilm);
         final CardView card = holder.cellView.findViewById(R.id.cardViewId);
         myDialog = new Dialog(context);
-
-
-        //txt.setText(mData.get(position).getTitle());
 
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + mData.get(position).getPosterPath())
@@ -123,18 +108,15 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                 imageViewCancel = myDialog.findViewById(R.id.imageViewfilm);
                 TextView textViewtitoloo;
                 textViewtitoloo = myDialog.findViewById(R.id.textViewtitolo);
-
-
                 String titolo = mData.get(position).getTitle();
                 String immagineDettaglio = mData.get(position).getBackdropPath();
                 final int idMovie = mData.get(position).getId();
 
-
                 textViewtitoloo.setText("Vuoi togliere " + titolo + " dai preferiti?");
+
                 Glide.with(context)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                         .into(imageViewCancel);
-
 
                 btnCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -154,8 +136,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                     }
                 });
                 myDialog.show();
-
-
                 return false;
             }
         });
@@ -188,7 +168,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
                 filtroList.addAll(mDataSearch);
             } else {
                 String filtroPattern = constraint.toString().toLowerCase().trim();
-
                 for (FilmResults.Data item : mDataSearch) {
                     if (item.getTitle().toLowerCase().contains(filtroPattern)) {
                         filtroList.add(item);
@@ -199,7 +178,6 @@ public class RecyclerViewAdapterFilmPreferiti extends RecyclerView.Adapter<Recyc
             results.values = filtroList;
             return results;
         }
-
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {

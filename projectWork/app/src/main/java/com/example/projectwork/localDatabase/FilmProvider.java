@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -33,8 +32,6 @@ public class FilmProvider extends ContentProvider {
     public boolean onCreate() {
         mDb = new FilmDB(getContext());
         SQLiteDatabase db = mDb.getWritableDatabase();
-
-        //db.delete(FilmTableHelper.TABLE_NAME, null, null);
         return true;
     }
 
@@ -52,7 +49,6 @@ public class FilmProvider extends ContentProvider {
                 vBuilder.setTables(FilmTableHelper.TABLE_NAME);
                 break;
         }
-
         Cursor vCursor = vBuilder.query(vDb, projection, selection, selectionArgs, null, null, sortOrder);
         vCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return vCursor;
@@ -125,7 +121,6 @@ public class FilmProvider extends ContentProvider {
         }
         int vUpdatedRows = vDb.update(vTable, values, vQuery, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
-
         return vUpdatedRows;
     }
 }

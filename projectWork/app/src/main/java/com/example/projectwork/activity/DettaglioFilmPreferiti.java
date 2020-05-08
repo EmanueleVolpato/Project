@@ -4,24 +4,18 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
@@ -38,10 +32,10 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione;
     ImageView imageViewDettaglio, imageYoutube;
-    String idFilm, titolo, data,immagineDettaglio,descrizione, voto,immaginePrincipale;
+    String idFilm, titolo, data, immagineDettaglio, descrizione, voto, immaginePrincipale;
     String keyVideo = null;
     FloatingActionButton btnInformzioniFilmPreferiti;
-    Dialog dialogVotaFilmPreferiti,dialogInformzioniPreferiti;
+    Dialog dialogVotaFilmPreferiti, dialogInformzioniPreferiti;
     SharedPref sharedPref;
     RatingBar ratingBarpreferiti;
     private int oldScrollYPostion = 0;
@@ -52,13 +46,11 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         sharedPref = new SharedPref(this);
 
         if (sharedPref.loadNightModeState() == true) {
             setTheme(R.style.darktheme);
         } else setTheme(R.style.AppTheme);
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film_preferito);
@@ -75,7 +67,6 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
         scrollViewPreferiti = findViewById(R.id.scrollViewPreferiti);
         imageYoutube = findViewById(R.id.imageViewApriYoutubePreferiti);
 
-
         scrollViewPreferiti.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
@@ -88,7 +79,6 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
             }
         });
 
-
         if (getIntent().getExtras() != null) {
             titolo = getIntent().getExtras().getString(FilmPreferredTableHelper.TITOLO);
             descrizione = getIntent().getExtras().getString(FilmPreferredTableHelper.DESCRIZIONE);
@@ -97,12 +87,10 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
             idFilm = getIntent().getExtras().getString(FilmPreferredTableHelper.ID_MOVIE);
             voto = (getIntent().getExtras().getString(FilmPreferredTableHelper.VOTO));
             immaginePrincipale = (getIntent().getExtras().getString(FilmPreferredTableHelper.IMG_PRINCIPALE));
-
             generiFilm = (getIntent().getExtras().getIntArray(FilmPreferredTableHelper.GENERI));
 
             int valore = Math.round(Float.parseFloat(voto) / 2);
             ratingBarpreferiti.setRating((valore));
-
 
             if (controlloConnessione()) {
                 webService = WebService.getInstance();
@@ -110,13 +98,11 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
             }
 
             int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 Glide.with(DettaglioFilmPreferiti.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
                         .into(imageViewDettaglio);
-            }else
-            {
+            } else {
                 Glide.with(DettaglioFilmPreferiti.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                         .into(imageViewDettaglio);
@@ -131,7 +117,6 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
 
             }
         }
-
 
         btnInformzioniFilmPreferiti.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +135,6 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
             }
         });
 
-
         imageYoutube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +145,6 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -195,7 +178,6 @@ public class DettaglioFilmPreferiti extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
-
 }
 
 

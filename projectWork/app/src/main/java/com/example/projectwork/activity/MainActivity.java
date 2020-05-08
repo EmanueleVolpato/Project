@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
-
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
 import com.example.projectwork.adapter.SalvataggioRecycleViewAdapter;
@@ -32,7 +30,6 @@ import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,30 +41,20 @@ public class MainActivity extends AppCompatActivity {
     private int PAGE = 1;
     private WebService webService;
     FloatingActionButton btnGoOnTop;
-
     List<FilmResults.Data> noInternetFilm;
     List<FilmResults.Data> internetFilm;
     List<FilmResults.Data> searchInternetFilm;
-
     RecyclerView recyclerView;
     RecycleViewAdapter adapter;
     AlertDialog alertDialog;
     AlertDialog.Builder builder;
-
     SwipeRefreshLayout swipeRefreshLayout;
-
     String[] categorie = {"Novità", "Prossime Uscite", "Più votati", "Popolari"};
     String categoriaSelect = "";
-
     String[] tema = {"Chiaro", "Scuro"};
     String temaSelect = "";
-
     SharedPref sharedPref;
-
-    boolean inizializzato = false, searchAttivo = false;
-
-    int firstVisiblePosition;
-
+    boolean searchAttivo = false;
     boolean girato = false;
 
     @Override
@@ -89,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         searchInternetFilm = new ArrayList<>();
 
         if (savedInstanceState != null) {
-            //firstVisiblePosition = savedInstanceState.getInt("lastPosition");
             CATEGORY = savedInstanceState.getString("categoria");
             PAGE = savedInstanceState.getInt("page");
             girato = savedInstanceState.getBoolean("girato");

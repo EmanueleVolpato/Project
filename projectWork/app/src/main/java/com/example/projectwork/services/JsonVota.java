@@ -1,10 +1,8 @@
 package com.example.projectwork.services;
 
 import android.util.Log;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

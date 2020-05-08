@@ -10,17 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilm;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +26,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private Context context;
     private List<FilmResults.Data> mData;
     private List<FilmResults.Data> mDataSearch;
+    public static String strSeparator = "__,__";
 
     Dialog myDialogLike;
 
@@ -47,8 +44,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         this.mData.clear();
     }
 
-    public void resetSearchFilm()
-    {
+    public void resetSearchFilm() {
         this.mDataSearch.clear();
     }
 
@@ -59,27 +55,22 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view;
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.cardview_item_film, parent, false);
-
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-
         final ImageView img = holder.cellView.findViewById(R.id.imageFilm);
         final CardView card = holder.cellView.findViewById(R.id.cardViewId);
 
         myDialogLike = new Dialog(context);
 
-
         Glide.with(context)
                 .load("https://image.tmdb.org/t/p/w500/" + mData.get(position).getPosterPath())
                 .into(img);
-
 
         card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,13 +93,12 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                         genresFilmOutput[i] = genresFilmInput.get(i);
                     }
                     bundle.putIntArray("generiID", genresFilmOutput);
-                }else
-                {
+                } else {
                     int[] genresFilmOutputNoInternet = new int[3];
-                    genresFilmOutputNoInternet[0]=0;
-                    genresFilmOutputNoInternet[1]=0;
-                    genresFilmOutputNoInternet[2]=0;
-                    bundle.putIntArray("generiID",genresFilmOutputNoInternet);
+                    genresFilmOutputNoInternet[0] = 0;
+                    genresFilmOutputNoInternet[1] = 0;
+                    genresFilmOutputNoInternet[2] = 0;
+                    bundle.putIntArray("generiID", genresFilmOutputNoInternet);
                 }
 
                 intent.putExtras(bundle);
@@ -117,13 +107,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         });
     }
 
-    public static String strSeparator = "__,__";
-
     public static String[] convertStringToArray(String str) {
         String[] arr = str.split(strSeparator);
         return arr;
     }
-
 
     @Override
     public int getItemCount() {
@@ -155,7 +142,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             return results;
         }
 
-
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mData.clear();
@@ -173,6 +159,4 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             this.cellView = cellView;
         }
     }
-
-
 }

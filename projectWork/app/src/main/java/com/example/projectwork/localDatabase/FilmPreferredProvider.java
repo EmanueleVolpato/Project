@@ -8,12 +8,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class FilmPreferredProvider extends ContentProvider {
-
 
     public static final String AUTORITY = "com.example.projectwork.localDatabase.FilmPreferredProvider";
     public static final String BASE_PATH_FILMS = "films";
@@ -30,13 +28,10 @@ public class FilmPreferredProvider extends ContentProvider {
         mUriMatcher.addURI(AUTORITY, BASE_PATH_FILMS + "/#", SINGLE_FILM);
     }
 
-
     @Override
     public boolean onCreate() {
         mDb = new FilmDB(getContext());
         SQLiteDatabase db = mDb.getWritableDatabase();
-
-        //db.delete(FilmTableHelper.TABLE_NAME, null, null);
         return true;
     }
 
@@ -127,7 +122,6 @@ public class FilmPreferredProvider extends ContentProvider {
         }
         int vUpdatedRows = vDb.update(vTable, values, vQuery, selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);
-
         return vUpdatedRows;
     }
 }

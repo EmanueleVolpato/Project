@@ -3,14 +3,11 @@ package com.example.projectwork.services;
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
-
 import com.example.projectwork.localDatabase.FilmProvider;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.google.gson.JsonObject;
-
 import java.io.IOException;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,9 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class WebService {
 
     public String BASE_URL = "https://api.themoviedb.org";
-
     private static WebService instance;
     private ApiInterface apiInterface;
+    public static String strSeparator = "__,__";
 
     private WebService() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -81,7 +78,6 @@ public class WebService {
     }
 
     public void listGenres(String apiKey, String language, final IWebServiceGenres iwebservice) {
-
         Call<GenresResults> request = apiInterface.genresList(apiKey, language);
 
         request.enqueue(new Callback<GenresResults>() {
@@ -109,7 +105,6 @@ public class WebService {
     }
 
     public void searchFilms(String query, String apiKey, String language, final IWebService iwebservice) {
-
         Call<FilmResults> filmsRequest = apiInterface.searchFilm(apiKey, language, query);
 
         filmsRequest.enqueue(new Callback<FilmResults>() {
@@ -166,7 +161,6 @@ public class WebService {
     }
 
     public void getSimilarFilms(String idFilm, String apiKey, String language, int page, final IWebService iwebservice) {
-
         Call<FilmResults> filmsRequest = apiInterface.getSimilarFilm(idFilm, apiKey, language, page);
 
         filmsRequest.enqueue(new Callback<FilmResults>() {
@@ -194,7 +188,6 @@ public class WebService {
     }
 
     public void getFilms(String category, String apiKey, String language, int page, final Context context, final IWebService iwebservice) {
-
         Call<FilmResults> filmsRequest = apiInterface.listOfFilm(category, apiKey, language, page);
 
         filmsRequest.enqueue(new Callback<FilmResults>() {
@@ -244,8 +237,6 @@ public class WebService {
             }
         });
     }
-
-    public static String strSeparator = "__,__";
 
     public static String convertArrayToString(int[] array) {
         String str = "";

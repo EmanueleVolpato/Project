@@ -1,7 +1,6 @@
 package com.example.projectwork.services;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class VideoResults {

@@ -7,20 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.activity.DettaglioFilm;
-import com.example.projectwork.activity.DettaglioFilmPreferiti;
-import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.ViewHolder> {
@@ -36,19 +30,19 @@ public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.Vi
     public void setFilms(List<FilmResults.Data> mData) {
         this.mData = mData;
     }
-
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_film_simili, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-
         CardView cardView = holder.cellView.findViewById(R.id.cardViewIdFilmSimili);
         ImageView imageView = holder.cellView.findViewById(R.id.imageFilmSimile);
 
@@ -83,7 +77,6 @@ public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.Vi
                 context.startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -100,5 +93,4 @@ public class FilmSimiliAdapter extends RecyclerView.Adapter<FilmSimiliAdapter.Vi
             this.cellView = cellView;
         }
     }
-
 }

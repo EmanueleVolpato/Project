@@ -1,11 +1,10 @@
 package com.example.projectwork.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -19,20 +18,18 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
 import com.example.projectwork.adapter.FilmSimiliAdapter;
+import com.example.projectwork.adapter.SalvataggioRecycleViewFilmSimili;
 import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.FilmResults;
 import com.example.projectwork.services.GenresResults;
-import com.example.projectwork.services.GuestSessionResults;
 import com.example.projectwork.services.IWebService;
 import com.example.projectwork.services.IWebServiceGenres;
-import com.example.projectwork.services.IWebServiceGuestSession;
 import com.example.projectwork.services.IWebServiceSingleFilm;
 import com.example.projectwork.services.IWebServiceVoteFilm;
 import com.example.projectwork.services.JsonVota;
@@ -40,8 +37,6 @@ import com.example.projectwork.services.SingleFilmResults;
 import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.gson.JsonObject;
-
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,18 +47,20 @@ import java.util.Locale;
 public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
     ImageView imageView;
-    TextView titolo, data, genere, correlati,textViewdurata;
+    TextView titolo, data, genere, correlati, textViewdurata;
     RatingBar ratingBarVotoPersonale;
     Button buttonVota;
-    String dataFilm, idFilm, immagineDettaglioFilm, voto, immaginePrincipale, descrizioneFilm, titoloFilm,idSessionGuest,LANGUAGE;
+    String dataFilm, idFilm, immagineDettaglioFilm, voto, immaginePrincipale, descrizioneFilm, titoloFilm, idSessionGuest, LANGUAGE;
     private WebService webService;
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     SharedPref sharedPref;
     int PAGE;
     RecyclerView recyclerViewFilmSimili;
+    LinearLayoutManager layoutManager;
     List<FilmResults.Data> internetFilmSimili;
     FilmSimiliAdapter adapter;
     int[] generiFilm;
+    boolean girato = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = new SharedPref(this);
@@ -86,6 +83,11 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         textViewdurata = findViewById(R.id.textViewDurataFilm);
 
         if (getIntent().getExtras() != null) {
+
+            if (savedInstanceState != null) {
+                PAGE = savedInstanceState.getInt("page");
+                girato = savedInstanceState.getBoolean("girato");
+            }
 
             String[] selectionArgs = {"key_session"};
             Cursor c = InformazioniAggiuntiveFilm.this.getContentResolver().query(
@@ -111,17 +113,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                 generiFilm = (getIntent().getExtras().getIntArray("generiID"));
 
                 if (controlloConnessione()) {
-                    PAGE = 1;
-                    LANGUAGE = "it";
-                    webService = WebService.getInstance();
-                    internetFilmSimili = new ArrayList<>();
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this, LinearLayoutManager.HORIZONTAL, false);
-                    recyclerViewFilmSimili.setLayoutManager(layoutManager);
-                    recyclerViewFilmSimili.setItemAnimator(new DefaultItemAnimator());
-                    adapter = new FilmSimiliAdapter(InformazioniAggiuntiveFilm.this, internetFilmSimili);
-                    recyclerViewFilmSimili.setAdapter(adapter);
-                    getSimilarFilms();
-
+                    caricaSimilar();
                     recyclerViewFilmSimili.addOnScrollListener(new RecyclerView.OnScrollListener() {
                         @Override
                         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -160,19 +152,15 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
 
 
                 int orientation = getResources().getConfiguration().orientation;
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-                {
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Glide.with(InformazioniAggiuntiveFilm.this)
                             .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
                             .into(imageView);
-                }else
-                {
+                } else {
                     Glide.with(InformazioniAggiuntiveFilm.this)
                             .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglioFilm)
                             .into(imageView);
                 }
-
-
 
                 ratingBarVotoPersonale.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override
@@ -196,6 +184,36 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         }
     }
 
+    private void caricaSimilar() {
+        if (girato) {
+            SalvataggioRecycleViewFilmSimili.getInstance().getmAdapter().setContext(InformazioniAggiuntiveFilm.this);
+            recyclerViewFilmSimili.setAdapter(SalvataggioRecycleViewFilmSimili.getInstance().getmAdapter());
+
+            adapter = SalvataggioRecycleViewFilmSimili.getInstance().getmAdapter();
+            webService = WebService.getInstance();
+            internetFilmSimili = SalvataggioRecycleViewFilmSimili.getInstance().getListFilms();
+
+            layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this, LinearLayoutManager.HORIZONTAL, false);
+            recyclerViewFilmSimili.setLayoutManager(layoutManager);
+
+            girato = false;
+            return;
+        }
+
+        PAGE = 1;
+        LANGUAGE = "it";
+        webService = WebService.getInstance();
+        internetFilmSimili = new ArrayList<>();
+        layoutManager = new LinearLayoutManager(InformazioniAggiuntiveFilm.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewFilmSimili.setLayoutManager(layoutManager);
+        recyclerViewFilmSimili.setItemAnimator(new DefaultItemAnimator());
+        adapter = new FilmSimiliAdapter(InformazioniAggiuntiveFilm.this, internetFilmSimili);
+        recyclerViewFilmSimili.setAdapter(adapter);
+        getSimilarFilms();
+        SalvataggioRecycleViewFilmSimili.getInstance().setmAdapter(adapter);
+        SalvataggioRecycleViewFilmSimili.getInstance().setListFilms(internetFilmSimili);
+    }
+
     private void getSimilarFilms() {
         webService.getSimilarFilms(idFilm, API_KEY, LANGUAGE, PAGE, new IWebService() {
             @Override
@@ -211,7 +229,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         });
     }
 
-
     private boolean controlloConnessione() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null)
@@ -219,7 +236,6 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
-
 
     private void votaFilm(String ID, JsonObject j) {
         webService.votaFilm(ID, API_KEY, idSessionGuest, j, new IWebServiceVoteFilm() {
@@ -244,7 +260,7 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
                     double minuto = Double.parseDouble(String.valueOf(durata));
                     double ore = minuto / 60;
                     double minuti = minuto % 60;
-                    textViewdurata.setText((int) ore +"h "+(int)minuti+"min");
+                    textViewdurata.setText((int) ore + "h " + (int) minuti + "min");
                 } else {
                     textViewdurata.setText("Durata disponibile al momento.");
                 }
@@ -280,5 +296,12 @@ public class InformazioniAggiuntiveFilm extends AppCompatActivity {
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean("girato", true);
+        outState.putInt("page", PAGE);
+        super.onSaveInstanceState(outState);
     }
 }

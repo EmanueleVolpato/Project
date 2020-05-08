@@ -2,8 +2,6 @@ package com.example.projectwork.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -20,12 +18,10 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.projectwork.R;
 import com.example.projectwork.SharedPref;
@@ -33,22 +29,18 @@ import com.example.projectwork.localDatabase.FilmPreferredProvider;
 import com.example.projectwork.localDatabase.FilmPreferredTableHelper;
 import com.example.projectwork.localDatabase.FilmTableHelper;
 import com.example.projectwork.services.IWebServiceVideoFilm;
-import com.example.projectwork.services.IWebServiceVoteFilm;
-import com.example.projectwork.services.JsonVota;
 import com.example.projectwork.services.VideoResults;
-import com.example.projectwork.services.VoteFilmResults;
 import com.example.projectwork.services.WebService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.JsonObject;
 
 import java.util.List;
 
 public class DettaglioFilm extends AppCompatActivity {
 
     TextView txtTitolo, txtDecrizione;
-    ImageView imgDettaglio,buttonYouTube, imageViewAggiungiAiPreferiti;;
+    ImageView imgDettaglio, buttonYouTube, imageViewAggiungiAiPreferiti;
     Cursor mCursor;
-    String idFilm,immagineDettaglio,titolo,voto,data,descrizione,immaginePrincipale;
+    String idFilm, immagineDettaglio, titolo, voto, data, descrizione, immaginePrincipale;
     FloatingActionButton btnInformzioni;
     SharedPref sharedPref;
     RatingBar ratingBarVotoFilm;
@@ -59,6 +51,7 @@ public class DettaglioFilm extends AppCompatActivity {
     private String API_KEY = "e6de0d8da508a9809d74351ed62affef";
     Dialog myDialogLikeFilm;
     int[] generiFilm;
+    public static String strSeparator = "__,__";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +59,6 @@ public class DettaglioFilm extends AppCompatActivity {
         if (sharedPref.loadNightModeState() == true) {
             setTheme(R.style.darktheme);
         } else setTheme(R.style.AppTheme);
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dettaglio_film);
@@ -82,7 +74,6 @@ public class DettaglioFilm extends AppCompatActivity {
         imageViewAggiungiAiPreferiti = findViewById(R.id.imageViewAggiungiPreferiti);
         myDialogLikeFilm = new Dialog(DettaglioFilm.this);
 
-
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
@@ -96,7 +87,6 @@ public class DettaglioFilm extends AppCompatActivity {
         });
 
         if (getIntent().getExtras() != null) {
-
             titolo = getIntent().getExtras().getString(FilmTableHelper.TITOLO);
             descrizione = getIntent().getExtras().getString(FilmTableHelper.DESCRIZIONE);
             immaginePrincipale = getIntent().getExtras().getString(FilmTableHelper.IMG_PRINCIPALE);
@@ -112,22 +102,16 @@ public class DettaglioFilm extends AppCompatActivity {
                 getVideo(idFilm, "it");
             }
 
-
             int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 Glide.with(DettaglioFilm.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immaginePrincipale)
                         .into(imgDettaglio);
-            }else
-            {
+            } else {
                 Glide.with(DettaglioFilm.this)
                         .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                         .into(imgDettaglio);
             }
-
-
-
 
             if (!titolo.equals("")) {
                 txtTitolo.setText(titolo);
@@ -135,7 +119,6 @@ public class DettaglioFilm extends AppCompatActivity {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(DettaglioFilm.this);
                 builder1.setMessage("NESSUN TITOLO DISPONIBILE AL MOMENTO.");
                 builder1.setCancelable(true);
-
                 builder1.setPositiveButton(
                         "Ok",
                         new DialogInterface.OnClickListener() {
@@ -143,11 +126,9 @@ public class DettaglioFilm extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
             }
-
 
             String[] selectionArgss = {idFilm};
             mCursor = DettaglioFilm.this.getContentResolver().query(
@@ -161,12 +142,10 @@ public class DettaglioFilm extends AppCompatActivity {
                 imageViewAggiungiAiPreferiti.setImageResource(R.drawable.star_piena);
             }
 
-
             imageViewAggiungiAiPreferiti.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String[] selectionArgs = {idFilm};
-
                     mCursor = DettaglioFilm.this.getContentResolver().query(
                             FilmPreferredProvider.FILMS_URI,
                             null,
@@ -200,20 +179,14 @@ public class DettaglioFilm extends AppCompatActivity {
             });
         }
 
-
         if (!descrizione.equals(""))
             txtDecrizione.setText(descrizione);
         else {
-
             Toast.makeText(DettaglioFilm.this, "Nessuna descrizione disponibile al momento", Toast.LENGTH_SHORT).show();
-
         }
-
 
         int valore = Math.round(Float.parseFloat(voto) / 2);
         ratingBarVotoFilm.setRating((valore));
-
-
         btnInformzioni.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,7 +215,6 @@ public class DettaglioFilm extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -263,8 +235,8 @@ public class DettaglioFilm extends AppCompatActivity {
         imageViewCancel = myDialogLikeFilm.findViewById(R.id.imageViewfilm);
         TextView textViewtitoloo;
         textViewtitoloo = myDialogLikeFilm.findViewById(R.id.textViewtitolo);
-
         textViewtitoloo.setText("Vuoi togliere " + titolo + " dai preferiti?");
+
         Glide.with(DettaglioFilm.this)
                 .load("https://image.tmdb.org/t/p/w500/" + immagineDettaglio)
                 .into(imageViewCancel);
@@ -304,7 +276,6 @@ public class DettaglioFilm extends AppCompatActivity {
         });
     }
 
-
     private boolean controlloConnessione() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null)
@@ -312,8 +283,6 @@ public class DettaglioFilm extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
-
-    public static String strSeparator = "__,__";
 
     public static String convertArrayToString(int[] array) {
         String str = "";

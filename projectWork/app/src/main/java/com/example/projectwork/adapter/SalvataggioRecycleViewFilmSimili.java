@@ -1,29 +1,30 @@
 package com.example.projectwork.adapter;
 
 import com.example.projectwork.services.FilmResults;
+
 import java.util.List;
 
-public class SalvataggioRecycleViewAdapter {
+public class SalvataggioRecycleViewFilmSimili {
 
-    private RecycleViewAdapter mAdapter;
-    private static SalvataggioRecycleViewAdapter adapterSave;
+    private FilmSimiliAdapter mAdapter;
+    private static SalvataggioRecycleViewFilmSimili adapterSave;
     private List<FilmResults.Data> listaFilms;
 
-    private SalvataggioRecycleViewAdapter() {
+    private SalvataggioRecycleViewFilmSimili() {
 
     }
 
-    public static SalvataggioRecycleViewAdapter getInstance() {
+    public static SalvataggioRecycleViewFilmSimili getInstance() {
         if (adapterSave == null)
-            adapterSave = new SalvataggioRecycleViewAdapter();
+            adapterSave = new SalvataggioRecycleViewFilmSimili();
         return adapterSave;
     }
 
-    public RecycleViewAdapter getmAdapter() {
+    public FilmSimiliAdapter getmAdapter() {
         return mAdapter;
     }
 
-    public void setmAdapter(RecycleViewAdapter mAdapter) {
+    public void setmAdapter(FilmSimiliAdapter mAdapter) {
         this.mAdapter = mAdapter;
     }
 
